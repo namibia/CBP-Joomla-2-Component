@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="basic">
+		<field name="currency_id"
+			type="hidden"
+			label="COM_COSTBENEFITPROJECTION_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			size="10"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="created_by"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="created_on"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="modified_by"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="modified_on"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+
+		<field name="currency_name"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY_NAME_DESC"
+			size="30"
+			required="true"
+		/>
+
+		<field name="currency_code_2"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY2CODE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY2CODE_DESC"
+			size="10"
+			required="false"
+		/>
+				
+		<field name="currency_code_3"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY3CODE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY3CODE_DESC"
+			size="10"
+			required="true"
+		/>	
+		
+		<field name="currency_numeric_code"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_NUMERIC_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_NUMERIC_NAME_DESC"
+			size="10"
+			required="true"
+		/> 
+		
+	</fieldset>
+	
+	<fieldset name="details">
+	
+			<field name="currency_symbol"
+				type="text"
+				label="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY_SYMBOL_LABEL"
+				description="COM_COSTBENEFITPROJECTION_FIELD_CURRENCY_SYMBOL_DESC"
+				size="10"
+				required="true"
+			/> 
+			
+			<field name="currency_decimal_place"
+				type="text"
+				label="COM_COSTBENEFITPROJECTION_FIELD_DECIMAL_PLACE_LABEL"
+				description="COM_COSTBENEFITPROJECTION_FIELD_DECIMAL_PLACE_DESC"
+				size="10"
+				required="true"
+			/>
+			
+			<field name="currency_decimal_symbol"
+				type="text"
+				label="COM_COSTBENEFITPROJECTION_FIELD_DECIMAL_SYMBOL_LABEL"
+				description="COM_COSTBENEFITPROJECTION_FIELD_DECIMAL_SYMBOL_DESC"
+				size="5"
+				required="true"
+			/>
+			
+			<field name="currency_positive_style"
+				type="text"
+				label="COM_COSTBENEFITPROJECTION_FIELD_POSITIVE_STYLE_LABEL"
+				description="COM_COSTBENEFITPROJECTION_FIELD_POSITIVE_STYLE_DESC"
+				size="30"
+				required="true"
+			/>
+			
+			<field name="currency_negative_style"
+				type="text"
+				label="COM_COSTBENEFITPROJECTION_FIELD_NEGATIVE_STYLE_LABEL"
+				description="COM_COSTBENEFITPROJECTION_FIELD_NEGATIVE_STYLE_DESC"
+				size="30"
+				required="true"
+			/>
+
+			<field name="published"
+				type="list"
+				label="JSTATUS"
+				description="JFIELD_PUBLISHED_DESC"
+				class="inputbox"
+				filter="intval"
+				size="1"
+				default="1"
+			>
+				<option value="2">
+					JCLIENTD</option>
+				<option value="-2">
+					JREJECTED</option>
+				<option value="1">
+					JPUBLISHED</option>
+				<option value="0">
+					JUNPUBLISHED</option>
+			</field>
+	</fieldset>
+</form>

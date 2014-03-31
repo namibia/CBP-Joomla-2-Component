@@ -1,0 +1,23 @@
+/* CSS Document */
+
+#appName {
+	text-align: center !important;
+	font-size:10px !important;
+	margin:10px !important;
+}
+#border-top {
+	background:none !important;
+}
+#module-status .logout {
+	background: url("../images/logout.png") no-repeat scroll 3px 3px rgba(0, 0, 0, 0) !important;
+}
+#header-box {
+	border-top-left-radius: 8px !important;
+	border-top-right-radius: 8px !important;
+}
+#menu li {
+	border-radius: 8px !important;
+}
+#menu li a.hover {
+	border-radius: 8px !important;
+}

@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="groups"
+		label="COM_COSTBENEFITPROJECTION_CONFIG_GROUP_SELECTION_FIELDSET_LABEL"
+		description="COM_COSTBENEFITPROJECTION_CONFIG_GROUP_SELECTION_FIELDSET_DESC"
+		addfieldpath="/administrator/components/com_costbenefitprojection/models/fields">
+		
+		<field name="admin" type="cgroups"
+			label="COM_COSTBENEFITPROJECTION_USER_FIELD_ADMIN_GROUP_DEPARTMENTS_LABEL"
+			description="COM_COSTBENEFITPROJECTION_USER_FIELD_ADMIN_GROUP_DEPARTMENTS_DESC"
+			required="true"
+		/>
+		<field name="country" type="cgroups"
+			label="COM_COSTBENEFITPROJECTION_USER_FIELD_COUNTRY_GROUP_DEPARTMENTS_LABEL"
+			description="COM_COSTBENEFITPROJECTION_USER_FIELD_COUNTRY_GROUP_DEPARTMENTS_DESC"
+			required="true"
+		/>
+		<field name="service" type="cgroups"
+			label="COM_COSTBENEFITPROJECTION_USER_FIELD_SERVICE_GROUP_DEPARTMENTS_LABEL"
+			description="COM_COSTBENEFITPROJECTION_USER_FIELD_SERVICE_GROUP_DEPARTMENTS_DESC"
+			required="true"
+		/>
+		<field name="client" type="cgroups"
+			label="COM_COSTBENEFITPROJECTION_USER_FIELD_CLIENT_GROUP_DEPARTMENTS_LABEL"
+			description="COM_COSTBENEFITPROJECTION_USER_FIELD_CLIENT_GROUP_DEPARTMENTS_DESC"
+			required="true"
+		/>
+	</fieldset>
+	
+	<fieldset
+		name="charts"
+		label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_FIELDSET_LABEL"
+		description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_FIELDSET_DESC">
+
+		
+		<field name="backgroundColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHART_BACKBROUND_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHART_BACKBROUND_COLOR_DESC"
+			size="20"
+			default="#F7F7FA"
+		/>
+		<field name="mainwidth"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_WIDTH_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_WIDTH_DESC"
+			size="20"
+			default="1000"
+		/>
+		<field
+			name="charts_spacer1"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="chartAreaTop"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_TOP_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_TOP_DESC"
+			size="20"
+			default="20"
+		/>
+		<field name="chartAreaLeft"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_LEFT_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_LEFT_DESC"
+			size="20"
+			default="170"
+		/>
+		<field name="chartAreawidth"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_WIDTH_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_WIDTH_DESC"
+			size="20"
+			default="60"
+		/>
+		<field
+			name="charts_spacer2"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="legendTextStyleFontSize"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_SIZE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_SIZE_DESC"
+			size="20"
+			default="10"
+		/>
+		<field name="legendTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+		<field
+			name="charts_spacer3"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="vAxisTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_VAXIS_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_VAXIS_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+		<field
+			name="charts_spacer4"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="hAxisTitleTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_TITLE_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_TITLE_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+		<field name="hAxisTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+	</fieldset>
+	
+	<fieldset
+		name="component"
+		label="COM_COSTBENEFITPROJECTION_CONFIG_COMPONENT_FIELDSET_LABEL"
+		description="COM_COSTBENEFITPROJECTION_CONFIG_COMPONENT_FIELDSET_DESC">
+
+		<field
+			name="lvdm_text"
+			type="radio"
+			default="1"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_TEXT_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_TEXT_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		<field
+			name="lvdm_logo"
+			type="radio"
+			default="1"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_LOGO_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_LOGO_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		<field
+			name="lvdm_front"
+			type="radio"
+			default="1"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_FRONT_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_FRONT_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		<field
+			name="lvdm_theme"
+			type="radio"
+			default="1"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_THEME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_PROJECT_VDM_THEME_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		<field
+			name="lvdm_n"
+			type="hidden"
+			default="Vast Development Method"
+			label="Developer Name"
+			description="The name of the developer"
+			size="50"
+			readonly="true"
+			class="readonly">
+		</field>
+		<field
+			name="lvdm_u"
+			type="hidden"
+			default="http://vdm.io/"
+			label="Wesite"
+			description="Link to website of developer"
+			size="50"
+			readonly="true"
+			class="readonly">
+		</field>
+		<field
+			name="lvdm_b"
+			type="hidden"
+			default=""
+			label="Prefix"
+			description="Adding a short prefix to name"
+			size="50"
+			readonly="true"
+			class="readonly">
+		</field>
+	</fieldset>
+	
+	<fieldset
+		name="global"
+		label="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_FIELDSET_LABEL"
+		description="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_FIELDSET_DESC">
+		
+		<field
+			name="check_in"
+			type="list"
+			default="-1 day"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_TIME_LENGTH_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_TIME_LENGTH_DESC">
+			<option
+				value="-5 hours">COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_EVERY_FIVE_HOURS</option>
+			<option
+				value="-12 hours">COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_EVERY_TWELVE_HOURS</option>
+			<option
+				value="-1 day">COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_ONCE_A_DAY</option>
+			<option
+				value="-2 day">COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_SECOND_DAY</option>
+			<option
+				value="0">COM_COSTBENEFITPROJECTION_CONFIG_CHECK_IN_NEVER</option>
+		</field>
+			
+		
+		<field name="globalspacer_0"
+			type="spacer"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_CONTACT"
+		/>
+		<field type="spacer" name="globalspacer_1" hr="true" />
+		
+		
+			
+		<field name="nameGlobal"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_NAME_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="emailGlobal"
+			type="email"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_EMAIL_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_GLOBAL_EMAIL_DESC"
+			size="60"
+			default=""
+		/>
+		
+		<field name="globalspacer1"
+			type="spacer"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER"
+		/>
+		<field type="spacer" name="globalspacer0" hr="true" />
+		
+		<field name="worker1"
+			type="spacer"
+			class="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_ONE"
+		/>
+		<field name="titleWorker1"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="nameWorker1"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="emailWorker1"
+			type="email"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="linkWorker1"
+			type="url"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="useWorker1"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_EMAIL</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_WWW</option>
+		</field>
+		<field name="showWorker1"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_BACK</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_FRONT</option>
+			<option value="3">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_ALL</option>
+		</field>
+		<field type="spacer" name="globalspacer2" hr="true" />
+		
+		<field name="worker2"
+			type="spacer"
+			class="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TWO"
+		/>
+		<field name="titleWorker2"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="nameWorker2"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="emailWorker2"
+			type="email"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_DESC"
+			size="60"
+			default=""
+		/>		
+		<field name="linkWorker2"
+			type="url"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="useWorker2"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_EMAIL</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_WWW</option>
+		</field>
+		<field name="showWorker2"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_BACK</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_FRONT</option>
+			<option value="3">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_ALL</option>
+		</field>
+		<field type="spacer" name="globalspacer3" hr="true" />
+		
+		<field name="worker3"
+			type="spacer"
+			class="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_THREE"
+		/>
+		<field name="titleWorker3"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="nameWorker3"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="emailWorker3"
+			type="email"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="linkWorker3"
+			type="url"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="useWorker3"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_EMAIL</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_WWW</option>
+		</field>
+		<field name="showWorker3"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_BACK</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_FRONT</option>
+			<option value="3">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_ALL</option>
+		</field>
+		<field type="spacer" name="globalspacer4" hr="true" />
+		
+		<field name="worker4"
+			type="spacer"
+			class="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_FOUR"
+		/>
+		<field name="titleWorker4"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_TITLE_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="nameWorker4"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_NAME_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="emailWorker4"
+			type="email"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_EMAIL_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="linkWorker4"
+			type="url"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_LINK_DESC"
+			size="60"
+			default=""
+		/>
+		<field name="useWorker4"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_EMAIL</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_USE_WWW</option>
+		</field>
+		<field name="showWorker4"
+			type="list"
+			default="0"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_DESC">
+			<option value="0">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_NONE</option>
+  			<option value="1">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_BACK</option>
+  			<option value="2">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_FRONT</option>
+			<option value="3">COM_COSTBENEFITPROJECTION_CONFIG_WORKER_SHOW_ALL</option>
+		</field>
+	</fieldset>
+	
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_costbenefitprojection"
+			section="component" />
+	</fieldset>
+	
+	<fieldset
+		name="security"
+		label="COM_COSTBENEFITPROJECTION_CONFIG_SECURITY_FIELDSET_LABEL"
+		description="COM_COSTBENEFITPROJECTION_CONFIG_SECURITY_FIELDSET_DESC">
+		
+		<field name="salt_one"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_SECURITY_SALTONE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_SECURITY_SALTONE_DESC"
+			size="120"
+			default=""
+		/>
+		<field name="salt_two"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_SECURITY_SALTTWO_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_SECURITY_SALTTWO_DESC"
+			size="120"
+			default=""
+		/>
+		<field
+			name="salt_three"
+			type="hidden"
+			default="ipTX7QfuPihZo0iWc2aURdti3REryyiTCyO1ou9Qq9I"
+			description="DO_NOT_CHANGE"
+			size="120"
+			readonly="true"
+			class="readonly">
+		</field>
+		<field
+			name="salt_four"
+			type="hidden"
+			default="Qt3hMQ7M49xkCB7sANT8qAWXVNK8AtGiqqrq0IhiTxE"
+			description="DO_NOT_CHANGE"
+			size="120"
+			readonly="true"
+			class="readonly">
+		</field>
+	</fieldset>
+</config>

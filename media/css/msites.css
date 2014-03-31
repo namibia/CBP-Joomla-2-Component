@@ -1,0 +1,67 @@
+/**
+* 
+* 	@version 	1.0.0 July 24, 2013
+* 	@package 	Cost Benefit Projection Tool Application
+* 	@author  	Vast Development Method <http://www.vdm.io>
+* 	@copyright	Copyright (C) 2013 German Development Cooperation <http://www.giz.de>
+* 	@license	GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+*
+**/
+
+/* CSS Document */
+#costbenefitprojection h2 {
+    font-size: 23px ;
+    line-height: 23px ;
+}
+#costbenefitprojection h2 {
+    margin: 6px 0 2px ;
+}
+#costbenefitprojection h4 {
+    font-size: 17px ;
+    line-height: 17px ;
+}
+#costbenefitprojection h4 {
+    margin: 6px 0 2px ;
+}
+#costbenefitprojection .site {
+   padding: 10px;
+   margin: 15px 0px;
+   -webkit-border-radius: 10px;
+   border-radius: 10px; 
+   -webkit-box-shadow:  0px 9px 8px -4px rgba(0, 0, 0, 0.5);
+   box-shadow:  0px 9px 8px -4px rgba(0, 0, 0, 0.5);
+}
+#costbenefitprojection .site:hover {
+   -webkit-box-shadow: inset 0px 9px 8px -4px rgba(0, 0, 0, 0.5);
+   box-shadow: inset 0px 9px 8px -4px rgba(0, 0, 0, 0.5);
+}
+#costbenefitprojection .approved {
+   background: #9EBD40;
+   color: #fff;
+}
+#costbenefitprojection .approved a{
+   color: #fff;
+}
+#costbenefitprojection .approved a:hover{
+   color: #000;
+}
+#costbenefitprojection .un-approved {
+   background: #D35858;
+   color: #fff;
+}
+#costbenefitprojection .un-approved a{
+   color: #fff;
+}
+#costbenefitprojection .un-approved a:hover{
+   color: #000;
+}
+#costbenefitprojection .pending {
+   background: #DBEAF9;
+   color: #000;
+}
+#costbenefitprojection .pending a{
+   color: #000;
+}
+#costbenefitprojection .pending a:hover{
+   color: #ddd;
+}

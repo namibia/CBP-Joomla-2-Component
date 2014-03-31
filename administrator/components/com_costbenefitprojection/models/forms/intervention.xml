@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+        addrulepath="/administrator/components/com_costbenefitprojection/models/rules"
+>
+	<fieldset name="basic">
+		<field name="intervention_id"
+			type="hidden"
+			label="COM_COSTBENEFITPROJECTION_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			size="10"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="created_by"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="created_on"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="modified_by"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="modified_on"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+
+		<field name="intervention_name"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_INTERVENTION_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_INTERVENTION_NAME_DESC"
+			size="30"
+			required="true"
+		/>
+
+		<field name="intervention_alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			size="30"
+			required="false"
+			readonly="true"
+		/>
+		
+		<field name="type"
+			type="list"
+			label="Type"
+			description="Intervention type"
+			class="inputbox"
+			filter="intval"
+			size="1"
+			default="1"
+		>
+			<option value="2">
+				Cluster</option>
+			<option value="1">
+				Single</option>
+		</field>
+				
+		<field name="intervention_description"
+			type="textarea"
+			label="COM_COSTBENEFITPROJECTION_FIELD_INTERVENTION_DESCRIPTION_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_INTERVENTION_DESCRIPTION_DESC"
+			filter="safehtml"
+			rows="8"
+			cols="40"
+			required="false"
+		 />
+		 
+		<field name="owner"
+			type="owner"
+			label="COM_COSTBENEFITPROJECTION_FIELD_OWNER_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_OWNER_DESC"
+			required="true"
+		/>
+		
+		<field name="country"
+			type="hidden"
+			label=" "
+			description=" "
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="duration" 
+			type="text" 
+			label="COM_COSTBENEFITPROJECTION_INTERVENTION_DURATION_LABEL" 
+			description="COM_COSTBENEFITPROJECTION_INTERVENTION_DURATION_DESC" 
+			size="10"
+			required="true"
+			class="inputbox validate-np"
+            validate="np" 
+		/>
+		
+		<field name="coverage" 
+			type="text" 
+			label="COM_COSTBENEFITPROJECTION_INTERVENTION_COVERAGE_LABEL" 
+			description="COM_COSTBENEFITPROJECTION_INTERVENTION_COVERAGE_DESC" 
+			size="10"
+			required="true"
+			class="inputbox validate-np"
+            validate="np" 
+		/>
+		
+		<field name="reference"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_INTERVENTION_REF_LABEL"
+			description="COM_COSTBENEFITPROJECTION_INTERVENTION_REF_DESC"
+			size="30"
+			required="true"
+		/>
+		
+		<field name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			default="2"
+			required="false"
+		 />
+		 
+		 <field name="published"
+			type="list"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			class="inputbox"
+			filter="intval"
+			size="1"
+			default="1"
+		>
+			<option value="2">
+				JCLIENTD</option>
+			<option value="-2">
+				JREJECTED</option>
+			<option value="1">
+				JPUBLISHED</option>
+			<option value="0">
+				JUNPUBLISHED</option>
+		</field>
+			  
+	</fieldset>
+	
+	<fieldset name="details">
+		
+		<field name="cluster_id"
+			type="clusterid"
+			label="Interventions"
+			description="Select the combination of interventions"
+		/>
+		
+		<field name="disease_id"
+			type="diseasesto"
+			label="COM_COSTBENEFITPROJECTION_INTERVENTION_FIELD_DISEASE_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_INTERVENTION_FIELD_DISEASE_NAME_DESC"
+		/>
+		
+		<field name="risk_id"
+			type="risksto"
+			label="COM_COSTBENEFITPROJECTION_FIELD_RISK_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_RISK_NAME_DESC"
+		/>		
+	</fieldset>
+
+</form>

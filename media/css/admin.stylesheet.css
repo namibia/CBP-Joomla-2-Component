@@ -1,0 +1,189 @@
+/* --- Diseases --- */
+.icon-48-disease-edit {
+  background: url('../images/disease-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-disease-add{
+  background: url('../images/disease-48-add.png') 0 0 no-repeat;
+}
+.icon-48-diseases{
+  background: url('../images/diseases-48.png') 0 0 no-repeat;
+}
+
+/* --- Diseases Data--- */
+.icon-48-diseasedata-edit {
+  background: url('../images/diseasedata-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-diseasedata-add{
+  background: url('../images/diseasedata-48-add.png') 0 0 no-repeat;
+}
+.icon-48-diseasesdata{
+  background: url('../images/diseasedata-48.png') 0 0 no-repeat;
+}
+
+/* --- Categories --- */
+.icon-48-diseasecategory-edit {
+  background: url('../images/diseasecategory-icon-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-diseasecategory-add{
+  background: url('../images/diseasecategory-icon-48-add.png') 0 0 no-repeat;
+}
+.icon-48-diseasecategories{
+  background: url('../images/diseasecategory-icon-48.png') 0 0 no-repeat;
+}
+
+/* --- Risks --- */
+.icon-48-risk-edit {
+  background: url('../images/risks-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-risk-add{
+  background: url('../images/risks-48-add.png') 0 0 no-repeat;
+}
+.icon-48-risks{
+  background: url('../images/risks-48.png') 0 0 no-repeat;
+}
+
+/* --- Risk Data--- */
+.icon-48-riskdata-edit {
+  background: url('../images/riskdata-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-riskdata-add{
+  background: url('../images/riskdata-48-add.png') 0 0 no-repeat;
+}
+.icon-48-risksdata{
+  background: url('../images/riskdata-48.png') 0 0 no-repeat;
+}
+
+/* --- Help--- */
+.icon-48-help-edit {
+  background: url('../images/help-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-help-add{
+  background: url('../images/help-48-add.png') 0 0 no-repeat;
+}
+.icon-48-helps{
+  background: url('../images/helps-48.png') 0 0 no-repeat;
+}
+
+/* --- Coutries --- */
+.icon-48-country-edit {
+  background: url('../images/countries-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-country-add{
+  background: url('../images/countries-48-add.png') 0 0 no-repeat;
+}
+.icon-48-countries{
+  background: url('../images/countries-48.png') 0 0 no-repeat;
+}
+
+/* --- Currencies--- */
+.icon-48-currency-edit {
+  background: url('../images/currencies-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-currency-add{
+  background: url('../images/currencies-48-add.png') 0 0 no-repeat;
+}
+.icon-48-currencies{
+  background: url('../images/currencies-48.png') 0 0 no-repeat;
+}
+
+/* --- Interventions--- */
+.icon-48-intervention-edit {
+  background: url('../images/interventions-48-edit.png') 0 0 no-repeat;
+}
+.icon-48-intervention-add{
+  background: url('../images/interventions-48-add.png') 0 0 no-repeat;
+}
+.icon-48-interventions{
+  background: url('../images/interventions-48.png') 0 0 no-repeat;
+}
+
+/* --- Charts --- */
+.icon-48-charts{
+  background: url('../images/charts-48.png') 0 0 no-repeat;
+}
+
+/* --- MAIN OVERVIEW --- */
+.icon-48-main{
+  background: url('../images/mount-48.png') 0 0 no-repeat;
+}
+#costbenefitprojection h2 {
+	padding: 0 12px;
+	font-size:19px;
+	color:#0D3379;
+}
+#costbenefitprojection h3 {
+	padding: 0 20px;
+	font-size:17px;
+	color:#0D3379;
+	background: none;
+}
+
+/* --- MAIN OVERVIEW ICONS --- */
+#costbenefitprojection div.icon {
+    float: left;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    text-align: center;
+}
+#costbenefitprojection div.icon a{
+	background-color: #FFFFFF;
+    background-position: -30px center;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    color: #565656;
+    display: block;
+    float: left;
+    height: 97px;
+    text-decoration: none;
+    transition-duration: 0.8s;
+    transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
+    vertical-align: middle;
+    width: 108px;
+}
+#costbenefitprojection div.icon a:hover, 
+#costbenefitprojection div.icon a:focus, 
+#costbenefitprojection div.icon a:active {
+    background-position: 0 center;
+    border-bottom-left-radius: 50% 20px;
+    box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 10;
+}
+#costbenefitprojection .icon img {
+	float: none;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+#costbenefitprojection .icon span {
+    display: block;
+    text-align: center;
+}
+
+/* --- Vertical menu --- */
+#costbenefitprojection .menuList{
+        padding:0;
+        margin:0;
+        list-style-type:none;
+        font-size:15px;
+        color:#717171;
+        width:60%;
+}
+#costbenefitprojection .menuList li{
+        border-bottom:1px solid #eeeeee;
+        padding:7px 10px 7px 10px;
+}
+#costbenefitprojection .menuList li:hover{
+        background-color:#D6D6D6;
+}
+#costbenefitprojection .menuList li:hover a{
+        color:White;
+}
+#costbenefitprojection .menuList a:link{
+        text-decoration:none;
+}
+#costbenefitprojection .menuList a:hover{
+        color:White;
+}
+#costbenefitprojection fieldset.adminform textarea {
+    width: 100%;
+}

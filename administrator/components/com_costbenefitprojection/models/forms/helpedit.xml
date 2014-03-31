@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="essential">
+		<field name="help_id"
+			type="hidden"
+			label="COM_COSTBENEFITPROJECTION_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			size="10"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="help_link"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="created_by"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="created_on"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="modified_by"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		<field name="modified_on"
+			type="hidden"
+			label="null"
+			description="null"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="help_for"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_FOR_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_FOR_NAME_DESC"
+			readonly="true"
+			class="readonly"
+		/>
+
+		<field name="help_group" 
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_DESC"
+			readonly="true"
+			class="readonly"
+		/>
+
+		<!-- <field name="help_for"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_FOR_NAME_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_FOR_NAME_DESC"
+			class="inputbox"
+			size="30"
+			required="true"
+		/>
+
+		<field name="help_group" 
+			type="list"
+			label="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_DESC"
+			class="inputbox"
+			size="1"
+			default=""
+			>
+			<option value="">
+				PLEASE_SELECT</option>
+			<option value="all">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_ALL</option>
+			<option value="admin">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_ADMIN</option>
+			<option value="country">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_COUNTRY</option>
+			<option value="service">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_SERVICE</option>
+			<option value="client">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_GROUP_CLIENT</option>
+		</field> -->
+		
+		<field name="location"
+			type="list"
+			label="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_LOCATION_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_LOCATION_DESC"
+			class="inputbox"
+			size="1"
+			default=""
+			>
+			<option value="">
+				PLEASE_SELECT</option>
+			<option value="front">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_LOCATION_FRONT</option>
+			<option value="back">
+				COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_LOCATION_BACK</option>
+		</field>
+		<field name="published"
+			type="list"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			class="inputbox"
+			filter="intval"
+			size="1"
+			default="1"
+		>
+			<option value="1">
+				JPUBLISHED</option>
+			<option value="0">
+				JUNPUBLISHED</option>
+		</field>
+
+		<field name="help_access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			default="1"
+			required="false"
+		 />
+		 
+	</fieldset>
+
+	<fieldset name="editor">
+		<field name="help_content"
+			type="textarea"
+			label="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_CONTENT_LABEL"
+			description="COM_COSTBENEFITPROJECTION_FIELD_HELPEDIT_CONTENT_DESC"
+			rows="50"
+			filter="raw"
+		/>
+	</fieldset>
+</form>

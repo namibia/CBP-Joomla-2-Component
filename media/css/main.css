@@ -1,0 +1,96 @@
+/**
+* 
+* 	@version 	1.0.0 July 24, 2013
+* 	@package 	Cost Benefit Projection Tool Application
+* 	@author  	Vast Development Method <http://www.vdm.io>
+* 	@copyright	Copyright (C) 2013 German Development Cooperation <http://www.giz.de>
+* 	@license	GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
+*
+**/
+
+#costbenefitprojection .set-container {
+	margin:10px;
+}
+
+#costbenefitprojection code {
+    background: #ddd;
+    padding:2px 5px;
+}
+
+#costbenefitprojection .status-metro {
+    display: inline-block;
+    padding: 2px 5px;
+	color:#fff;
+}
+
+#costbenefitprojection .chart {
+	overflow: visible;
+}
+
+#costbenefitprojection .status-metro.status-published {
+    background: #43c83c;
+}
+
+#costbenefitprojection .status-metro.status-inactive {
+    background: #999999;
+}
+
+#costbenefitprojection .status-metro.status-archived {
+    background: #DBC206;
+}
+
+#costbenefitprojection .status-metro.status-trashed {
+    background: #fa3031;
+}
+
+#costbenefitprojection .foo-setup li {
+	margin-bottom:30px;
+}
+#costbenefitprojection .filter-box {
+	display: block;
+    height: 100%;
+    width: 100%;
+}
+#costbenefitprojection .filter-box p{
+	padding: 0;
+	margin: 0;
+}
+#costbenefitprojection form li {
+	list-style: none outside none;
+}
+
+#costbenefitprojection .tab-content form{
+	margin: 8px 0 0;
+}
+
+/* Tooltips */
+
+.aplic {
+	float:left;
+	background: #00B4DC;
+	padding: 5px;
+	margin: 5px;
+}
+
+.tip-wrap {
+   float: left;
+   background: #1171A3;
+   border: 1px solid #D4D5AA;
+   padding: 5px;
+   max-width: 600px;
+}
+ 
+.tip-title {
+   padding: 0;
+   margin: 0;
+   font-size: 100%;
+   font-weight: bold;
+   margin-top: -15px;
+   padding-top: 15px;
+   padding-bottom: 5px;
+}
+ 
+.tip-text {
+   font-size: 100%;
+   margin: 0;
+}
