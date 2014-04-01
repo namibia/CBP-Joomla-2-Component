@@ -2,12 +2,12 @@
 <extension type="component" version="2.5.0" method="upgrade">
 	<name>Cost Benefit Projection</name>
 	<author>Vast Development Method</author>
-	<creationDate>July 2013</creationDate>
+	<creationDate>March 2014</creationDate>
 	<copyright>Copyright GIZ</copyright>
 	<license>GNU General Public License version 2 or later</license>
 	<authorEmail>support@vdm.io</authorEmail>
 	<authorUrl>www.vdm.io</authorUrl>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<description>GIZ - Cost Benefit Projection Tool.</description>
 
 	<languages folder="language/en-GB">
@@ -50,7 +50,6 @@
 		<submenu>
 			<menu view="users" img="../media/com_costbenefitprojection/images/cbpu.png"  alt="COM_COSTBENEFITPROJECTION_USERS">COM_COSTBENEFITPROJECTION_USERS</menu>
 			<menu view="diseasesdata"  img="../media/com_costbenefitprojection/images/cbpd.png"  alt="COM_COSTBENEFITPROJECTION_DISEASESDATA">COM_COSTBENEFITPROJECTION_DISEASESDATA</menu>
-			<menu view="risksdata"  img="../media/com_costbenefitprojection/images/cbpd.png"  alt="COM_COSTBENEFITPROJECTION_RISKSSDATA">COM_COSTBENEFITPROJECTION_RISKSSDATA</menu>
 			<menu view="interventions"  img="../media/com_costbenefitprojection/images/cbpd.png"  alt="COM_COSTBENEFITPROJECTION_INTERVENTIONS">COM_COSTBENEFITPROJECTION_INTERVENTIONS</menu>
 		</submenu>
 		<files folder="administrator/components/com_costbenefitprojection">
