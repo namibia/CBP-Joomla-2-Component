@@ -56,6 +56,144 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 	}
 	
 	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function publish(&$pks, $value = 1)
+	{	
+		parent::publish($pks, $value);
+		// Get a db connection.
+		$db = JFactory::getDbo();
+		if(is_array($pks)){
+			// Create a new query object.
+			$query = $db->getQuery(true);
+			
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($db->quoteName(array('disease_id', 'owner', 'published')));
+			$query->from($db->quoteName('#__costbenefitprojection_diseasedata'));
+			$query->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+			// echo nl2br(str_replace('#__','giz_',$query)); die;
+			// Reset the query using our newly populated query object.
+			$db->setQuery($query);
+			
+			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+			$results = $db->loadAssocList();
+		}
+		if(is_array($results)){
+			// sort results
+			foreach($results as $item){
+				if($item["published"] == 1){
+					$items_set[$item["owner"]][] = $item["disease_id"];
+				} else {
+					$items_remove[$item["owner"]][] = $item["disease_id"];
+				}
+			}
+			// set new published items
+			if(is_array($items_set)) {
+				foreach($items_set as $owner => $disease_ids){
+					$selected_causes = (array)JUserHelper::getProfile($owner)->gizprofile[diseases];
+					
+					if(is_array($disease_ids)){
+						foreach($disease_ids as $disease_id)
+						$selected_causes[] = $disease_id;
+					}
+					$selected_causes = array_unique($selected_causes);
+					sort($selected_causes);
+					$selected_causes = json_encode($selected_causes);
+					
+					$query = $db->getQuery(true);
+	
+					// Fields to update.
+					$fields = array(
+						$db->quoteName('profile_value') . ' = ' . $db->quote($selected_causes)
+					);
+					 
+					// Conditions for which records should be updated.
+					$conditions = array(
+						$db->quoteName('user_id') . ' = '.$owner, 
+						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
+					);
+					 
+					$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
+					 
+					$db->setQuery($query);
+					 
+					$result = $db->query();
+				}
+			}
+			// remove items not published	
+			if(is_array($items_remove)) {
+				foreach($items_remove as $owner => $disease_ids){
+					$selected_causes = JUserHelper::getProfile($owner)->gizprofile[diseases];
+					
+					if(is_array($disease_ids)){
+						foreach($disease_ids as $disease_id)
+						if(($key = array_search($disease_id, $selected_causes)) !== false) {
+							unset($selected_causes[$key]);
+						}
+					}
+					sort($selected_causes);
+					$selected_causes = json_encode($selected_causes);
+					
+					$query = $db->getQuery(true);
+	
+					// Fields to update.
+					$fields = array(
+						$db->quoteName('profile_value') . ' = ' . $db->quote($selected_causes)
+					);
+					 
+					// Conditions for which records should be updated.
+					$conditions = array(
+						$db->quoteName('user_id') . ' = '.$owner, 
+						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
+					);
+					 
+					$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
+					 
+					$db->setQuery($query);
+					 
+					$result = $db->query();
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function save($data)
+	{
+		if (isset($data['params']) && is_array($data['params'])) {
+			$params = new JRegistry;
+			$params->loadArray($data['params']);
+			$data['params'] = (string)$params;
+
+		}
+		
+		if (parent::save($data)) {
+
+			return true;
+		}
+
+
+		return false;
+	}
+	
+	/**
 	 * Get internal user info in relation to this application.
 	 *
 	 * @return an associative array

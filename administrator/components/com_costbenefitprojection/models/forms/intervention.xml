@@ -86,7 +86,7 @@
 		 />
 		 
 		<field name="owner"
-			type="owner"
+			type="interventionowner"
 			label="COM_COSTBENEFITPROJECTION_FIELD_OWNER_LABEL"
 			description="COM_COSTBENEFITPROJECTION_FIELD_OWNER_DESC"
 			required="true"
@@ -169,12 +169,6 @@
 			type="diseasesto"
 			label="COM_COSTBENEFITPROJECTION_INTERVENTION_FIELD_DISEASE_NAME_LABEL"
 			description="COM_COSTBENEFITPROJECTION_INTERVENTION_FIELD_DISEASE_NAME_DESC"
-		/>
-		
-		<field name="risk_id"
-			type="risksto"
-			label="COM_COSTBENEFITPROJECTION_FIELD_RISK_NAME_LABEL"
-			description="COM_COSTBENEFITPROJECTION_FIELD_RISK_NAME_DESC"
 		/>		
 	</fieldset>
 

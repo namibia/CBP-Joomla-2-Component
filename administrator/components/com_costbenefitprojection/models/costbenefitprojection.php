@@ -60,20 +60,6 @@ class CostbenefitprojectionModelCostbenefitprojection extends JModelList
 			// Add Diseasedata
 			$items[9] = array('name' => 'COM_COSTBENEFITPROJECTION_ADD_DISEASEDATA_MENU_DEFAULT_TITLE', 'url' => 'index.php?option=com_costbenefitprojection&view=diseasedata&layout=edit', 'img' =>'media/com_costbenefitprojection/images/diseasedata-48-add.png');
 			
-			if ($admin_user || $country_user) {
-				// View Risks
-				$items[10] = array('name' => 'COM_COSTBENEFITPROJECTION_RISKS_MENU_DEFAULT_TITLE', 'url' => 'index.php?option=com_costbenefitprojection&view=risks', 'img' =>'media/com_costbenefitprojection/images/risks-48.png');
-				
-				// Add Risk
-				$items[11] = array('name' => 'COM_COSTBENEFITPROJECTION_ADD_RISK_MENU_DEFAULT_TITLE', 'url' => 'index.php?option=com_costbenefitprojection&view=risk&layout=edit', 'img' =>'media/com_costbenefitprojection/images/risks-48-add.png');
-			}
-			
-			// View Risksdata
-			$items[12] = array('name' => 'COM_COSTBENEFITPROJECTION_RISKSDATA_MENU_DEFAULT_TITLE', 'url' => 'index.php?option=com_costbenefitprojection&view=risksdata', 'img' =>'media/com_costbenefitprojection/images/riskdata-48.png');
-			
-			// Add Riskdata
-			$items[13] = array('name' => 'COM_COSTBENEFITPROJECTION_ADD_RISKDATA_MENU_DEFAULT_TITLE', 'url' => 'index.php?option=com_costbenefitprojection&view=riskdata&layout=edit', 'img' =>'media/com_costbenefitprojection/images/riskdata-48-add.png');
-			
 			// View Interventions
 			$items[14] = array('name' => 'COM_COSTBENEFITPROJECTION_INTERVENTIONS_MENU_DEFAULT_TITLE', 'url' => 'index.php?option=com_costbenefitprojection&view=interventions', 'img' => 'media/com_costbenefitprojection/images/interventions-48.png');
 			

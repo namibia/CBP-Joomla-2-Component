@@ -19,6 +19,7 @@ class CostbenefitprojectionModelDiseases extends JModelList
 	{
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
+				't.ref',
 				't.disease_name',
 				't.disease_description',
 				't.disease_id',

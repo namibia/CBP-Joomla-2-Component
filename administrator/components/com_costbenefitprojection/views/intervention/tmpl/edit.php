@@ -73,13 +73,9 @@ jQuery(document).ready(function() {
 			jQuery('#jform_cluster_id').hide();
 			jQuery('#jform_disease_id-lbl').show();
 			jQuery('#jform_disease_id').show();
-			jQuery('#jform_risk_id-lbl').show();
-			jQuery('#jform_risk_id').show();
 		} else if (type == 2){
 			jQuery('#jform_disease_id-lbl').hide();
 			jQuery('#jform_disease_id').hide();
-			jQuery('#jform_risk_id-lbl').hide();
-			jQuery('#jform_risk_id').hide();
 			jQuery('#jform_cluster_id-lbl').show();
 			jQuery('#jform_cluster_id').show();
 			
@@ -114,9 +110,6 @@ jQuery(document).ready(function() {
 	jQuery('#jform_disease_id input').change(function() {
 	   hideTypes();
 	});
-	jQuery('#jform_risk_id input').change(function() {
-	   hideTypes();
-	});
 	jQuery('#jform_cluster_id input').change(function() {
 	   hideTypes();
 	});
@@ -127,9 +120,6 @@ jQuery(document).ready(function() {
 		 var clusterVals = [];
 		 jQuery('#jform_disease_id :checked').each(function() {
 		   diseaseVals.push(jQuery(this).val());
-		 });
-		 jQuery('#jform_risk_id :checked').each(function() {
-		   riskVals.push(jQuery(this).val());
 		 });
 		 jQuery('#jform_cluster_id :checked').each(function() {
 		   clusterVals.push(jQuery(this).val());

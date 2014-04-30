@@ -39,13 +39,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		<thead>
 			<tr>
 				<th width="1%"><input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /></th>
-				<th width="15%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASE_NAME_LABEL', 't.disease_name', $listDirn, $listOrder) ?></th>
-				<th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASE_DESCRIPTION_LABEL', 't.disease_description', $listDirn, $listOrder) ?></th>
-                <th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASE_CATEGORY_NAME_LABEL', 'a.diseasecategory_name', $listDirn, $listOrder) ?></th>
-                <th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDBY_LABEL', 't.created_by', $listDirn, $listOrder) ?></th>
-				<th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDON_LABEL', 't.created_on', $listDirn, $listOrder) ?></th>
-                <th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDBY_LABEL', 't.modified_by', $listDirn, $listOrder) ?></th>
-				<th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDON_LABEL', 't.modified_on', $listDirn, $listOrder) ?></th>
+				<th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_REF_LABEL', 't.ref', $listDirn, $listOrder) ?></th>
+				<th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASE_NAME_LABEL', 't.disease_name', $listDirn, $listOrder) ?></th>
+                <th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASE_CATEGORY_NAME_LABEL', 'a.diseasecategory_name', $listDirn, $listOrder) ?></th>
+                <th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDBY_LABEL', 't.created_by', $listDirn, $listOrder) ?></th>
+				<th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDON_LABEL', 't.created_on', $listDirn, $listOrder) ?></th>
+                <th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDBY_LABEL', 't.modified_by', $listDirn, $listOrder) ?></th>
+				<th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDON_LABEL', 't.modified_on', $listDirn, $listOrder) ?></th>
 				<th width="2%"><?php echo JHtml::_('grid.sort', 'JSTATUS', 't.published', $listDirn, $listOrder) ?></th>
                 <th width="2%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_ID_LABEL', 't.disease_id', $listDirn, $listOrder) ?></th>
 			</tr>
@@ -61,6 +61,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<?php foreach ($this->items as $i => $item): ?>
 				<tr class="row<?php echo $i % 2 ?>">
 					<td class="center"><?php echo JHtml::_('grid.id', $i, $item->disease_id); ?></td>
+                   	<td><?php echo $this->escape($item->ref) ?></td>
 					<td>
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->name, $item->checked_out_time, 'diseases.'); ?>
@@ -77,7 +78,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                             </a>
                         <?php endif; ?>
                     </td>
-                    <td><?php echo $this->escape(strip_tags($item->disease_description)) ?></td>
                     <td><?php echo $this->escape($item->diseasecategory_name) ?></td> 
                     <td class="center">
 						<?php if ($this->user['type'] == 'admin') : ?>

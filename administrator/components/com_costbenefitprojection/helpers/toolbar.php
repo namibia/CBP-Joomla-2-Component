@@ -55,14 +55,6 @@ abstract class CostbenefitprojectionToolbarHelper
 		// View Diseasesdata
 		self::addEntry('DISEASESDATA_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=diseasesdata', $view == 'diseasesdata');
 		
-		if ($admin_user || $country_user) {
-			// View Diseases
-			self::addEntry('RISKS_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=risks', $view == 'risks');
-		}
-		
-		// View Diseasesdata
-		self::addEntry('RISKSDATA_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=risksdata', $view == 'risksdata');
-		
 		// View Interventions
 		self::addEntry('INTERVENTIONS_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=interventions', $view == 'interventions');
 		
@@ -75,6 +67,9 @@ abstract class CostbenefitprojectionToolbarHelper
 		 
 			// View Helps Edit
 			self::addEntry('HELPSEDIT_EDITOR_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=helpsedit', $view == 'helpsedit');
+			
+			// View Import Page
+			self::addEntry('IMPORT_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=import', $view == 'import');
 		}
 
 	}
@@ -97,10 +92,7 @@ abstract class CostbenefitprojectionToolbarHelper
 		
 		// View Diseasesdata
 		self::addEntry('DISEASESDATA_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=diseasesdata', $view == 'diseasesdata');
-		
-		// View Diseasesdata
-		self::addEntry('RISKSDATA_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=risksdata', $view == 'risksdata');
-		
+				
 		// View Interventions
 		self::addEntry('INTERVENTIONS_MENU_DEFAULT_TITLE', 'index.php?option=com_costbenefitprojection&view=interventions', $view == 'interventions');
 		

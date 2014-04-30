@@ -47,7 +47,7 @@
 				JUNPUBLISHED</option>
 		</field>
 		<field name="owner"
-			type="owner"
+			type="causeowner"
 			label="COM_COSTBENEFITPROJECTION_FIELD_OWNER_LABEL"
 			description="COM_COSTBENEFITPROJECTION_FIELD_OWNER_DESC"
 			required="true"
@@ -91,230 +91,67 @@
 	  
 	</fieldset>
 	
-	<fieldset name="details">
-	
-		<field name="incidence_or_prevalence"
-			type="list"
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_INCIDENCE_OR_PREVALENCE_LABEL"
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_INCIDENCE_OR_PREVALENCE_DESC"
-			class="inputbox"
-			filter="intval"
-			size="1"
-			default="1"
-		>
-			<option value="1">
-				COM_COSTBENEFITPROJECTION_OPTION_DISEASESDATA_INCIDENCE</option>
-			<option value="2">
-				COM_COSTBENEFITPROJECTION_OPTION_DISEASESDATA_PREVALENCE</option>
-		</field>
-		
-		<field name="incidence_rate_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-ntp"
-            validate="ntp"
-		/>
-		
-		<field name="incidence_rate_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-ntp"
-            validate="ntp"
-		/>
-		
-		<field name="morbidity_rate_reference"
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRR_LABEL"
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRR_DESC"
-			size="30"
-			required="true"
-		/>
-		
-		<field name="relative_proportion" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-nop"
-            validate="nop"
-		/>
-		
-		<field name="relative_proportion_reference"
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIOR_LABEL"
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIOR_DESC"
-			size="30"
-			required="true"
-		/>
-		
-		<field name="mortality_rate_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-ntp"
-            validate="ntp"
-		/>
-		
-		<field name="mortality_rate_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-ntp"
-            validate="ntp"
-		/>
-		
-		<field name="mortality_scaling_factor_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-ntp"
-            validate="ntp"
-		/>
-		
-		<field name="mortality_scaling_factor_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-ntp"
-            validate="ntp"
-		/>
-		
-		<field name="mortality_rate_reference"
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRR_TWO_LABEL"
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRR_TWO_DESC"
-			size="30"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="duration" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATION_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATION_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="hospital_stay" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HS_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HS_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="incidence_scaling_factor_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="incidence_scaling_factor_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="presenteeism_scaling_factor_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="presenteeism_scaling_factor_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="hospital_scaling_factor_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="hospital_scaling_factor_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="absenteeism_multiplication_factor_male" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field name="absenteeism_multiplication_factor_female" 
-			type="text" 
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_LABEL" 
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_DESC" 
-			size="10"
-			required="true"
-			class="inputbox validate-np"
-            validate="np"
-		/>
-		
-		<field
-			name="disability_weights"
-			type="radio"
-			default="0"
-			label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DW_LABEL"
-			description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DW_DESC">
-			<option
-				value="0">COM_COSTBENEFITPROJECTION_NO</option>
-			<option
-				value="1">COM_COSTBENEFITPROJECTION_YES</option>
-		</field>
-		
+	<fieldset name="params">
+		<fields name="params">
+			<field name="yld_scaling_factor_Males" 
+				type="text" 
+				label="COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_MALE_LABEL" 
+				description="COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_MALE_DESC" 
+				size="10"
+				required="true"
+				class="inputbox validate-ntp"
+				validate="ntp"
+			/>
+			
+			<field name="yld_scaling_factor_Females" 
+				type="text" 
+				label="COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_FEMALE_LABEL" 
+				description="COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_FEMALE_DESC" 
+				size="10"
+				required="true"
+				class="inputbox validate-ntp"
+				validate="ntp"
+			/>
+			
+			<field name="mortality_scaling_factor_Males" 
+				type="text" 
+				label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_LABEL" 
+				description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_DESC" 
+				size="10"
+				required="true"
+				class="inputbox validate-ntp"
+				validate="ntp"
+			/>
+			
+			<field name="mortality_scaling_factor_Females" 
+				type="text" 
+				label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_LABEL" 
+				description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_DESC" 
+				size="10"
+				required="true"
+				class="inputbox validate-ntp"
+				validate="ntp"
+			/>
+			
+			<field name="presenteeism_scaling_factor_Males" 
+				type="text" 
+				label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_LABEL" 
+				description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_DESC" 
+				size="10"
+				required="true"
+				class="inputbox validate-np"
+				validate="np"
+			/>
+			
+			<field name="presenteeism_scaling_factor_Females" 
+				type="text" 
+				label="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_LABEL" 
+				description="COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_DESC" 
+				size="10"
+				required="true"
+				class="inputbox validate-np"
+				validate="np"
+			/>
+		</fields>	
 	</fieldset>
 </form>

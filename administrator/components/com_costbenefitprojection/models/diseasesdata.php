@@ -21,22 +21,8 @@ class CostbenefitprojectionModelDiseasesdata extends JModelList
 			$config['filter_fields'] = array(
 				't.id',
 				'a.disease_name',
+				'a.ref',
 				'c.diseasecategory_name',
-				't.incidence_rate_male',
-				't.incidence_rate_female',
-				't.relative_proportion',
-				't.mortality_rate_male',
-				't.mortality_rate_female',
-				't.incidence_scaling_factor_male',
-				't.incidence_scaling_factor_female',
-				't.mortality_scaling_factor_male',
-				't.mortality_scaling_factor_female',
-				't.presenteeism_scaling_factor_male',
-				't.presenteeism_scaling_factor_female',
-				't.hospital_scaling_factor_male',
-				't.duration_scaling_factor_female',
-				't.hospital_scaling_factor_male',
-				't.duration_scaling_factor_female',
 				't.published'
 			);
 		}
@@ -54,6 +40,12 @@ class CostbenefitprojectionModelDiseasesdata extends JModelList
 		foreach ($items as &$item) {
 			$item->itemOwner = $this->userIs($item->owner);
 			$item->countryName = $this->countryName('',$item->country);
+			
+			// Convert the params field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->params);
+			$item->params = $registry->toArray();
+			
 			if ($item->itemOwner['type'] == 'country'){
 				$item->owner = $item->countryName;
 			} else {
@@ -94,7 +86,7 @@ class CostbenefitprojectionModelDiseasesdata extends JModelList
 	{
 		$query = parent::getListQuery();
 
-		$query->select('t.*, a.disease_name, u.name, c.diseasecategory_name');
+		$query->select('t.*, a.disease_name,  a.ref, u.name, c.diseasecategory_name');
 		$query->from('#__costbenefitprojection_diseasedata AS t');
 		$query->join('LEFT', '#__costbenefitprojection_diseases AS a USING(disease_id)');
 		$query->join('LEFT', '#__costbenefitprojection_diseasecategories AS c USING(diseasecategory_id)');

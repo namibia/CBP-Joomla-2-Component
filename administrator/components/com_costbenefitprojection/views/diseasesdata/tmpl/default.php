@@ -61,100 +61,19 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		<thead>
 			<tr>
 				<th width="1%"><input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" /></th>
+                <th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_REF_LABEL', 'a.ref', $listDirn, $listOrder) ?></th>
 				<th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_NAME_LABEL', 'a.disease_name', $listDirn, $listOrder) ?></th>
                 <th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_CATEGORY_LABEL', 'c.diseasecategory_name', $listDirn, $listOrder) ?></th>
                 <th><?php echo JText::_('COM_COSTBENEFITPROJECTION_OWNER'); ?></th>
                 
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRM_SHORT', 't.incidence_rate_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_SHORT', 't.incidence_rate_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_SHORT', 't.relative_proportion', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_SHORT', 't.mortality_rate_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_SHORT', 't.mortality_rate_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_SHORT', 't.mortality_scaling_factor_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_SHORT', 't.mortality_scaling_factor_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_SHORT', 't.incidence_scaling_factor_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                 <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_SHORT', 't.incidence_scaling_factor_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_SHORT', 't.presenteeism_scaling_factor_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_SHORT', 't.presenteeism_scaling_factor_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_SHORT', 't.hospital_scaling_factor_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_SHORT', 't.hospital_scaling_factor_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_SHORT', 't.absenteeism_multiplication_factor_male', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
-                <th width="5%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_SHORT', 't.absenteeism_multiplication_factor_female', $listDirn, $listOrder);
-								$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-								$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_LABEL'); 
-								$td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_DESC');
-								echo JHTML::tooltip($td, $tt, '', $d );
-								?></th>
+                <th width="7%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_MALE_LABEL'); ?></th>
+                <th width="7%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_FEMALE_LABEL'); ?></th>
+                
+                <th width="7%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_LABEL'); ?></th>
+                <th width="7%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_LABEL'); ?></th>
+                
+                <th width="7%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_LABEL'); ?></th>
+                <th width="7%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_LABEL'); ?></th>
 				
                 <th width="4%"><?php echo JHtml::_('grid.sort', 'JSTATUS', 't.published', $listDirn, $listOrder) ?></th>
                 <th width="2%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_ID_LABEL', 't.id', $listDirn, $listOrder) ?></th>
@@ -162,7 +81,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="21">
+				<td colspan="13">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -186,93 +105,22 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>
+                    <td class="center"><?php echo $this->escape($item->ref); ?></td>
 					<td>
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->name, $item->checked_out_time, 'diseasesdata.'); ?>
                             <?php if ($item->checked_out == $this->user['id']) : ?>
-                            	<?php
-									if (round($item->duration,2) <= 1){
-										$day_d = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAY');
-									} else {
-										$day_d = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAYS');
-									}
-									if (round($item->hospital_stay,2) <= 1){
-										$day_h = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAY');
-									} else {
-										$day_h = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAYS');
-									}
-									$list = '<ul>';
-									$list .= '<li>';
-									$list .= JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATION_LABEL') . ": " .  round($item->duration,2) . " " . $day_d;
-									$list .= '</li>';
-									$list .= '<li>';
-									$list .= JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HS_LABEL') . ": " .  round($item->hospital_stay,2) . " " . $day_h;
-									$list .= '</li>';
-									$list .= '</ul>';
-									$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-									$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATIONS_LABEL'); 
-									$td = $list;
-									echo JHTML::tooltip($td, $tt, '', $d );
-								?>
-                           		<a href="index.php?option=com_costbenefitprojection&amp;task=diseasedata.edit&amp;id=<?php echo $item->id; ?>">
+                            	<a href="index.php?option=com_costbenefitprojection&amp;task=diseasedata.edit&amp;id=<?php echo $item->id; ?>">
                                     <?php echo $this->escape($item->disease_name); ?>
                                 </a>
 							<?php else: ?>
-                            	<?php
-									if (round($item->duration,2) <= 1){
-										$day_d = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAY');
-									} else {
-										$day_d = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAYS');
-									}
-									if (round($item->hospital_stay,2) <= 1){
-										$day_h = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAY');
-									} else {
-										$day_h = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAYS');
-									}
-									$list = '<ul>';
-									$list .= '<li>';
-									$list .= JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATION_LABEL') . ": " .  round($item->duration,2) . " " . $day_d;
-									$list .= '</li>';
-									$list .= '<li>';
-									$list .= JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HS_LABEL') . ": " .  round($item->hospital_stay,2) . " " . $day_h;
-									$list .= '</li>';
-									$list .= '</ul>';
-									$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-									$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATIONS_LABEL'); 
-									$td = $list;
-									echo JHTML::tooltip($td, $tt, '', $d );
-								?>
-                                <?php echo $this->escape($item->disease_name); ?>
+                            	<?php echo $this->escape($item->disease_name); ?>
                             <?php endif; ?>
 						<?php else: ?>
 							<?php if ($this->user['type'] == 'service' && $item->itemOwner['type'] == 'country'): ?>
                                 <?php echo $this->escape($item->disease_name); ?>
                             <?php else: ?>
-                             	<?php
-									if (round($item->duration,2) <= 1){
-										$day_d = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAY');
-									} else {
-										$day_d = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAYS');
-									}
-									if (round($item->hospital_stay,2) <= 1){
-										$day_h = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAY');
-									} else {
-										$day_h = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DAYS');
-									}
-									$list = '<ul>';
-									$list .= '<li>';
-									$list .= JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATION_LABEL') . ": " .  round($item->duration,2) . " " . $day_d;
-									$list .= '</li>';
-									$list .= '<li>';
-									$list .= JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HS_LABEL') . ": " .  round($item->hospital_stay,2) . " " . $day_h;
-									$list .= '</li>';
-									$list .= '</ul>';
-									$d = ' <span style="cursor:help;" >&nbsp;&nbsp;<b><span style="color:#008ED4;">&#105;</span></b>&nbsp;</span>';
-									$tt = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATIONS_LABEL'); 
-									$td = $list;
-									echo JHTML::tooltip($td, $tt, '', $d );
-								?>
-                                <a href="index.php?option=com_costbenefitprojection&amp;task=diseasedata.edit&amp;id=<?php echo $item->id; ?>">
+                             	<a href="index.php?option=com_costbenefitprojection&amp;task=diseasedata.edit&amp;id=<?php echo $item->id; ?>">
                                     <?php echo $this->escape($item->disease_name); ?>
                                 </a>
                             <?php endif; ?>
@@ -280,21 +128,12 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                     </td>
                     <td class="center"><?php echo $this->escape($item->diseasecategory_name); ?></td>
                     <td class="center"><?php echo $item->owner; ?></td>
-                    <td class="center"><?php echo $item->incidence_rate_male; ?></td>
-                    <td class="center"><?php echo $item->incidence_rate_female; ?></td>
-                    <td class="center"><?php echo $item->relative_proportion; ?></td>
-                    <td class="center"><?php echo $item->mortality_rate_male; ?></td>
-                    <td class="center"><?php echo $item->mortality_rate_female; ?></td>
-                    <td class="center"><?php echo $item->mortality_scaling_factor_male; ?></td>
-                    <td class="center"><?php echo $item->mortality_scaling_factor_female; ?></td>
-                    <td class="center"><?php echo $item->incidence_scaling_factor_male; ?></td>
-                    <td class="center"><?php echo $item->incidence_scaling_factor_female; ?></td>
-                    <td class="center"><?php echo $item->presenteeism_scaling_factor_male; ?></td>
-                    <td class="center"><?php echo $item->presenteeism_scaling_factor_female; ?></td>
-                    <td class="center"><?php echo $item->hospital_scaling_factor_male; ?></td>
-                    <td class="center"><?php echo $item->hospital_scaling_factor_female; ?></td>
-                    <td class="center"><?php echo $item->absenteeism_multiplication_factor_male; ?></td>
-                    <td class="center"><?php echo $item->absenteeism_multiplication_factor_female; ?></td>
+                    <td class="center"><?php echo $item->params['yld_scaling_factor_Males']; ?></td>
+                    <td class="center"><?php echo $item->params['yld_scaling_factor_Females']; ?></td>
+                    <td class="center"><?php echo $item->params['mortality_scaling_factor_Males']; ?></td>
+                    <td class="center"><?php echo $item->params['mortality_scaling_factor_Females']; ?></td>
+                    <td class="center"><?php echo $item->params['presenteeism_scaling_factor_Males']; ?></td>
+                    <td class="center"><?php echo $item->params['presenteeism_scaling_factor_Females']; ?></td>
 					<td class="center">
 						<?php if ($item->checked_out) : ?>
                             <?php if ($item->checked_out == $this->user['id'] || $this->user['type'] == 'admin') : ?>

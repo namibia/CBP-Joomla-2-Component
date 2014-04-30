@@ -38,7 +38,7 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 			$selected_result = $this->getSelected($intervention_id);
 		}
 		
-		// setup the risk fields and add the set values to it.
+		// setup the cause/risk fields and add the set values to it.
 		if (is_array($selected_result['disease_id'])){
 			$fieldsLoad .= '<field type="spacer" name="title_disease" label="COM_COSTBENEFITPROJECTION_FIELD_ALL_DISEASES_NAME_LABEL" />';
 			$fieldsLoad .= '<field type="spacer" name="line_disease1" hr="true"/>';
@@ -46,7 +46,7 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 				if(!is_array($id)){
 					$fieldsLoad .=
 					'
-						<field type="spacer" name="disease_title_'.$id.'" label="Settings for '.$this->getDiseasename($id).'"/>
+						<field type="spacer" name="disease_title_'.$id.'" label="Settings for '.$this->getCauseref($id).' '.$this->getDiseasename($id).'"/>
 								<field 
 									name="disease_cpe_'.$id.'"
 									type="text"
@@ -73,37 +73,7 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 					';
 				}
 			} 
-		} 
-		
-		// setup the risk fields and add the set values to it.
-		if (is_array($selected_result['risk_id'])){
-			$fieldsLoad .= '<field type="spacer" name="title_risk" label="COM_COSTBENEFITPROJECTION_FIELD_ALL_RISK_NAME_LABEL" />';
-			$fieldsLoad .= '<field type="spacer" name="line_risk1" hr="true"/>';
-			foreach ($selected_result['risk_id'] as $id){
-				if(!is_array($id)){
-					$fieldsLoad .=
-					'
-						<field type="spacer" name="risk_title_'.$id.'" label="Settings for '.$this->getRiskname($id).'"/>
-								<field 
-									name="risk_cpe_'.$id.'"
-									type="text"
-									label="COM_COSTBENEFITPROJECTION_INTERVENTION_COST_PER_EMPLOYEE_LABEL"
-									description="COM_COSTBENEFITPROJECTION_INTERVENTION_COST_PER_EMPLOYEE_DESC"
-									size="20"
-									required="true"
-								/>
-								<field name="risk_mbr_'.$id.'"
-									type="text" 
-									label="COM_COSTBENEFITPROJECTION_INTERVENTION_MORB_REDUCTION_LABEL" 
-									description="COM_COSTBENEFITPROJECTION_INTERVENTION_MORB_REDUCTION_DESC" 
-									size="20"
-									required="true"
-								/>
-						<field type="spacer" name="risk_line_'.$id.'" hr="true" />
-					';
-				}
-			} 
-		} 
+		}  
 		
 		if ($fieldsLoad){
 			// set fields to xml object			
@@ -126,16 +96,6 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 					$cpe = 'disease_cpe_'.$id;
 					$mbr = 'disease_mbr_'.$id;
 					$form->setValue($mtr,'params',$dbData->$mtr);
-					$form->setValue($cpe,'params',$dbData->$cpe);
-					$form->setValue($mbr,'params',$dbData->$mbr);
-			}
-		} 
-		
-		// load set risk values back into form	
-		if (is_array($selected_result['risk_id'])){
-			foreach ($selected_result['risk_id'] as $id){
-					$cpe = 'risk_cpe_'.$id;
-					$mbr = 'risk_mbr_'.$id;
 					$form->setValue($cpe,'params',$dbData->$cpe);
 					$form->setValue($mbr,'params',$dbData->$mbr);
 			}
@@ -188,16 +148,16 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 		}
 		
 		if (empty($result["cluster_id"])){
-			$selectedResult = $this->getSelectedDiseaseRisk($id);
+			$selectedResult = $this->getSelectedCauseRisk($id);
 		} else {
 			$cluster_id = json_decode($result["cluster_id"]);
 			$i = 0;
 			foreach ($cluster_id as $c_id){
-				$selected[$i]  = $this->getSelectedDiseaseRisk($c_id);
+				$selected[$i]  = $this->getSelectedCauseRisk($c_id);
 				$i++;
 			}
 			$selectedResult['cluster'] = true;
-			$own = $this->getSelectedDiseaseRisk($id);
+			$own = $this->getSelectedCauseRisk($id);
 			
 			// removing all that are already set
 			foreach ($selected as $key => $value){
@@ -217,36 +177,16 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 						}
 					}
 				}
-				if (is_array($own["risk_id"]) && is_array($value["risk_id"])){
-					$has = (count(array_intersect($own["risk_id"], $value["risk_id"]))) ? true : false;
-					if($has){
-						foreach ($value["risk_id"] as $pointer => $disease){
-							if (in_array($disease, $own["risk_id"])){
-								unset($selected[$key]["risk_id"][$pointer]);
-								$cpe = "risk_cpe_".$disease;
-								$mbr = "risk_mbr_".$disease;
-								$mtr = "risk_mtr_".$disease;
-								unset($selected[$key]["params"]->$cpe);
-								unset($selected[$key]["params"]->$mbr);
-								unset($selected[$key]["params"]->$mtr);
-							}
-						}
-					}
-				}  
 			}
 			
 			// now removing duplicates
 			$selectedResult = array();
 			$selectedResult["disease_id"] = array();
-			$selectedResult["risk_id"] = array();
 			$selectedResult["params"] = array();
 			foreach ($selected as $key => $value){
 				foreach ($selected as $key_i => $value_i){
 					if (is_array($value["disease_id"]) && is_array($value_i["disease_id"])){
 						$selectedResult["disease_id"] =  array_merge($value["disease_id"], $value_i["disease_id"],$selectedResult["disease_id"]);
-					}
-					if (is_array($value["risk_id"]) && is_array($value_i["risk_id"])){
-						$selectedResult["risk_id"] =  array_merge($value["risk_id"], $value_i["risk_id"],$selectedResult["risk_id"]);
 					}
 				}
 				if(is_object($value["params"])){
@@ -257,21 +197,11 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 			if (is_array($selectedResult["disease_id"]) && is_array($own["disease_id"])){
 				$selectedResult["disease_id"] = array_merge($own["disease_id"],$selectedResult["disease_id"]);
 			}
-			if (is_array($selectedResult["risk_id"]) && is_array($own["risk_id"])){
-				$selectedResult["risk_id"] = array_merge($own["risk_id"],$selectedResult["risk_id"]);
-			}
 			if (is_array($selectedResult["params"]) && is_object($own["params"])){
 				$selectedResult["params"] = array_merge_recursive((array)$own["params"],$selectedResult["params"]);
 			}
 			
 			// now sort the data and merge
-			$selectedResult_risk = array_unique($selectedResult["risk_id"]);
-			if(sort($selectedResult_risk)){
-				$selectedResult["risk_id"]= array();
-				foreach ($selectedResult_risk as $risk_id){
-					$selectedResult["risk_id"][] = $risk_id;
-				}
-			}
 			$selectedResult_disease = array_unique($selectedResult["disease_id"]);
 			if(sort($selectedResult_disease)){
 				$selectedResult["disease_id"] = array();
@@ -300,14 +230,14 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 		return $selectedResult;
 	}
 	
-	protected function getSelectedDiseaseRisk($id)
+	protected function getSelectedCauseRisk($id)
 	{
 		$options = array();
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('disease_id, risk_id, params');
+		$query->select('disease_id, params');
 		$query->from('#__costbenefitprojection_interventions');;
 		$query->where('intervention_id = \''.$id.'\'');
 
@@ -321,9 +251,6 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 		
 		if (!empty($result["disease_id"])){
 			$selectedResult["disease_id"] = json_decode($result["disease_id"]);
-		}
-		if (!empty($result["risk_id"])){
-			$selectedResult["risk_id"] = json_decode($result["risk_id"]);
 		}
 		if (!empty($result["params"])){
 			$selectedResult["params"] = json_decode($result["params"]);
@@ -354,26 +281,26 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 		return $name;
 	}
 	
-	protected function getRiskname($id)
+	protected function getCauseref($id)
 	{
 		$options = array();
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('risk_alias');
-		$query->from('#__costbenefitprojection_risk');;
-		$query->where('risk_id = \''.$id.'\'');
+		$query->select('ref');
+		$query->from('#__costbenefitprojection_diseases');;
+		$query->where('disease_id = \''.$id.'\'');
 
 		$db->setQuery($query);
 
-		$name = $db->loadResult();
+		$ref = $db->loadResult();
 
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
-		$name = ucwords(str_replace('-',' ',$name));
-		return $name;
+		
+		return $ref;
 	}
 	
 	public function getUser()

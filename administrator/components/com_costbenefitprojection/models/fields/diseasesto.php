@@ -26,14 +26,19 @@ class JFormFieldDiseasesto extends JFormFieldCheckboxes
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('disease_id AS value, disease_name AS text');
+		$query->select('disease_id AS value, disease_name AS text, ref');
 		$query->from('#__costbenefitprojection_diseases');
-		$query->order('disease_name');
+		$query->order('disease_id');
 		$query->where('published = 1');
 
 		$db->setQuery($query);
 
 		$options = $db->loadObjectList();
+		
+		foreach($options as $key => $option){
+			$options[$key]->text = $option->ref . ' ' . $option->text;
+			unset($options[$key]->ref);
+		}
 
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());

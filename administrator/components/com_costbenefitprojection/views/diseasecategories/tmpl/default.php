@@ -40,12 +40,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<th width="1%">
 					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
 				</th>
-				<th width="15%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASECATEGORY_NAME_LABEL', 'diseasecategory_name', $listDirn, $listOrder) ?></th>
-				<th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASECATEGORY_DESCRIPTION_LABEL', 'diseasecategory_description', $listDirn, $listOrder) ?></th>
-                <th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDBY_LABEL', 'created_by', $listDirn, $listOrder) ?></th>
-				<th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDON_LABEL', 'created_on', $listDirn, $listOrder) ?></th>
-                <th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDBY_LABEL', 'modified_by', $listDirn, $listOrder) ?></th>
-				<th width="10%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDON_LABEL', 'modified_on', $listDirn, $listOrder) ?></th>
+				<th><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_DISEASECATEGORY_NAME_LABEL', 'diseasecategory_name', $listDirn, $listOrder) ?></th>
+                <th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDBY_LABEL', 'created_by', $listDirn, $listOrder) ?></th>
+				<th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_CREATEDON_LABEL', 'created_on', $listDirn, $listOrder) ?></th>
+                <th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDBY_LABEL', 'modified_by', $listDirn, $listOrder) ?></th>
+				<th width="7%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_MODIFIEDON_LABEL', 'modified_on', $listDirn, $listOrder) ?></th>
 				<th width="2%"><?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder) ?></th>
                 <th width="2%"><?php echo JHtml::_('grid.sort', 'COM_COSTBENEFITPROJECTION_FIELD_ID_LABEL', 'diseasecategory_id', $listDirn, $listOrder) ?></th>
 			</tr>
@@ -87,7 +86,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                             </a>
                         <?php endif; ?>
 					</td>
-                    <td><?php echo $this->escape(strip_tags($item->diseasecategory_description)) ?></td>
                     <td class="center">
 						<?php if ($this->user['type'] == 'admin') : ?>
                             <a href="<?php echo $item->createduser; ?>">

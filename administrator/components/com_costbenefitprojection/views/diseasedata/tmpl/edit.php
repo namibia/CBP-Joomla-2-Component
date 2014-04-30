@@ -9,11 +9,23 @@
 *
 **/
 defined('_JEXEC') or die;
+// Load the tooltip behavior.
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
 
 ?>
-
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'diseasedata.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+			Joomla.submitform(task, document.getElementById('item-form'));
+		} else {
+			alert('<?php echo $this->escape(JText::_('Please complete required fields marked in red.'));?>');
+		}
+	}
+</script>
 <form action="index.php?option=com_costbenefitprojection&amp;id=<?php echo $this->item->id ?>"
-	method="post" name="adminForm" class="form-validate">
+	id="item-form" method="post" name="adminForm" class="form-validate">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELDSET_DISEASEDATA'); ?></legend>
@@ -31,10 +43,10 @@ defined('_JEXEC') or die;
 	<div class="width-50 fltrt">
 		<?php echo JHtml::_('sliders.start','attraction-sliders'); ?>
 
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_COSTBENEFITPROJECTION_FIELDSET_DETAILS'), 'details-panel'); ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('COM_COSTBENEFITPROJECTION_FIELDSET_DETAILS'), 'params-panel'); ?>
 		<fieldset class="panelform">
 			<ul class="adminformlist">
-				<?php foreach ($this->form->getFieldset('details') as $field): ?>
+				<?php foreach ($this->form->getFieldset('params') as $field): ?>
 					<li><?php echo $field->label; ?>
 					<?php echo $field->input; ?></li>
 				<?php endforeach ?>
@@ -49,7 +61,7 @@ defined('_JEXEC') or die;
 </form>
 <script>
 
-jQuery(document).ready(function() {
+<?php /*?>jQuery(document).ready(function() {
 	var new_selection = '<?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_INCIDENCE_OR_PREVALENCE_SELECTION'); ?>';
 	// change the text label based on selection
 	jQuery('#jform_incidence_or_prevalence').change(function() {
@@ -74,6 +86,6 @@ jQuery(document).ready(function() {
 		}
 		new_selection = text;
 	}
-});
+});<?php */?>
 
 </script>

@@ -25,14 +25,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 			$parameter = new JRegistry;
 			$parameter->loadArray($array['params']);
 			$array['params'] = (string)$parameter;
-		} elseif (!isset($array['risk_id'])) {
-			$array['params'] = '';
-		}
-		
-		if (isset($array['risk_id']) && is_array($array['risk_id'])) {
-			$array['risk_id'] = json_encode($array['risk_id']);
-		} elseif (!isset($array['risk_id'])) {
-			$array['risk_id'] = '';
 		}
 		
 		if (isset($array['cluster_id']) && is_array($array['cluster_id'])) {
@@ -61,7 +53,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 			$this->params = $params;
 			
 			$this->disease_id = json_decode($this->disease_id);
-			$this->risk_id = json_decode($this->risk_id);
 			$this->cluster_id = json_decode($this->cluster_id);
 			
 			return true;
@@ -89,19 +80,16 @@ class CostbenefitprojectionTableIntervention extends JTable
 		
 		$this->intervention_alias = JApplication::stringURLSafe($this->intervention_alias);
 		
-		// To clear old selection data(Disease or Risk) from Params that now is unselected
+		// To clear old selection data(Disease) from Params that now is unselected
 		
 		if ($this->type == 1){
 			$params = json_decode($this->params);
-			$risks_id = json_decode($this->risk_id);
 			$diseases_id = json_decode($this->disease_id);
 			$i = 0;
 			foreach ($params as $key => $value){
 				$the = explode('_', $key);
 				if ($the[0] == 'disease' && $the[1] == 'cpe'){
 					$d_P[$i] = (int)$the[2];
-				} elseif ($the[0] == 'risk' && $the[1] == 'cpe'){
-					$r_P[$i] = (int)$the[2];
 				}
 				$i++;
 			}
@@ -109,13 +97,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 			foreach ($d_P as $theD_P){
 				if (!in_array($theD_P,$diseases_id)){
 					$Dnot[$i] = (int)$theD_P;
-					$i++;
-				}
-			}
-			$i = 0;
-			foreach ($r_P as $theR_P){
-				if (!in_array($theR_P,$risks_id)){
-					$Rnot[$i] = (int)$theR_P;
 					$i++;
 				}
 			}
@@ -128,12 +109,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 							unset($params->$key);
 						}
 					}
-				} elseif ($the[0] == 'risk'){
-					if (is_array($Rnot)){
-						if (in_array($the[2],$Rnot)){
-							unset($params->$key);
-						}
-					}
 				}
 				$i++;
 			}
@@ -142,10 +117,9 @@ class CostbenefitprojectionTableIntervention extends JTable
 			
 			$cluster_id = json_decode($this->cluster_id);
 			$array["disease_id"] = array();
-			$array["risk_id"] = array();
 			$i = 0;
 			foreach ($cluster_id as $c_id){
-				$selected[$i]  = $this->getSelectedDiseaseRisk($c_id);
+				$selected[$i]  = $this->getSelectedCauseRisk($c_id);
 				$i++;
 			}
 			foreach ($selected as $key => $value){
@@ -153,16 +127,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 					if (is_array($value["disease_id"]) && is_array($value_i["disease_id"])){
 						$array["disease_id"] =  array_merge($value["disease_id"], $value_i["disease_id"],$array["disease_id"]);
 					}
-					if (is_array($value["risk_id"]) && is_array($value_i["risk_id"])){
-						$array["risk_id"] =  array_merge($value["risk_id"], $value_i["risk_id"],$array["risk_id"]);
-					}
-				}
-			}
-			$array_risk = array_unique($array["risk_id"]);
-			if(sort($array_risk)){
-				$array["risk_id"]= array();
-				foreach ($array_risk as $id){
-					$risks_id[] = $id;
 				}
 			}
 			$array_disease = array_unique($array["disease_id"]);
@@ -180,8 +144,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 					$the = explode('_', $key);
 					if ($the[0] == 'disease' && $the[1] == 'cpe'){
 						$d_P[$i] = (int)$the[2];
-					} elseif ($the[0] == 'risk' && $the[1] == 'cpe'){
-						$r_P[$i] = (int)$the[2];
 					}
 					$i++;
 				}
@@ -189,13 +151,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 				foreach ($d_P as $theD_P){
 					if (!in_array($theD_P,$diseases_id)){
 						$Dnot[$i] = (int)$theD_P;
-						$i++;
-					}
-				}
-				$i = 0;
-				foreach ($r_P as $theR_P){
-					if (!in_array($theR_P,$risks_id)){
-						$Rnot[$i] = (int)$theR_P;
 						$i++;
 					}
 				}
@@ -208,13 +163,7 @@ class CostbenefitprojectionTableIntervention extends JTable
 								unset($params->$key);
 							}
 						}
-					} elseif ($the[0] == 'risk'){
-						if (is_array($Rnot)){
-							if (in_array($the[2],$Rnot)){
-								unset($params->$key);
-							}
-						}
-					}
+					} 
 					$i++;
 				}
 				$this->params =	json_encode($params);
@@ -227,14 +176,9 @@ class CostbenefitprojectionTableIntervention extends JTable
 				} elseif (!isset($diseases_id)) {
 					$this->disease_id = '';
 				}
-				if (isset($risks_id) && is_array($risks_id)) {
-					$this->risk_id = json_encode($risks_id);
-				} elseif (!isset($risks_id)) {
-					$this->risk_id = '';
-				}
+				
 			} else {
 				$this->disease_id = '';
-				$this->risk_id = '';
 			}
 		}
 		
@@ -277,14 +221,14 @@ class CostbenefitprojectionTableIntervention extends JTable
 		return true;
 	}
 	
-	protected function getSelectedDiseaseRisk($id)
+	protected function getSelectedCauseRisk($id)
 	{
 		$options = array();
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('disease_id, risk_id');
+		$query->select('disease_id');
 		$query->from('#__costbenefitprojection_interventions');;
 		$query->where('intervention_id = \''.$id.'\'');
 
@@ -298,9 +242,6 @@ class CostbenefitprojectionTableIntervention extends JTable
 		
 		if (!empty($result["disease_id"])){
 			$selectedResult["disease_id"] = json_decode($result["disease_id"]);
-		}
-		if (!empty($result["risk_id"])){
-			$selectedResult["risk_id"] = json_decode($result["risk_id"]);
 		}
 				
 		return $selectedResult;
