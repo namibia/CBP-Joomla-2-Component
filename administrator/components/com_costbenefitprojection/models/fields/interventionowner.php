@@ -16,9 +16,9 @@ jimport('joomla.form.helper');
 jimport('joomla.application.component.helper');
 JFormHelper::loadFieldClass('list');
 
-class JFormFieldOwner extends JFormFieldList
+class JFormFieldInterventionowner extends JFormFieldList
 {
-	protected $type = 'owner';
+	protected $type = 'interventionowner';
 	
 	public function getOptions()
 	{
