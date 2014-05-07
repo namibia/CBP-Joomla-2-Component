@@ -377,12 +377,12 @@ class Sum{
 							$this->interventions[$i]['items'][$a]['annual_benefit_unscaled']	= ($this->interventions[$i]["coverage"] /100) * ($value['mbr'] /100)
 																								* ($this->items[$value['id']]['subtotal_cost_morbidity_unscaled'] 
 																								+ $this->items[$value['id']]['subtotal_cost_presenteeism_unscaled'])
-																								+ $value['mtr'] * $this->items[$value['id']]['subtotal_cost_mortality_unscaled'];
+																								+ ($value['mtr']/100) * $this->items[$value['id']]['subtotal_cost_mortality_unscaled'];
 																						
 							$this->interventions[$i]['items'][$a]['annual_benefit_scaled']	= ($this->interventions[$i]["coverage"] /100) * ($value['mbr'] /100) 
 																							* ($this->items[$value['id']]['subtotal_cost_morbidity_scaled'] 
 																							+ $this->items[$value['id']]['subtotal_cost_presenteeism_scaled'])
-																							+ $value['mtr'] * $this->items[$value['id']]['subtotal_cost_mortality_scaled'];
+																							+ ($value['mtr']/100) * $this->items[$value['id']]['subtotal_cost_mortality_scaled'];
 							// turn into money													
 							$this->interventions[$i]['items'][$a]['annualmoney_benefit_unscaled'] 	= $this->makeMoney((float)$this->interventions[$i]['items'][$a]['annual_benefit_unscaled']
 																									, $this->user['profile']['currency']);
