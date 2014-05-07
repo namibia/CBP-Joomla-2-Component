@@ -217,7 +217,7 @@ class CostbenefitprojectionTableIntervention extends JTable
 			$this->created_by = $user->id;
 			$this->created_on = $date->toFormat();
 		}
-		
+				
 		return true;
 	}
 	

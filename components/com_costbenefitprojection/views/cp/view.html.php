@@ -15,7 +15,7 @@ jimport( 'joomla.application.component.helper' );
 
 class CostbenefitprojectionViewCp extends JView
 {
-	protected $item;
+	protected $result;
 	protected $chart_tabs;
 	protected $table_tabs;
 	protected $user;
@@ -24,6 +24,8 @@ class CostbenefitprojectionViewCp extends JView
 	protected $Chart;
 	protected $Lock;
 	protected $workers;
+	protected $builder;
+	protected $scale;
 
 	public function display($tpl = null)
 	{
@@ -35,7 +37,7 @@ class CostbenefitprojectionViewCp extends JView
 			// load component manifest file
 			$manifestUrl = JPATH_ADMINISTRATOR."/components/com_costbenefitprojection/manifest.xml";
 			// Get data from the model
-			$this->item			= $this->get('Item');
+			$this->result		= $this->get('Result');
 			$this->chart_tabs 	= $this->get('ChartTabs');
 			$this->table_tabs 	= $this->get('TableTabs');
 			$this->user 		= $this->get('User');
@@ -80,22 +82,27 @@ class CostbenefitprojectionViewCp extends JView
 		$this->Chart['hAxis']['textStyle'] = array('color' => $this->params->get('hAxisTextStyleFontColor'));
 		$this->Chart['hAxis']['titleTextStyle'] = array('color' => $this->params->get('hAxisTitleTextStyleFontColor'));
 		
+		// load chart builder
+		$this->builder 	= new Chartbuilder('BarChart');
+		// set the scaling options
+		$this->scale 	= array('unscaled','scaled');
+		
 		$this->document->addStyleSheet(JURI::base( true ).'/media/com_costbenefitprojection/css/offline.css');			
 		$this->document->addStyleSheet(JURI::base( true ).'/media/com_costbenefitprojection/css/main.css');
 		$this->document->addStyleSheet(JURI::base( true ).'/media/com_costbenefitprojection/css/footable.core.css?v=2-0-1');
 		$this->document->addStyleSheet(JURI::base( true ).'/media/com_costbenefitprojection/css/footable.metro.css');
 		
 		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/jquery-1.10.2.min.js');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/google.jsapi.js');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.js?v=2-0-1');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.sort.js?v=2-0-1');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.filter.js?v=2-0-1');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.paginate.js?v=2-0-1'); 
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/uikit.min.js');
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.js?v=2-0-1');
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.sort.js?v=2-0-1');
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.filter.js?v=2-0-1');
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable.paginate.js?v=2-0-1'); 
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/uikit.min.js');
 		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/sticky.js');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable-set.js');
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/footable-set.js');
 		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/offline.min.js');
-		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/table2excel.js');
+		//$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/table2excel.js');
+		$this->document->addScript(JURI::base( true ). '/media/com_costbenefitprojection/js/google.jsapi.js');
 		
 		// set contributors
 		$w = 0;
@@ -129,8 +136,7 @@ class CostbenefitprojectionViewCp extends JView
 						}
 						setInterval(run, 3000);";
 		$this->document->addScriptDeclaration($offline);
-		
-		
+
 		$this->document->addScript('http://canvg.googlecode.com/svn/trunk/rgbcolor.js');
 		$this->document->addScript('http://canvg.googlecode.com/svn/trunk/canvg.js');	
 		//JHTML::_('behavior.tooltip');

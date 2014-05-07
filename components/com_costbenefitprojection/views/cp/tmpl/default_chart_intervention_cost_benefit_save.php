@@ -11,125 +11,55 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-$results = $this->item['results'];
 
-// default
-if($results['interventions']){
+if($this->result->interventions){
 	$intervention_number = 0;
-	foreach ($results['interventions'] as $intervention){
-		$chart = new Chartbuilder('BarChart');
-		$i = 0;
-		if(is_array($intervention['disease'])){
-			foreach ($intervention['disease'] as $key => $item){
-				$rowArray[$intervention_number][] = array('c' => array(
-						array('v' => $item['name']),
-						array('v' => (float)$item['intervention_annual_cost'], 'f' => $item['intervention_annual_cost_money']), 
-						array('v' => (float)$item['intervention_annual_benefit'], 'f' => $item['intervention_annual_benefit_money']), 
-						array('v' => (float)$item['intervention_annual_net_benefit'], 'f' => $item['intervention_annual_net_benefit_money'])
+	foreach ($this->result->interventions as &$intervention){
+		foreach ($this->scale as $scale){
+		$i =0;
+		$rowArray = array();
+		if(is_array($intervention->items) || is_object($intervention->items)){
+			foreach ($intervention->items as $key => &$item){
+				$rowArray[] = array('c' => array(
+						array('v' => $item->name),
+						array('v' => round($item->{'cost_of_problem_'.$scale}), 'f' => $item->{'costmoney_of_problem_'.$scale}), 
+						array('v' => $item->annual_cost, 'f' => $item->annual_costmoney), 
+						array('v' => $item->{'net_benefit_'.$scale}, 'f' => $item->{'netmoney_benefit_'.$scale})
 				));
 				$i++;
 			}
 		}
-		if(is_array($intervention['risk'])){
-			foreach ($intervention['risk'] as $key => $item){
-				$rowArray[$intervention_number][] = array('c' => array(
-						array('v' => $item['name']),
-						array('v' => (float)$item['intervention_annual_cost'], 'f' => $item['intervention_annual_cost_money']), 
-						array('v' => (float)$item['intervention_annual_benefit'], 'f' => $item['intervention_annual_benefit_money']), 
-						array('v' => (float)$item['intervention_annual_net_benefit'], 'f' => $item['intervention_annual_net_benefit_money'])
-				));
-				$i++;
-			}
-		}
-		if(is_array($intervention['risk']) || is_array($intervention['disease'])){
-			usort($rowArray[$intervention_number], function($b, $a) {
-				return $a['c'][3]['v'] - $b['c'][3]['v'];
-			});
+		usort($rowArray, function($b, $a) {
+			return $a['c'][3]['v'] - $b['c'][3]['v'];
+		});
 			
-			$data = array(
-					'cols' => array(
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_ANNUAL_COST_INTERVENTION'), 'type' => 'number'),
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_ANNUAL_BENEFIT'), 'type' => 'number'),
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_NET_BENEFIT'), 'type' => 'number')
-					),
-					'rows' => $rowArray[$intervention_number]
-			);
-			
-			$height = ($i * 80)+100;
-			$chart->load(json_encode($data));
-			$options = array();
-			$main_title = JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_NAME_TITLE', $intervention['name']);
-			$title =  '';
-			if($intervention['intervention_duration'] > 1){
-                $title .= JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_DURATIONS_TITLE', $intervention['intervention_duration']); 
-			} else {
-				$title .= JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_DURATION_TITLE', $intervention['intervention_duration']);
-			} 
-          	$title .= ' | ' . JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_COVERAGE_TITLE', $intervention['intervention_coverage']) . '%';
-			$options = array( 'backgroundColor' => $this->Chart['backgroundColor'], 'title' => $main_title, 'colors' => array('#DC3912','#3366CC','#FF9900'), 'width' => $this->Chart['width'], 'height' => $height, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('viewWindowMode' => 'max','textStyle' => array('color' => '#63B1F2'), 'title' => $title, 'titleTextStyle' => array('color' => '#63B1F2','fontSize' => 15)));
-			
-			echo $chart->draw('save_'.$intervention_number.'_default_div', $options);
-		}
-		// HAS scaling factor
-		$chart = new Chartbuilder('BarChart');
+		$data = array(
+				'cols' => array(
+						array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
+						array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_COST_PROBLEM'), 'type' => 'number'),
+						array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_ANNUAL_COST_INTERVENTION'), 'type' => 'number'),
+						array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_NET_BENEFIT'), 'type' => 'number')
+				),
+				'rows' => $rowArray
+		);
 		
-		$i_HAS_SF = 0;
-		if(is_array($intervention['disease'])){
-			
-			foreach ($intervention['disease'] as $key => $item){
-				$rowArray_HAS_SF[$intervention_number][] = array('c' => array(
-								array('v' => $item['name']),
-								array('v' => (float)$item['intervention_annual_cost'], 'f' => $item['intervention_annual_cost_money']), 
-								array('v' => (float)$item['intervention_annual_benefit_HAS_SF'], 'f' => $item['intervention_annual_benefit_money_HAS_SF']), 
-								array('v' => (float)$item['intervention_annual_net_benefit_HAS_SF'], 'f' => $item['intervention_annual_net_benefit_money_HAS_SF'])
-						));
-				$i_HAS_SF++;
-			}
-		}
-		if(is_array($intervention['risk'])){
-			foreach ($intervention['risk'] as $key => $item){
-				$rowArray_HAS_SF[$intervention_number][] = array('c' => array(
-								array('v' => $item['name']),
-								array('v' => (float)$item['intervention_annual_cost'], 'f' => $item['intervention_annual_cost_money']), 
-								array('v' => (float)$item['intervention_annual_benefit_HAS_SF'], 'f' => $item['intervention_annual_benefit_money_HAS_SF']), 
-								array('v' => (float)$item['intervention_annual_net_benefit_HAS_SF'], 'f' => $item['intervention_annual_net_benefit_money_HAS_SF'])
-						));
-				$i_HAS_SF++;
-			}
-		}
-		if(is_array($intervention['risk']) || is_array($intervention['disease'])){
-			usort($rowArray_HAS_SF[$intervention_number], function($b, $a) {
-				return $a['c'][3]['v'] - $b['c'][3]['v'];
-			});
-			
-			$data = array(
-					'cols' => array(
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_ANNUAL_COST_INTERVENTION'), 'type' => 'number'),
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_ANNUAL_BENEFIT'), 'type' => 'number'),
-							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CT_INTERVENTION_NET_BENEFIT'), 'type' => 'number')
-					),
-					'rows' => $rowArray_HAS_SF[$intervention_number]
-			);
-			
-			
-			$height_HAS_SF = ($i_HAS_SF * 80)+100;
-			$chart->load(json_encode($data));
-			$options = array();
-			$main_title =JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_NAME_TITLE', $intervention['name']);
-			$title =  '';
-			if($intervention['intervention_duration'] > 1){
-                $title .= JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_DURATIONS_TITLE', $intervention['intervention_duration']); 
-			} else {
-				$title .= JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_DURATION_TITLE', $intervention['intervention_duration']);
-			} 
-          	$title .= ' | ' . JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_COVERAGE_TITLE', $intervention['intervention_coverage']) . '%';
-			$options = array( 'backgroundColor' => $this->Chart['backgroundColor'], 'title' => $main_title, 'colors' => array('#DC3912','#3366CC','#FF9900'), 'width' => $this->Chart['width'], 'height' => $height_HAS_SF, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('viewWindowMode' => 'max','textStyle' => array('color' => '#63B1F2'), 'title' => $title, 'titleTextStyle' => array('color' => '#63B1F2','fontSize' => 15)));
-			
-			echo $chart->draw('save_'.$intervention_number.'_sf_div', $options);
-		}
+		$height = ($i * 80)+100;
+		$this->builder->load(json_encode($data));
+		$options = array();
+		$main_title = JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_NAME_TITLE', $intervention->name);
+		$title =  '';
+		if($intervention->duration > 1){
+			$title .= JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_DURATIONS_TITLE', $intervention->duration); 
+		} else {
+			$title .= JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_DURATION_TITLE', $intervention->duration);
+		}  
+		$title .= ' | ' . JText::sprintf('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_COVERAGE_TITLE', round($intervention->coverage)). '%';
+		
+		$options =	array( 'title' => $main_title, 'colors' => array('#DC3912','#3366CC','#FF9900'), 'backgroundColor' => $this->Chart['backgroundColor'], 'width' => $this->Chart['width'], 'height' => $height, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('textStyle' => $this->Chart['hAxis']['textStyle'], 'title' => $title, 'titleTextStyle' => $this->Chart['hAxis']['titleTextStyle']));
+		
+		echo $this->builder->draw('save_'.$intervention_number.'_'.$scale, $options);
 		$intervention_number++;
+		}
 	}
 }
 
@@ -141,40 +71,20 @@ if($results['interventions']){
     <li class="uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></a></li>
 </ul>
 <br/>
-<?php if($results['interventions']): ?>
+<?php if ($this->result->interventions) : ?>
 <!-- This is the container of the content items -->
 <ul id="chartSAVE" class="uk-switcher">
-    <li class="uk-active default" >
-    	<?php $i = 0; $len = count($results['interventions']); foreach ($results['interventions'] as $intervention) :?>
-        	<?php if ($i !== 0): ?>
-            <br/>
-            <?php endif; ?>
-            <div id="save_<?php echo $i; ?>_default_div" class="chart" style="height:100%; width:100%;"></div>
-            <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('save_<?php echo $i; ?>_default_div'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_INTERVENTION_COST_BENEFIT_TITLE'); ?>' 
-			+' (<?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT'); ?>)');">
-            <?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
-            <?php if ($i !== $len - 1): ?>
-            <hr class="uk-grid-divider">
-            <?php endif; ?>
-            <?php $i++; ?>
+	<?php $intervention_number = 0; ?>
+    <?php foreach ($this->result->interventions as $intervention): ?>
+        <?php foreach ($this->scale as $scale) :?>
+            <li class="<?php echo ($scale == 'unscaled') ? 'uk-active default' : 'scalling'; ?>" >
+                <div id="save_<?php echo $intervention_number; ?>_<?php echo $scale; ?>" class="chart" style="height:100%; width:100%;"></div>
+                <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('save_<?php echo $intervention_number; ?>_<?php echo $scale; ?>'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_INTERVENTION_COST_BENEFIT_TITLE'); ?>'+' (<?php echo ($scale == 'unscaled') ? JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT') : JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?>)');"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
+            </li>
+            <?php $intervention_number++; ?>
         <?php endforeach; ?>
-    </li>
-    <li class="scalling" >
-    	<?php $i_HAS_SF = 0; $len = count($results['interventions']); foreach ($results['interventions'] as $intervention) :?>
-            <?php if ($i_HAS_SF !== 0): ?>
-            <br/>
-            <?php endif; ?>
-            <div id="save_<?php echo $i_HAS_SF; ?>_sf_div" class="chart" style="height:100%; width:100%;"></div>
-            <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('save_<?php echo $i_HAS_SF; ?>_sf_div'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_INTERVENTION_COST_BENEFIT_TITLE'); ?>' 
-			+' (<?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?>)');">
-            <?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
-            <?php if ($i_HAS_SF !== $len - 1): ?>
-            <hr class="uk-grid-divider">
-            <?php endif; ?>
-            <?php $i_HAS_SF++; ?>
-        <?php endforeach; ?>
-    </li>
-</ul> 
+    <?php endforeach; ?>
+</ul>
 <?php else: ?>
-	<h2><?php echo JText::_('COM_COSTBENEFITPROJECTION_NO_INTERVENTION_SELECTED'); ?></h2>
+    <h2><?php echo JText::_('COM_COSTBENEFITPROJECTION_NO_INTERVENTION_SELECTED'); ?></h2>
 <?php endif; ?>

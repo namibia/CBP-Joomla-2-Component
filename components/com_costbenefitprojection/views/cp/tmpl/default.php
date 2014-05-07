@@ -21,14 +21,14 @@ defined( '_JEXEC' ) or die;
     <nav class="uk-navbar uk-hidden-small uk-animation-slide-top">
         <ul class="uk-navbar-nav">
             <li><a  href="index.php?option=com_users&task=user.logout&<?php echo JUtility::getToken(); ?>=1&Itemid=109" ><i class="uk-icon-power-off"></i></a></li>
-            <li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li>
+            <?php /*?><li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li><?php */?>
             <li>
                 <ul id="target-menu" class="uk-navbar-nav" data-uk-switcher="{connect:'#main'}">
                     <li class="uk-active"><a href=""><i class="uk-icon-laptop"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_CPANEL'); ?></a></li>
                     <li class=""><a href=""><i class="uk-icon-check-square-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_RESULTS'); ?></a></li>
                 </ul>
             </li>
-            <li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
+            <?php /*?><li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li><?php */?>
             <li><a data-uk-offcanvas="{target:'#offcanvas-help'}" href="" ><i class="uk-icon-lightbulb-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_HELP'); ?></a></li>
          </ul>
          <ul class="uk-navbar-nav uk-navbar-flip uk-hidden-small" >
@@ -47,14 +47,14 @@ defined( '_JEXEC' ) or die;
         <div class="uk-dropdown uk-dropdown-small">
             <ul class="uk-nav uk-nav-dropdown">
                 <li><a  href="index.php?option=com_users&task=user.logout&<?php echo JUtility::getToken(); ?>=1&Itemid=109" ><i class="uk-icon-power-off"></i></a></li>
-                <li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li>
+               	<?php /*?><li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li><?php */?>
                 <li>
                     <ul class="uk-nav  uk-nav-dropdown" data-uk-switcher="{connect:'#main'}">
                         <li class="uk-active"><a href=""><i class="uk-icon-laptop"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_CPANEL'); ?></a></li>
                         <li class=""><a href=""><i class="uk-icon-check-square-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_RESULTS'); ?></a></li>
                     </ul>
                 </li>
-                <li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
+                <?php /*?><li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li><?php */?>
                 <li><a data-uk-offcanvas="{target:'#offcanvas-help'}" href="" ><i class="uk-icon-lightbulb-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_HELP'); ?></a></li>
             </ul>
         </div>
@@ -95,20 +95,15 @@ defined( '_JEXEC' ) or die;
                          <li class="">
                             <ul id="table-switch" data-uk-tab="{connect:'#tables'}" class="uk-tab">
                                 <li class="uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_WORK_DAYS_LOST_SUMMARY_TITLE'); ?></a></li>
-                                <li class="uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_PERDICTED_WORK_DAYS_LOST_TITLE'); ?></a></li>
                                 <li class="uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_COST_SUMMARY_TITLE'); ?></a></li>
                                 <li class="uk-active uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_CALCULATED_COST_IN_DETAIL_TITLE'); ?></a></li>
                                 <li class="uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_NET_BENEFIT_TITLE'); ?></a></li>
                             </ul>
-                            <ul class="uk-switcher uk-margin" id="tables">
+                            <ul id="tables" class="uk-switcher uk-margin">
                                 <li class="">
                                     <!-- Work Days Lost Summary -->
                                     <?php echo $this->loadTemplate('table_work_days_lost_summary'); ?>
                                 </li>
-                                <li class="">
-                                    <!-- Predicted Work Days Lost -->
-                                    <?php echo $this->loadTemplate('table_predicted_work_days_lost'); ?>
-                                 </li>
                                 <li class="">
                                     <!-- Cost Summary -->
                                     <?php echo $this->loadTemplate('table_cost_summary'); ?>
@@ -131,7 +126,7 @@ defined( '_JEXEC' ) or die;
                                 <li class="uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_COST_PERCENT_TITLE'); ?></a></li>
                                 <li class="uk-text-small"><a href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_INTERVENTION_COST_BENEFIT_TITLE'); ?></a></li>
                             </ul>
-                            <ul class="uk-switcher uk-margin" id="charts">
+                            <ul id="charts" class="uk-switcher uk-margin">
                                 <li class="">
                                     <!-- Work days Lost -->
                                     <?php echo $this->loadTemplate('chart_work_days_lost'); ?>
@@ -208,7 +203,12 @@ defined( '_JEXEC' ) or die;
         </div>
     </div>
 </div>
-
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.sort.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.filter.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.paginate.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable-set.js"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/table2excel.js"></script>	
 <script type="text/javascript">
 
 var height 	= 0;

@@ -11,6 +11,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+jimport('joomla.application.component.helper');
 
 class UsersHelper
 {
@@ -218,7 +219,8 @@ class UsersHelper
 	 */
 	static function getServiceProviders($countryID = NULL)
 	{
-		$options = array();
+		$options 		= array();
+		$groupService 	= JComponentHelper::getParams('com_costbenefitprojection')->get('service');
 
 		// Get a db connection.
 		$db = JFactory::getDbo();
@@ -229,7 +231,7 @@ class UsersHelper
 				->select('a.id AS value, a.name AS text')
 				->from('#__users AS a')
 				->join('INNER', '#__user_usergroup_map AS b ON (a.id = b.user_id)')
-				->where('b.group_id = 6')
+				->where('b.group_id IN ('.implode(',', $groupService).')')
 				->where('a.block = 0')
 				->order('a.name');
 		} else {
@@ -240,7 +242,7 @@ class UsersHelper
 				->where('profile_key LIKE \'%gizprofile.country%\'')
 				->where('profile_value = \'"'.$countryID.'"\'')
 				->join('INNER', '#__user_usergroup_map AS b ON (a.id = b.user_id)')
-				->where('b.group_id = 6')
+				->where('b.group_id IN ('.implode(',', $groupService).')')
 				->where('a.block = 0')
 				->order('a.name');
 		}	

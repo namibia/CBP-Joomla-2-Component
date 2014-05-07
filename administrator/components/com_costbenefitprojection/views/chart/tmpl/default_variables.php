@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
     <div style="margin:0 auto; width: 1000px; height: 100%;">
     <?php 
         echo '<pre><div style="font-size:16px;">';
-        print_r($this->item);
+        print_r($this->result);
         echo '</div></pre>';
     ?>
     </div>

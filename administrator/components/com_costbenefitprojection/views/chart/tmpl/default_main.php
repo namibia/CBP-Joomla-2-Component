@@ -16,27 +16,6 @@ defined('_JEXEC') or die;
 ?>
 <div class="hidden" id="giz_main">     
 <div id="view_main" style="margin:0 auto; width: 900px; height: 700px;">
-<div style="margin:0 auto; width: 900px;">
-    <br/>
-        <div class="switchbox" >
-            <div class="control_switch_sf" >
-                <div class="switch switch_sf" onclick="controlSwitch('switch_sf')" >
-                    <span class="thumb"></span>
-                    <input type="checkbox" />
-                </div>
-                <div class="label" ><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></div>
-            </div>
-            
-            <div class="control_switch_oe" >
-                <div class="switch switch_oe" onclick="controlSwitch('switch_oe')">
-                    <span class="thumb"></span>
-                    <input type="checkbox" />
-                </div>
-                <div class="label" ><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_USE_ONE_EPISODE'); ?></div>
-             </div>
-        </div>  
-    <br/><br/>
-</div>
 <div id="costbenefitprojection" >
     <form action="index.php?option=com_costbenefitprojection"
         method="post" name="adminForm" class="form-validate">

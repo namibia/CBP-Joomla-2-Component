@@ -146,23 +146,17 @@ class CostbenefitprojectionModelCp extends CostbenefitprojectionModelChart
 		return $hash;
 	}
 		
-	public function getItem()
+	public function getResult()
 	{
-		if (!isset($this->item)) 
+		if (!isset($this->result)) 
                 {
+					$user_id = $this->getState('user.id');
+					
 					// Add Data
-					$this->item['data']					= $this->getData();
-					
-					// Add Calculations Results
-					$this->item['results']				= $this->getResults($this->data);
-					
-					// Add the items that has no data
-					$this->item['noData']['disease'] 	= $this->noDiseaseData;
-					$this->item['noData']['risk'] 		= $this->noRiskData;
-					
+					$this->result = $this->getMembersData($user_id);					
 					
 				}
-		 return $this->item;
+		 return $this->result;
 	}
 	
 	protected function getUserIP()

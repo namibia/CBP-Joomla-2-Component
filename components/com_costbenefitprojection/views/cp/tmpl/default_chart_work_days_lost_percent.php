@@ -11,121 +11,37 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-$results = $this->item['results'];
 
-// default
-$chart = new Chartbuilder('BarChart');
-$i = 0;
-if ($results['disease']){
-	foreach ($results['disease'] as $key => $item){
-		$rowArray[] = array('c' => array(
-						array('v' => $item['disease_name']),
-						array('v' => (float)round(($item['total_days_lost'] / $results['totalDaysLost'])*100, 2), 'f' => (float)round(($item['total_days_lost'] / $results['totalDaysLost'])*100, 2).'%')
-				));
-		$i++;
+if($this->result->items){
+	foreach ($this->scale as $scale){
+			$i =0;
+			$rowArray = array();
+			foreach ($this->result->items as $key => &$item){
+				$rowArray[$i] = array('c' => array(
+								array('v' => $item->details->name), 
+								array('v' => round(($item->{'subtotal_days_lost_'.$scale} / $this->result->totals->{'total_days_lost_'.$scale})*100), 'f' => (float)round(($item->{'subtotal_days_lost_'.$scale} / $this->result->totals->{'total_days_lost_'.$scale})*100,3).'%')
+						));
+				$i++;
+			}
+			
+			usort($rowArray, function($b, $a) {
+				return $a['c'][1]['v'] - $b['c'][1]['v'];
+			});
+			
+			$data = array(
+					'cols' => array(
+							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
+							array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_PERCENT_TOTAL_LOST_DAYS_PER_DR_LABEL'), 'type' => 'number')
+					),
+					'rows' => $rowArray
+			);
+			
+			$height = ($i * 70)+30;
+			$this->builder->load(json_encode($data));
+			$options =	array( 'backgroundColor' => $this->Chart['backgroundColor'], 'width' => $this->Chart['width'], 'height' => $height, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('textStyle' => $this->Chart['hAxis']['textStyle'], 'title' => JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT_SUBTITLE'), 'titleTextStyle' => $this->Chart['hAxis']['titleTextStyle']));
+		
+		echo $this->builder->draw('wdlp_'.$scale, $options);
 	}
-}
-if ($results['risk']){
-	foreach ($results['risk'] as $key => $item){
-		$rowArray[] = array('c' => array(
-						array('v' => $item['risk_name']), 
-						array('v' => (float)round(($item['total_risk_absence_days'] / $results['totalDaysLost'])*100, 2),'f' => (float)round(($item['total_risk_absence_days'] / $results['totalDaysLost'])*100, 2).'%')
-				));
-		$i++;
-	}
-}
-if ($results['disease'] || $results['risk']){
-	usort($rowArray, function($b, $a) {
-		return $a['c'][1]['v'] - $b['c'][1]['v'];
-	});
-	
-	$data = array(
-			'cols' => array(
-					array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
-					array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_PERCENT_TOTAL_LOST_DAYS_PER_DR_LABEL'), 'type' => 'number')
-			),
-			'rows' => $rowArray
-	);
-	
-	$height = ($i * 70)+100;
-	$chart->load(json_encode($data));
-	$options = array( 'backgroundColor' => $this->Chart['backgroundColor'], 'width' => $this->Chart['width'], 'height' => $height, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('textStyle' => $this->Chart['hAxis']['textStyle'], 'title' => JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT_SUBTITLE'), 'titleTextStyle' => $this->Chart['hAxis']['titleTextStyle']));
-	
-	echo $chart->draw('wdlp_default_div', $options);
-}
-
-// HAS scaling factor
-$chart = new Chartbuilder('BarChart');
-
-$i = 0;
-if ($results['disease']){
-	foreach ($results['disease'] as $key => $item){
-		$rowArray_HAS_SF[] = array('c' => array(
-						array('v' => $item['disease_name']), 
-						array('v' => (float)round(($item['total_days_lost_HAS_SF'] / $results['totalDaysLost_HAS_SF'])*100, 2), 'f' => (float)round(($item['total_days_lost_HAS_SF'] / $results['totalDaysLost_HAS_SF'])*100, 2).'%')
-				));
-		$i++;
-	}
-}
-if ($results['risk']){
-	foreach ($results['risk'] as $key => $item){
-		$rowArray_HAS_SF[] = array('c' => array(
-						array('v' => $item['risk_name']), 
-						array('v' => (float)round(($item['total_risk_absence_days_HAS_SF'] / $results['totalDaysLost_HAS_SF'])*100, 2),'f' => (float)round(($item['total_risk_absence_days_HAS_SF'] / $results['totalDaysLost_HAS_SF'])*100, 2).'%')
-				));
-		$i++;
-	}
-}
-if ($results['risk'] || $results['disease']){
-	usort($rowArray_HAS_SF, function($b, $a) {
-		return $a['c'][1]['v'] - $b['c'][1]['v'];
-	});
-	
-	$data = array(
-			'cols' => array(
-					array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
-					array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_PERCENT_TOTAL_LOST_DAYS_PER_DR_LABEL'), 'type' => 'number')
-			),
-			'rows' => $rowArray_HAS_SF
-	);
-	
-	$height = ($i * 70)+100;
-	$chart->load(json_encode($data));
-	$options = array( 'backgroundColor' => $this->Chart['backgroundColor'], 'width' => $this->Chart['width'], 'height' => $height, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('textStyle' => $this->Chart['hAxis']['textStyle'], 'title' => JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT_SUBTITLE'), 'titleTextStyle' => $this->Chart['hAxis']['titleTextStyle']));
-	
-	echo $chart->draw('wdlp_sf_div', $options);
-}
-
-// HAS one episode
-$chart = new Chartbuilder('BarChart');
-
-$i = 0;
-if ($results['disease']){
-	foreach ($results['disease'] as $key => $item){
-		$rowArray_HAS_OE[] = array('c' => array(
-						array('v' => $item['disease_name']), 
-						array('v' => (float)round(($item['total_days_lost_HAS_OE'] / $results['totalDaysLost_HAS_OE'])*100, 2), 'f' => (float)round(($item['total_days_lost_HAS_OE'] / $results['totalDaysLost_HAS_OE'])*100, 2).'%')
-				));
-		$i++;
-	}
-	
-	usort($rowArray_HAS_OE, function($b, $a) {
-		return $a['c'][1]['v'] - $b['c'][1]['v'];
-	});
-	
-	$data = array(
-			'cols' => array(
-					array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_DISEASE_AND_RISK_FACKTOR_NAMES_LABEL'), 'type' => 'string'),
-					array('id' => '', 'label' => JText::_('COM_COSTBENEFITPROJECTION_CC_PERCENT_TOTAL_LOST_DAYS_PER_DR_LABEL'), 'type' => 'number')
-			),
-			'rows' => $rowArray_HAS_OE
-	);
-	
-	$height = ($i * 70)+100;
-	$chart->load(json_encode($data));
-	$options = array( 'backgroundColor' => $this->Chart['backgroundColor'], 'width' => $this->Chart['width'], 'height' => $height, 'chartArea' => $this->Chart['chartArea'], 'legend' => $this->Chart['legend'], 'vAxis' => $this->Chart['vAxis'], 'hAxis' => array('textStyle' => $this->Chart['hAxis']['textStyle'], 'title' => JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT_OE_SUBTITLE'), 'titleTextStyle' => $this->Chart['hAxis']['titleTextStyle']));
-	
-	echo $chart->draw('wdlp_oe_div', $options);
 }
 
 /* <h1><?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT'); ?></h1> */
@@ -134,31 +50,19 @@ if ($results['disease']){
 <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#chartWDLP'}">
     <li class="uk-active uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT'); ?></a></li>
     <li class="uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></a></li>
-    <li class="uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_USE_ONE_EPISODE'); ?></a></li>
 </ul>
 <br/>
-<?php if ($results['risk'] || $results['disease']) : ?>
+
+<?php if ($this->result->items) : ?>
 <!-- This is the container of the content items -->
 <ul id="chartWDLP" class="uk-switcher">
-    <li class="uk-active default" >
-    	<div id="wdlp_default_div" class="chart" style="height:100%; width:100%;"></div>
-        <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('wdlp_default_div'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT'); ?>' 
-		+' (<?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT'); ?>)');">
-        <?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
-    </li>
-    <li class="scalling" >
-    	<div id="wdlp_sf_div" class="chart" style="height:100%; width:100%;"></div>
-        <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('wdlp_sf_div'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT'); ?>' 
-		+' (<?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?>)');">
-        <?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
-    </li>
-    <li class="episode" >
-		<div id="wdlp_oe_div" class="chart" style="height:100%; width:100%;"></div>
-        <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('wdlp_oe_div'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT'); ?>' 
-		+' (<?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_USE_ONE_EPISODE'); ?>)');">
-        <?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
-    </li>
+    <?php foreach ($this->scale as $scale) :?>
+        <li class="<?php echo ($scale == 'unscaled') ? 'uk-active default' : 'scalling'; ?>" >
+            <div id="wdlp_<?php echo $scale; ?>" class="chart" style="height:100%; width:100%;"></div>
+            <button class="uk-button uk-button-primary uk-button-mini uk-hidden-small" onclick="getPDF(document.getElementById('wdlp_<?php echo $scale; ?>'),'<?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_WORK_DAYS_LOST_PERCENT'); ?>'+' (<?php echo ($scale == 'unscaled') ? JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT') : JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?>)');"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PDF_DOWNLOAD'); ?></button>
+        </li> 
+    <?php endforeach; ?>
 </ul>
 <?php else: ?>
 	<h2><?php echo JText::_('COM_COSTBENEFITPROJECTION_NO_DISEASE_RISK_SELECTED'); ?></h2>
-<?php endif; ?>
+<?php endif; ?> 

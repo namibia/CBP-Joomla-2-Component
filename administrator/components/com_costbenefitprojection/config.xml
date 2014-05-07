@@ -127,6 +127,104 @@
 	</fieldset>
 	
 	<fieldset
+		name="backend_charts"
+		label="COM_COSTBENEFITPROJECTION_CONFIG_BACKEND_CHARTS_FIELDSET_LABEL"
+		description="COM_COSTBENEFITPROJECTION_CONFIG_BACKEND_CHARTS_FIELDSET_DESC">
+
+		
+		<field name="backend_backgroundColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHART_BACKBROUND_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHART_BACKBROUND_COLOR_DESC"
+			size="20"
+			default="#F7F7FA"
+		/>
+		<field name="backend_mainwidth"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_WIDTH_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_WIDTH_DESC"
+			size="20"
+			default="1000"
+		/>
+		<field
+			name="backend_charts_spacer1"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="backend_chartAreaTop"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_TOP_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_TOP_DESC"
+			size="20"
+			default="20"
+		/>
+		<field name="backend_chartAreaLeft"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_LEFT_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_LEFT_DESC"
+			size="20"
+			default="170"
+		/>
+		<field name="backend_chartAreawidth"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_WIDTH_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_AREA_WIDTH_DESC"
+			size="20"
+			default="60"
+		/>
+		<field
+			name="backend_charts_spacer2"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="backend_legendTextStyleFontSize"
+			type="text"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_SIZE_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_SIZE_DESC"
+			size="20"
+			default="10"
+		/>
+		<field name="backend_legendTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_LEGEND_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+		<field
+			name="backend_charts_spacer3"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="backend_vAxisTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_VAXIS_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_VAXIS_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+		<field
+			name="backend_charts_spacer4"
+			type="spacer"
+			hr="true"
+		/>
+		<field name="backend_hAxisTitleTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_TITLE_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_TITLE_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+		<field name="backend_hAxisTextStyleFontColor" 
+			type="color"
+			label="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_FONT_COLOR_LABEL"
+			description="COM_COSTBENEFITPROJECTION_CONFIG_CHARTS_HAXIS_FONT_COLOR_DESC"
+			size="20"
+			default="#63B1F2"
+		/>
+	</fieldset>
+	
+	<fieldset
 		name="component"
 		label="COM_COSTBENEFITPROJECTION_CONFIG_COMPONENT_FIELDSET_LABEL"
 		description="COM_COSTBENEFITPROJECTION_CONFIG_COMPONENT_FIELDSET_DESC">

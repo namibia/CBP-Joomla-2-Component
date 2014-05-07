@@ -17,13 +17,13 @@ defined('_JEXEC') or die;
     <div class="uk-width-medium-1-2 uk-animation-slide-left">
         <div class="uk-panel uk-panel-box uk-text-center">
             <h2><i class="uk-icon-user uk-icon-large"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_COMPANY_PROFILE'); ?></h2>
-            <a class="uk-button uk-button-primary uk-button-large uk-button-expand" href="index.php?option=com_users&view=profile"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CLICK_HERE'); ?></a>
+            <?php /*?><a class="uk-button uk-button-primary uk-button-large uk-button-expand" href="index.php?option=com_users&view=profile"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CLICK_HERE'); ?></a><?php */?>
         </div>
     </div>
     <div class="uk-width-medium-1-2 uk-animation-slide-right">
         <div class="uk-panel uk-panel-box uk-text-center">
             <h2><i class="uk-icon-gears uk-icon-large"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></h2>
-            <a class="uk-button uk-button-primary uk-button-large uk-button-expand" href="index.php?option=com_costbenefitprojection&view=data"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CLICK_HERE'); ?></a>
+           <?php /*?> <a class="uk-button uk-button-primary uk-button-large uk-button-expand" href="index.php?option=com_costbenefitprojection&view=data"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CLICK_HERE'); ?></a><?php */?>
         </div>
     </div>
     <div class="uk-width-medium-1-1 uk-animation-slide-left">

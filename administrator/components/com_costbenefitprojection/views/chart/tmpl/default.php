@@ -13,41 +13,6 @@
 defined('_JEXEC') or die;
 
 ?>
-<?php if($this->item[noData][disease][nr] > 0 || $this->item[noData][risk][nr] > 0): ?>
-    <div>
-        <?php if($this->item[noData][disease][nr] > 0): ?>
-        <div class="alert alert-warning">
-            <h3>
-                <span  style="color:red;">
-					<?php 
-                        if($this->item[noData][disease][nr] > 1){ 
-                            echo JText::_('COM_COSTBENEFITPROJECTION_CHART_NODATA_DISEASES'); 
-                        } else {
-                            echo JText::_('COM_COSTBENEFITPROJECTION_CHART_NODATA_DISEASE');
-                        }
-                    ?>
-                </span>
-                	<?php echo $this->item[noData][disease][name]; ?>
-            </h3>
-        </div>
-        <?php endif; ?>
-        <?php if($this->item[noData][risk][nr] > 0): ?>
-        <div class="alert alert-warning">
-            <h3>
-                <span  style="color:red;">
-					<?php 
-                        if($this->item[noData][risk][nr] > 1){
-                            echo JText::_('COM_COSTBENEFITPROJECTION_CHART_NODATA_RISKS'); 
-                        } else {
-                            echo JText::_('COM_COSTBENEFITPROJECTION_CHART_NODATA_RISK');
-                        }
-                    ?>
-                </span>
-                	<?php echo $this->item[noData][risk][name]; ?>
-            </h3>
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
 <div id="loading" style="height:300px; width:100%">
 	<h1 style="text-align:center;" ><?php echo JText::_('COM_COSTBENEFITPROJECTION_LOADING_PLEASE_WAIT_TITLE'); ?></h1>
     <div style="margin:0 auto; width:180px; height:24px; padding: 5px;">
@@ -57,11 +22,11 @@ defined('_JEXEC') or die;
 <div id="st-container" class="st-container" style="display:none;">
     <nav class="st-menu st-effect-11" id="menu-11">
     	<ul>
-            <li><a onclick="loadViews('main')" class="icon CTsubmenu" href="javascript:void(0)"><?php echo JFactory::getUser($this->item[data][clientId])->name; ?></a></li>
+            <li><a onclick="loadViews('main')" class="icon CTsubmenu" href="javascript:void(0)"><?php echo JFactory::getUser($this->result->user->id)->name; ?></a></li>
         </ul>
         <h2 class="icon icon-lab"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_QUICK_LINKS_SIDE_MENU'); ?></h2>
         <ul>
-        	<?php foreach ($this->chart_tabs as $item): ?>
+        	<?php foreach ($this->chart_tabs as &$item): ?>
                 <li>
                     <a onclick="loadViews('<?php echo JText::_($item['view']); ?>')" class="icon CTsubmenu" href="javascript:void(0)">
                         <?php echo JText::_($item['name']); ?>
@@ -71,7 +36,7 @@ defined('_JEXEC') or die;
         </ul>
         <h2 class="icon icon-lab"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_QUICK_LINKS_SIDE_MENU'); ?></h2>
         <ul>
-        	<?php foreach ($this->table_tabs as $item): ?>
+        	<?php foreach ($this->table_tabs as &$item): ?>
                 <li>
                     <a onclick="loadViews('<?php echo JText::_($item['view']); ?>')" class="icon CTsubmenu" href="javascript:void(0)">
                         <?php echo JText::_($item['name']); ?>
@@ -83,14 +48,14 @@ defined('_JEXEC') or die;
         
         <!--  Debug -->
         <?php 	
-				$canDo = UsersHelper::getActions();
-				if ($canDo->get('core.admin')):
+				//$canDo = UsersHelper::getActions();
+				//if ($canDo->get('core.admin')):
 		?>
         <h2 class="icon icon-lab">Dev Menu</h2>
         <ul>
             <li><a onclick="loadViews('variables')" class="icon CTsubmenu" href="javascript:void(0)">Variables</a></li>
         </ul>
-         <?php endif; ?>
+         <?php //endif; ?>
         
     </nav>
     <!-- content push wrapper -->
@@ -101,10 +66,21 @@ defined('_JEXEC') or die;
                 <div id="st-trigger-effects" class="clearfix notice_off" >
                 <button id="tcm" data-effect="st-effect-11" style="margin: 5px; width:40px; height:40px; float: left; -webkit-border-radius: 5px;border-radius: 5px; "><span style="font-size:30px; color:#038CDA;">&equiv;</span></button>
                 <?php if($menuNotice < 5): ?>
-                	<div class="notice note_menu">&nbsp;&nbsp;&uarr;&nbsp;easy<br/>&nbsp;&nbsp;&nbsp;&nbsp;navigation<br/>&nbsp;&nbsp;&nbsp;&nbsp;menu</div>
+                	<div class="notice note_menu">&nbsp;&nbsp;&larr;&nbsp;easy<br/>&nbsp;&nbsp;&nbsp;&nbsp;navigation<br/>&nbsp;&nbsp;&nbsp;&nbsp;menu</div>
                 <?php endif; ?>
                 </div>
-                    
+                    <div style="margin:0 auto; width: 900px;">
+                    <br/>
+                        <div class="switchbox" >
+                            <div class="control_switch_sf" >
+                                <div class="switch" onclick="controlSwitch()" >
+                                    <span class="thumb"></span>
+                                    <input type="checkbox" />
+                                </div>
+                                <div class="label" ><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="main clearfix">
                     		
                             <!-- MAIN PAGE -->
@@ -131,9 +107,6 @@ defined('_JEXEC') or die;
                             <!-- Work Days Lost Summary -->
                             <?php echo $this->loadTemplate('table_work_days_lost_summary'); ?>
                             
-                            <!-- Predicted Work Days Lost -->
-                            <?php echo $this->loadTemplate('table_predicted_work_days_lost'); ?>
-                            
                             <!-- Cost Summary -->
                             <?php echo $this->loadTemplate('table_cost_summary'); ?>
                             
@@ -145,7 +118,7 @@ defined('_JEXEC') or die;
                             
                             <!--  Debug -->
                             <!-- Only for Developers -->
-                            <?php if ($canDo->get('core.admin')){echo $this->loadTemplate('variables');} ?>                            
+                            <?php echo $this->loadTemplate('variables');// if ($canDo->get('core.admin')){} ?>                            
                     </div>
                 </div><!-- /main -->
             </div><!-- /st-content-inner -->
@@ -153,12 +126,23 @@ defined('_JEXEC') or die;
     </div><!-- /st-pusher -->
 </div><!-- /st-container -->
 <script>
-// page loding pause
+// page loading pause
 jQuery(window).load(function() {
-  jQuery("#loading").hide();
-  jQuery("#st-container").show('slow');
+	jQuery('#loading').fadeOut( 'fast', function() {
+		jQuery('#st-container').fadeIn( 'fast', function() {
+			 jQuery('#main .footable').trigger('footable_resize');
+		});
+	});
 });
-
+jQuery(function () {
+    jQuery('table.data').footable().bind('footable_filtering', function(e){
+      var selected = jQuery(this).prev('p').find('.filter-status').find(':selected').text();
+      if (selected && selected.length > 0){
+        e.filter += (e.filter && e.filter.length > 0) ? ' ' + selected : selected;
+        e.clear = !e.filter;
+      }
+    });
+});
 // notice for menu controller
 jQuery( "#tcm" ).hover(function() {
 	jQuery(".notice").fadeOut("slow");
@@ -167,7 +151,7 @@ jQuery( "#tcm" ).hover(function() {
 function loadViews(e){
 	jQuery( ".hidden" ).hide();
 	jQuery( "#giz_"+e ).show();
-	
+	jQuery( "#giz_"+e+" .footable" ).trigger('footable_resize');
 	// set the view height to always be above 700px
 	var h = jQuery("#giz_"+e).height();
 	
@@ -179,128 +163,16 @@ function loadViews(e){
 	
 }
 
-// table sorting
-new Tablesort(document.getElementById("tablePWDL_1"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_2"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_3"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_4"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableWDLS"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCS"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_1"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_2"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_3"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_4"), {
-  descending: true
-});
-
-new Tablesort(document.getElementById("tablePWDL_1_isf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_2_isf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_3_msf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_4_sf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableWDLS_sf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_1_sf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_2_sf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_3_sf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_4_sf"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCS_sf"), {
-  descending: true
-});
-
-new Tablesort(document.getElementById("tablePWDL_1_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_2_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tablePWDL_3_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableWDLS_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_1_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_2_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCCID_3_oe"), {
-  descending: true
-});
-new Tablesort(document.getElementById("tableCS_oe"), {
-  descending: true
-});
-
 // Switch for Scaling factors & One Episode
-function controlSwitch(e){
-	
-	var attr = jQuery("."+e).hasClass("on");
-	
-	if (!attr) {
-		jQuery("."+e).addClass("on");
-		
-		var table = e.split("_");
-		
-		if (table[1] == "sf") {
-			jQuery(".item_default").hide();
-			jQuery(".switch_oe").removeClass("on");
-			jQuery(".item_oe").hide();
-			jQuery(".item_sf").show();
-		} else if (table[1] == "oe"){
-			jQuery(".item_default").hide();
-			jQuery(".item_sf").hide();
-			jQuery(".switch_sf").removeClass("on");
-			jQuery(".item_oe").show();
-		}
-	}else{
-		
-		jQuery("."+e).removeClass("on");
-		
-		var table = e.split("_");
-		
-		if (table[1] == "sf") {
-			jQuery(".item_sf").hide();
-			jQuery(".item_default").show();
-		} else if (table[1] == "oe"){
-			jQuery(".item_oe").hide();
-			jQuery(".item_default").show();
-		}
-	}
+function controlSwitch(){
+	if ( jQuery(".switch").hasClass("on") ) {
+		jQuery(".switch").removeClass("on");
+		jQuery(".unscaled").css( "display", "table" );
+		jQuery(".scaled").css( "display", "none" );
+	} else {
+		jQuery(".switch").addClass("on");
+		jQuery(".scaled").css( "display", "table" );
+		jQuery(".unscaled").css( "display", "none" );
+	};
 }
 </script>

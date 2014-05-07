@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die;
 
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.application.component.helper');
+require_once JPATH_ADMINISTRATOR.'/components/com_costbenefitprojection/helpers/sum.php';
 
 class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 {
@@ -76,7 +77,7 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 			
 			// Select all records from the user profile table where key begins with "custom.".
 			// Order it by the ordering field.
-			$query->select($db->quoteName(array('disease_id', 'owner', 'published')));
+			$query->select($db->quoteName('owner'));
 			$query->from($db->quoteName('#__costbenefitprojection_diseasedata'));
 			$query->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 			// echo nl2br(str_replace('#__','giz_',$query)); die;
@@ -84,83 +85,72 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 			$db->setQuery($query);
 			
 			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-			$results = $db->loadAssocList();
+			$results = $db->loadColumn();
+			$results = array_unique($results);
 		}
 		if(is_array($results)){
 			// sort results
-			foreach($results as $item){
-				if($item["published"] == 1){
-					$items_set[$item["owner"]][] = $item["disease_id"];
+			$i = 0;
+			foreach($results as $owner){
+				// Create a new query object.
+				$query = $db->getQuery(true);
+				
+				// Select all records from the user profile table where key begins with "custom.".
+				// Order it by the ordering field.
+				$query->select($db->quoteName('disease_id'));
+				$query->from($db->quoteName('#__costbenefitprojection_diseasedata'));
+				$query->where($db->quoteName('owner') . ' = ' . $owner);
+				$query->where($db->quoteName('published') . ' = 1');
+				//echo nl2br(str_replace('#__','giz_',$query)); die;
+				// Reset the query using our newly populated query object.
+				$db->setQuery($query);
+				
+				// load the disease_ids of this owner that is published
+				$disease_ids = $db->loadColumn();
+				
+				if(is_array($disease_ids)){
+					$selected = array_unique($disease_ids);
+					sort($selected);
+					$selected = json_encode($selected);
+					$query = $db->getQuery(true);
+	
+					// Fields to update.
+					$fields = array(
+						$db->quoteName('profile_value') . ' = ' . $db->quote($selected)
+					);
+					 
+					// Conditions for which records should be updated.
+					$conditions = array(
+						$db->quoteName('user_id') . ' = '.$owner, 
+						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
+					);
+					 
+					$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
+					 
+					$db->setQuery($query);
+					 
+					$result = $db->query();
 				} else {
-					$items_remove[$item["owner"]][] = $item["disease_id"];
-				}
-			}
-			// set new published items
-			if(is_array($items_set)) {
-				foreach($items_set as $owner => $disease_ids){
-					$selected_causes = (array)JUserHelper::getProfile($owner)->gizprofile[diseases];
-					
-					if(is_array($disease_ids)){
-						foreach($disease_ids as $disease_id)
-						$selected_causes[] = $disease_id;
-					}
-					$selected_causes = array_unique($selected_causes);
-					sort($selected_causes);
-					$selected_causes = json_encode($selected_causes);
-					
 					$query = $db->getQuery(true);
-	
-					// Fields to update.
-					$fields = array(
-						$db->quoteName('profile_value') . ' = ' . $db->quote($selected_causes)
-					);
-					 
-					// Conditions for which records should be updated.
+					
 					$conditions = array(
-						$db->quoteName('user_id') . ' = '.$owner, 
+						$db->quoteName('user_id') . ' = '.$owner,
 						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
 					);
 					 
-					$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
+					$query->delete($db->quoteName('#__user_profiles'));
+					$query->where($conditions);
 					 
 					$db->setQuery($query);
-					 
+					
 					$result = $db->query();
 				}
 			}
-			// remove items not published	
-			if(is_array($items_remove)) {
-				foreach($items_remove as $owner => $disease_ids){
-					$selected_causes = JUserHelper::getProfile($owner)->gizprofile[diseases];
-					
-					if(is_array($disease_ids)){
-						foreach($disease_ids as $disease_id)
-						if(($key = array_search($disease_id, $selected_causes)) !== false) {
-							unset($selected_causes[$key]);
-						}
-					}
-					sort($selected_causes);
-					$selected_causes = json_encode($selected_causes);
-					
-					$query = $db->getQuery(true);
-	
-					// Fields to update.
-					$fields = array(
-						$db->quoteName('profile_value') . ' = ' . $db->quote($selected_causes)
-					);
-					 
-					// Conditions for which records should be updated.
-					$conditions = array(
-						$db->quoteName('user_id') . ' = '.$owner, 
-						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
-					);
-					 
-					$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
-					 
-					$db->setQuery($query);
-					 
-					$result = $db->query();
-				}
+			
+			// do calculation
+			$sum = new Sum();
+			foreach($results as $owner){
+				$sum->save($owner);
 			}
 		}
 		

@@ -11,6 +11,7 @@
 defined( '_JEXEC' ) or die;
 
 jimport('joomla.application.component.helper');
+require_once JPATH_ADMINISTRATOR.'/components/com_costbenefitprojection/helpers/sum.php';
 
 class CostbenefitprojectionTableDiseasedata extends JTable
 {
@@ -141,8 +142,7 @@ class CostbenefitprojectionTableDiseasedata extends JTable
 
 			 
 			$result = $db->query();
-		}
-		
+		}	
 		return true;
 	}
 	

@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS `#__costbenefitprojection_countries` (
   `country_name` char(64) DEFAULT NULL,
   `country_3_code` char(3) DEFAULT NULL,
   `country_2_code` char(2) DEFAULT NULL,
+  `currency_3_code` char(3) DEFAULT NULL,
   `params` text NOT NULL,
   `ordering` int(2) NOT NULL DEFAULT '0',
   `published` tinyint(1) NOT NULL DEFAULT '1',

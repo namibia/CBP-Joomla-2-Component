@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die;
 
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.application.component.helper');
+require_once JPATH_ADMINISTRATOR.'/components/com_costbenefitprojection/helpers/sum.php';
 
 class CostbenefitprojectionModelIntervention extends JModelAdmin
 {
@@ -126,6 +127,47 @@ class CostbenefitprojectionModelIntervention extends JModelAdmin
 		}
 		
 		return $data;
+	}
+	
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function publish(&$pks, $value = 1)
+	{	
+		parent::publish($pks, $value);
+		// Get a db connection.
+		$db = JFactory::getDbo();
+		if(is_array($pks)){
+			// Create a new query object.
+			$query = $db->getQuery(true);
+			
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($db->quoteName(array('owner')));
+			$query->from($db->quoteName('#__costbenefitprojection_interventions'));
+			$query->where($db->quoteName('intervention_id') . ' IN (' . implode(',', $pks) . ')');
+			//echo nl2br(str_replace('#__','giz_',$query)); die;
+			// Reset the query using our newly populated query object.
+			$db->setQuery($query);
+			
+			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+			$results = $db->loadColumn();
+		}
+		// do calculation
+		$owners = array_unique($results);
+		$sum = new Sum();
+		foreach($owners as $owner){
+			$sum->save($owner);
+		}
+		
+		return true;
 	}
 	
 	protected function getSelected($id)
