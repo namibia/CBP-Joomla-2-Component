@@ -64,68 +64,17 @@ $diseases = $this->item["data"]["diseasedata"];
     <thead>
     <tr>
         <th data-toggle="true"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_NAME_LABEL'); ?></th>
-        <th data-hide="phone"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_CATEGORY_LABEL'); ?></th>
-        <th data-hide="phone"><?php echo JText::_('COM_COSTBENEFITPROJECTION_OWNER'); ?></th>
+        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_CATEGORY_LABEL'); ?></th>
         
-        <th data-hide="all">
-                <?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRM_LABEL');?>
-        </th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_IRF_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_RPIO_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRM_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MRF_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFM_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_ISFF_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFM_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HSFF_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFM_DESC');
-                        
-                        ?></th>
-        <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_DESC');
-                        
-                        ?></th>
-       <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_DURATION_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_DESC');
-                        
-                        ?></th>
-       <th data-hide="all"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_HS_LABEL'); 
-                        $td = JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_AMFF_DESC');
-                        
-                        ?></th>
+        <th data-hide="phone" width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_MALE_LABEL'); ?></th>
+        <th data-hide="phone" width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_YLD_SCALING_FACTOR_FEMALE_LABEL'); ?></th>
+                
+        <th data-hide="phone"  width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFM_LABEL'); ?></th>
+        <th data-hide="phone"  width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_MSFF_LABEL'); ?></th>
+                
+        <th data-hide="phone"  width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFM_LABEL'); ?></th>
+        <th data-hide="phone"  width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_FIELD_DISEASESDATA_PSFF_LABEL'); ?></th>
+        
         <th data-hide="phone"><?php echo JText::_('JSTATUS'); ?></th>
     </tr>
     </thead>
@@ -159,23 +108,14 @@ $diseases = $this->item["data"]["diseasedata"];
                     	<?php echo $this->escape($item["disease_name"]); ?>
                     <?php endif; ?>
                 </td>
-                <td class="center"><?php echo $this->escape($item["diseasecategory_name"]); ?></td>
-                <td class="center"><?php echo $item["owner"]; ?></td>
-                <td class="center"><?php echo $item["incidence_rate_male"]; ?></td>
-                <td class="center"><?php echo $item["incidence_rate_female"]; ?></td>
-                <td class="center"><?php echo $item["relative_proportion"]; ?></td>
-                <td class="center"><?php echo $item["mortality_rate_male"]; ?></td>
-                <td class="center"><?php echo $item["mortality_rate_female"]; ?></td>
-                <td class="center"><?php echo $item["incidence_scaling_factor_male"]; ?></td>
-                <td class="center"><?php echo $item["incidence_scaling_factor_female"]; ?></td>
-                <td class="center"><?php echo $item["presenteeism_scaling_factor_male"]; ?></td>
-                <td class="center"><?php echo $item["presenteeism_scaling_factor_female"]; ?></td>
-                <td class="center"><?php echo $item["hospital_scaling_factor_male"]; ?></td>
-                <td class="center"><?php echo $item["hospital_scaling_factor_female"]; ?></td>
-                <td class="center"><?php echo $item["absenteeism_multiplication_factor_male"]; ?></td>
-                <td class="center"><?php echo $item["absenteeism_multiplication_factor_female"]; ?></td>
-                <td class="center"><?php echo $item["duration"]; ?></td>
-                <td class="center"><?php echo $item["hospital_stay"]; ?></td>
+                <td class="center"><?php echo $this->escape($item["diseasecategory_name"]); ?></td>                
+                <td class="center"><?php echo $item["yld_scaling_factor_Males"]; ?></td>
+                <td class="center"><?php echo $item["yld_scaling_factor_Females"]; ?></td>
+                <td class="center"><?php echo $item["mortality_scaling_factor_Males"]; ?></td>
+                <td class="center"><?php echo $item["mortality_scaling_factor_Females"]; ?></td>
+                <td class="center"><?php echo $item["presenteeism_scaling_factor_Males"]; ?></td>
+                <td class="center"><?php echo $item["presenteeism_scaling_factor_Females"]; ?></td>
+                    
                 <?php if ($item["published"] == 1):?>
                 <td class="center"  data-value="1">
                     <span class="status-metro status-published" title="<?php echo JText::_('COM_COSTBENEFITPROJECTION_PUBLISHED');  ?>">

@@ -21,14 +21,14 @@ defined( '_JEXEC' ) or die;
     <nav class="uk-navbar uk-hidden-small uk-animation-slide-top">
         <ul class="uk-navbar-nav">
             <li><a  href="index.php?option=com_users&task=user.logout&<?php echo JUtility::getToken(); ?>=1&Itemid=109" ><i class="uk-icon-power-off"></i></a></li>
-            <?php /*?><li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li><?php */?>
+            <li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li>
             <li>
                 <ul id="target-menu" class="uk-navbar-nav" data-uk-switcher="{connect:'#main'}">
                     <li class="uk-active"><a href=""><i class="uk-icon-laptop"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_CPANEL'); ?></a></li>
                     <li class=""><a href=""><i class="uk-icon-check-square-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_RESULTS'); ?></a></li>
                 </ul>
             </li>
-            <?php /*?><li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li><?php */?>
+            <li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
             <li><a data-uk-offcanvas="{target:'#offcanvas-help'}" href="" ><i class="uk-icon-lightbulb-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_HELP'); ?></a></li>
          </ul>
          <ul class="uk-navbar-nav uk-navbar-flip uk-hidden-small" >
@@ -47,14 +47,14 @@ defined( '_JEXEC' ) or die;
         <div class="uk-dropdown uk-dropdown-small">
             <ul class="uk-nav uk-nav-dropdown">
                 <li><a  href="index.php?option=com_users&task=user.logout&<?php echo JUtility::getToken(); ?>=1&Itemid=109" ><i class="uk-icon-power-off"></i></a></li>
-               	<?php /*?><li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li><?php */?>
+               	<li><a href="index.php?option=com_users&view=profile" ><i class="uk-icon-user"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_PROFILE'); ?></a></li>
                 <li>
                     <ul class="uk-nav  uk-nav-dropdown" data-uk-switcher="{connect:'#main'}">
                         <li class="uk-active"><a href=""><i class="uk-icon-laptop"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_CPANEL'); ?></a></li>
                         <li class=""><a href=""><i class="uk-icon-check-square-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_RESULTS'); ?></a></li>
                     </ul>
                 </li>
-                <?php /*?><li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li><?php */?>
+                <li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
                 <li><a data-uk-offcanvas="{target:'#offcanvas-help'}" href="" ><i class="uk-icon-lightbulb-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_HELP'); ?></a></li>
             </ul>
         </div>

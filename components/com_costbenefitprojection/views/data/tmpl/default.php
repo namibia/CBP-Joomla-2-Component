@@ -57,16 +57,12 @@ defined( '_JEXEC' ) or die;
         <div class="uk-width-medium-1">
             <ul data-uk-switcher="{connect:'#data'}" class="uk-subnav uk-subnav-pill">
                 <li class="<?php if ($this->type == 1 || !$this->type) echo "uk-active";?>"><a class="uk-button uk-button-small" href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_DISEASES'); ?></a></li>
-                <li class="<?php if ($this->type == 2) echo "uk-active";?>"><a class="uk-button uk-button-small" href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_RISKS'); ?></a></li>
                 <li class="<?php if ($this->type == 3) echo "uk-active";?>"><a class="uk-button uk-button-small" href="#"><?php echo JText::_('COM_COSTBENEFITPROJECTION_INTERVENTIONS'); ?></a></li>
             </ul>
             <ul class="uk-switcher" id="data">
                 <li class="<?php if ($this->type == 1 || !$this->type) echo "uk-active";?>">
                     <?php echo $this->loadTemplate('diseases'); ?>
                 </li>
-                <li class="<?php if ($this->type == 2) echo "uk-active";?>">
-                     <?php echo $this->loadTemplate('risks'); ?>
-                 </li>
                 <li class="<?php if ($this->type == 3) echo "uk-active";?>">
                     <?php echo $this->loadTemplate('interventions'); ?>
                 </li>
@@ -120,7 +116,11 @@ defined( '_JEXEC' ) or die;
         </div>
     </div>
 </div>
-
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.sort.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.filter.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable.paginate.js?v=2-0-1"></script>
+<script type="text/javascript" src="http://cbp.vdm.io/media/com_costbenefitprojection/js/footable-set.js"></script>
 <script type="text/javascript">
 
 // page loading pause

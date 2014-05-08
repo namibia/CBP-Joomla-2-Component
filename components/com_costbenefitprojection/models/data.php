@@ -41,9 +41,6 @@ class CostbenefitprojectionModelData extends JModelItem
 										
 					// Add Data
 					$this->item['data']					= $this->getData();
-					// Add the items that has no data
-					$this->item['noData']['disease'] 	= $this->noDiseaseData;
-					$this->item['noData']['risk'] 		= $this->noRiskData;
 										
 				}
 		 return $this->item;
@@ -60,28 +57,17 @@ class CostbenefitprojectionModelData extends JModelItem
 			// set profile results to model item
 			$profileResults = JUserHelper::getProfile($id)->gizprofile;
 			$this->data["diseases"] = array();
-			$this->data["risks"] = array();
-			$this->data["interventions"] = array();
 			foreach ($profileResults as $item => $value){
 				$this->data[$item] = $value;
 			}
 			if(is_array($this->data["diseases"])){
 					sort($this->data["diseases"]); 
 			}
-			if(is_array($this->data["interventions"])){
-				sort($this->data["interventions"]); 
-			}
-			if($this->data["risks"]){
-				sort($this->data["risks"]); 
-			}
 			// set the data of the selected diseases
-			$this->data['diseasedata'] = $this->getFinalDiseasedata($this->data['clientId'],$this->data['countryUserId'],$this->data["diseases"]);	
+			$this->data['diseasedata'] = $this->getDiseasedata($this->data['clientId']);
 			
 			// set the data of the selected diseases
-			$this->data['riskdata'] = $this->getFinalRiskdata($this->data['clientId'],$this->data['countryUserId'],$this->data["risks"]);
-			
-			// set the data of the selected diseases
-			$this->data['interventiondata'] = $this->getFinalInterventiondata($this->data['clientId']);				
+			$this->data['interventiondata'] = $this->getInterventiondata($this->data['clientId']);				
        }
 	   return $this->data;   
 	}
@@ -211,7 +197,7 @@ class CostbenefitprojectionModelData extends JModelItem
 	 * @return an associative array
 	 *
 	 */
-	protected function getDiseasedata($id,$diseases)
+	protected function getDiseasedata($id)
 	{
 		// Get a db connection.
 		$db = JFactory::getDbo();
@@ -220,24 +206,36 @@ class CostbenefitprojectionModelData extends JModelItem
 		
 		$diseasedata = NULL;
 		
-		if (is_array($diseases)){
+		if ($id){
 			$query
 				->select('d.disease_name, a.*, u.name, c.diseasecategory_name')
 				->from('#__costbenefitprojection_diseasedata AS a')
 				->join('LEFT', '#__costbenefitprojection_diseases AS d ON d.disease_id = a.disease_id ')
 				->join('LEFT', '#__costbenefitprojection_diseasecategories AS c ON c.diseasecategory_id = d.diseasecategory_id ')
 				->join('LEFT', '#__users AS u ON u.id = a.checked_out')
-				->where('a.owner = \''.$id.'\'')
-				->where('a.disease_id IN ('.implode(',', $diseases).')');
+				->where('a.owner = \''.$id.'\'');
 		 
 			// echo nl2br(str_replace('#__','yvs9m_',$query)); die;
 			// Reset the query using our newly populated query object.
 			$db->setQuery($query);
 			
-			$diseasedata = $db->loadAssocList();
+			$results = $db->loadAssocList();
+			
+			if($results){
+				foreach($results as $key => &$result){
+					$result['owner_id'] 	= $result['owner'];
+					$result['owner'] 		= JFactory::getUser($result['owner'])->name;
+					$result['params'] 		= json_decode($result['params'], true);
+					foreach($result['params'] as $param_key => $param){
+						$result[$param_key] = $param;
+					}
+					unset($result['params']);
+				}
+			}
+			return $results;
 		}
 		
-		return $diseasedata;
+		return false;
 	}
 	
 	/**
@@ -269,204 +267,12 @@ class CostbenefitprojectionModelData extends JModelItem
 	}
 	
 	/**
-	 * Get disease data that belongs to this client.
-	 *
-	 * @return an associative array
-	 *
-	 */
-	protected function getFinalDiseasedata($id,$country,$diseases)
-	{
-		$clientdiseasedata = $this->getDiseasedata($id,$diseases);
-		$countrydiseasedata = $this->getDiseasedata($country,$diseases);
-		$i = 0;
-		
-		if (is_array($diseases)){
-			
-			foreach ($diseases as $disease){
-	
-				foreach ($clientdiseasedata as $data){
-					if ($disease == $data['disease_id']){
-						$data['owner_id'] 	= $data['owner'];
-						$data['owner'] 		= JFactory::getUser($data['owner'])->name;
-						$resultA[$i] 		= $data;
-						$foundA[$i]			= $data['disease_id'];
-					}
-				}
-				
-				foreach ($countrydiseasedata as $data){
-					if ($diseases[$i] == $data['disease_id']){
-						$data['owner_id'] 	= $data['owner'];
-						$data['owner'] 		= $this->countryName($data['owner']);
-						$resultB[$i] 		= $data;
-						$foundB[$i]			= $data['disease_id'];
-					}
-				}
-				$i++;	
-			}
-			
-			// remove found data
-			if (is_array($foundB) || is_array($foundA)){
-				$found = array_merge((array)$foundA, (array)$foundB);
-				$found = array_unique((array)$found);
-				foreach ($found as $remove){
-					// if found remove from diseases array
-					unset($diseases[array_search($remove,$diseases)] );
-				}
-			}
-			
-			if (!empty($diseases)){
-				// set diseases that has no data
-				$i = 0;
-				$data = NULL;
-				foreach ($diseases as $disease){
-					$data['name'][$disease] = $this->getDiseasename($disease);
-					$data['nr'] =  $i + 1;
-					$i++;
-				}
-				$this->noDiseaseData = $data;
-			} else {
-				$this->noDiseaseData = array( 'name' => 'none', 'nr' => 0 );
-			}
-		}
-		 
-		$result = (array_merge((array)$resultA, (array)$resultB));
-
-		return $result;
-	}
-	
-	/**
-	 * Get risk data that belongs to this client or country.
-	 *
-	 * @return an associative array
-	 *
-	 */
-	protected function getRiskdata($id,$risks)
-	{
-		// Get a db connection.
-		$db = JFactory::getDbo();
-				
-		$query = $db->getQuery(true);
-		
-		$riskdata = NULL;
-		
-		if (is_array($risks)){
-			$query
-				->select('d.risk_name , a.*, u.name')
-				->from('#__costbenefitprojection_riskdata AS a')
-				->where('a.owner = \''.$id.'\'')
-				->where('a.risk_id IN ('.implode(',', $risks).')')
-				->join('LEFT', '#__costbenefitprojection_risk AS d ON d.risk_id = a.risk_id ')
-				->join('LEFT', '#__users AS u ON u.id = a.checked_out');
-		
-			// echo nl2br(str_replace('#__','yvs9m_',$query)); die;
-			// Reset the query using our newly populated query object.
-			$db->setQuery($query);
-			
-			$riskdata = $db->loadAssocList();
-		} 
-		return $riskdata;
-	}
-	
-	/**
-	 * Get risk name that belongs to this risk id.
-	 *
-	 * @return an string
-	 *
-	 */
-	protected function getRiskname($id)
-	{
-		// Get a db connection.
-		$db = JFactory::getDbo();
-				
-		$query = $db->getQuery(true);
-		
-		if ($id){
-			$query
-				->select('a.risk_name')
-				->from('#__costbenefitprojection_risk AS a')
-				->where('a.risk_id = \''.$id.'\'');
-		} 
-		
-		// Reset the query using our newly populated query object.
-		$db->setQuery($query);
-		
-		$risk_name = $db->loadObject()->risk_name;
-		
-		return $risk_name;
-	}
-	
-	/**
-	 * Get risk data that belongs to this client.
-	 *
-	 * @return an associative array
-	 *
-	 */
-	protected function getFinalRiskdata($id,$country,$risks)
-	{
-		$clientriskdata = $this->getRiskdata($id,$risks);
-		$countryriskdata = $this->getRiskdata($country,$risks);
-		
-		$i = 0;
-		// $array = (array_merge($countrydiseasedata, $clientdiseasedata));
-		if (is_array($risks)){
-			foreach ($risks as $risk){
-				
-				foreach ($clientriskdata as $data){
-					if ($risk == $data['risk_id']){
-						$data['owner_id'] 	= $data['owner'];
-						$data['owner'] 		= JFactory::getUser($data['owner'])->name;
-						$resultA[$i] 		= $data;
-						$foundA[$i]			= $data['risk_id'];
-					}
-				}
-				foreach ($countryriskdata as $keyt => $data){
-					if ($risks[$i] == $data['risk_id']){
-						$data['owner_id'] 	= $data['owner'];
-						$data['owner'] 		= $this->countryName($data['owner']);
-						$resultB[$i] 		= $data;
-						$foundB[$i]			= $data['risk_id'];
-					}
-				}				
-				$i++;	
-			}
-			
-			// remove data found
-			if (is_array($foundB) || is_array($foundA)){
-				$found = array_merge((array)$foundA, (array)$foundB);
-				$found = array_unique((array)$found);
-				foreach ($found as $remove){
-					// if found remove from diseases array
-					unset($risks[array_search($remove,$risks)] );
-				}
-			}
-			
-			if (!empty($risks)){
-				// set risk that has no data
-				$i = 0;
-				$data = NULL;
-				foreach ($risks as $risk){
-					$data['name'][$risk] = $this->getRiskname($risk);
-					$data['nr'] =  $i + 1;
-					$i++;
-				}
-				$this->noRiskData = $data;
-			} else {
-				$this->noRiskData = array( 'name' => 'none', 'nr' => 0 );
-			}
-		}
-		 
-		$result = (array_merge((array)$resultA, (array)$resultB));
-
-		return $result;
-	}
-	
-	/**
 	 * Get intervention data that belongs to this client.
 	 *
 	 * @return an associative array
 	 *
 	 */
-	protected function getFinalInterventiondata($id)
+	protected function getInterventiondata($id)
 	{
 		// Get a db connection.
 		$db = JFactory::getDbo();
@@ -527,33 +333,9 @@ class CostbenefitprojectionModelData extends JModelItem
 								$item['diseasedata'][$d] = array('id' => $paramsName[2], 'name' => $this->getDiseasenameAlias($paramsName[2]),$paramsName[1] => $p);
 								$d++;
 							}
-					} elseif ($paramsName[0] == 'risk'){
-						$riskdata = $item['riskdata'];
-						if(is_array($riskdata)){
-							$rname = $this->getRisknameAlias($paramsName[2]);
-							$found = false;
-							foreach ($riskdata as $alreadykey => $alreadyData) {
-								if ($alreadyData['name'] == $rname) {
-									$loaction = $alreadykey;
-									$found = true;
-									break;
-								}
-							}
-							
-							if ($found === false) {
-								$item['riskdata'][$d] = array('id' => $paramsName[2], 'name' => $this->getRisknameAlias($paramsName[2]),$paramsName[1] => $p);
-								$d++;
-							} elseif ($found){
-								$item['riskdata'][$loaction] = array_merge($item['riskdata'][$loaction], array($paramsName[1] => $p));
-							}
-							
-						} elseif ($r == 0) {
-							$item['riskdata'][$d] = array('id' => $paramsName[2], 'name' => $this->getRisknameAlias($paramsName[2]),$paramsName[1] => $p);
-							$d++;
-						}
-					}
+					} 
 				}
-				$item['params'] = array( 'nr_diseases' => sizeof($item['diseasedata']), 'nr_risks' => sizeof($item['riskdata']) );			
+				$item['params'] = array( 'nr_diseases' => sizeof($item['diseasedata'] ) );			
 			}
 				
 			return $interventiondata;
@@ -570,28 +352,6 @@ class CostbenefitprojectionModelData extends JModelItem
 		$query->select('disease_alias');
 		$query->from('#__costbenefitprojection_diseases');;
 		$query->where('disease_id = \''.$id.'\'');
-
-		$db->setQuery($query);
-
-		$name = $db->loadResult();
-
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
-		}
-		$name = ucwords(str_replace('-',' ',$name));
-		return $name;
-	}
-	
-	protected function getRisknameAlias($id)
-	{
-		$options = array();
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('risk_alias');
-		$query->from('#__costbenefitprojection_risk');
-		$query->where('risk_id = \''.$id.'\'');
 
 		$db->setQuery($query);
 
