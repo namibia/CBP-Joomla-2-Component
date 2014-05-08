@@ -100,7 +100,6 @@ class Sum{
 			if($this->setCost()){
 				// do the calculation Intervention
 				$this->setInterventions();
-				
 				// load results set
 				$results 								= array();
 				$results['user'] 						= $this->user['profile'];
@@ -280,7 +279,7 @@ class Sum{
 				->from('#__costbenefitprojection_interventions AS a')
 				->where('a.published = 1 AND a.owner = '.$this->user['id'].'');
 		
-			// echo nl2br(str_replace('#__','yvs9m_',$query)); die;
+			// echo nl2br(str_replace('#__','giz_',$query)); die;
 			// Reset the query using our newly populated query object.
 			$db->setQuery($query);
 			
@@ -295,10 +294,10 @@ class Sum{
 				foreach ($params as $key => $p){
 					$paramsName = explode("_", $key);
 					if ($paramsName[0] == 'disease'){;
-						if(is_array($stoor)){
+						if(is_array($interventiondata[$key_int]['data'])){
 							$dname = $this->getDiseaseAlias($paramsName[2]);
 							$found = false;
-							foreach ($stoor as $alreadykey => $alreadyData) {
+							foreach ($interventiondata[$key_int]['data'] as $alreadykey => $alreadyData) {
 								if ($alreadyData['allias'] == $dname) {
 									$location = $alreadykey;
 									$found = true;
@@ -307,21 +306,19 @@ class Sum{
 							}
 							
 							if ($found === false) {
-								$stoor[$d] = array('id' => $paramsName[2], 'allias' => $this->getDiseaseAlias($paramsName[2]),$paramsName[1] => $p);
+								$interventiondata[$key_int]['data'][$d] = array('id' => $paramsName[2], 'allias' => $this->getDiseaseAlias($paramsName[2]),$paramsName[1] => $p);
 								$d++;
 							} elseif ($found){
-								$stoor[$location] = array_merge($stoor[$location], array($paramsName[1] => $p));
+								$interventiondata[$key_int]['data'][$location] = array_merge($interventiondata[$key_int]['data'][$location], array($paramsName[1] => $p));
 							}
 							
 						} elseif ($d == 0) {
-							$stoor[$d] = array('id' => $paramsName[2], 'allias' => $this->getDiseaseAlias($paramsName[2]),$paramsName[1] => $p);
+							$interventiondata[$key_int]['data'][$d] = array('id' => $paramsName[2], 'allias' => $this->getDiseaseAlias($paramsName[2]),$paramsName[1] => $p);
 							$d++;
 						}
 					}
-					$interventiondata[$key_int]['data'] = $stoor;
 				}		
 			}
-			
 			// now set the result set
 			if(is_array($this->user['profile']['diseases']) && count($this->user['profile']['diseases']) > 0){
 				$i = 0;
@@ -390,9 +387,9 @@ class Sum{
 																									, $this->user['profile']['currency']);
 																						
 							$this->interventions[$i]['items'][$a]['net_benefit_unscaled'] 			= $this->interventions[$i]['items'][$a]['annual_benefit_unscaled'] 
-																									- $this->interventions[$i]['items'][$a]['cost_of_problem_unscaled'];
+																									- $this->interventions[$i]['items'][$a]['annual_cost'];
 							$this->interventions[$i]['items'][$a]['net_benefit_scaled']				= $this->interventions[$i]['items'][$a]['annual_benefit_scaled'] 
-																									- $this->interventions[$i]['items'][$a]['cost_of_problem_scaled'];
+																									- $this->interventions[$i]['items'][$a]['annual_cost'];
 							// turn into money		
 							$this->interventions[$i]['items'][$a]['netmoney_benefit_unscaled']		= $this->makeMoney((float)$this->interventions[$i]['items'][$a]['net_benefit_unscaled']
 																									, $this->user['profile']['currency']);

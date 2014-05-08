@@ -18,7 +18,7 @@ $scaled = array('unscaled','scaled');
 
 if($this->result->interventions){
 	$intervention_number = 0;
-	foreach ($this->result->interventions as &$intervention){
+	foreach ($this->result->interventions as $intervention){
 		foreach ($scaled as $scale){
 		$i =0;
 		$rowArray = array();
