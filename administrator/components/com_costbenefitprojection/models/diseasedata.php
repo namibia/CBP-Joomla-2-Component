@@ -16,6 +16,9 @@ require_once JPATH_ADMINISTRATOR.'/components/com_costbenefitprojection/helpers/
 
 class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 {
+	// the sum funtion
+	protected $sum;
+	
 	public function getTable($type = 'Diseasedata', $prefix = 'CostbenefitprojectionTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -89,6 +92,8 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 			$results = array_unique($results);
 		}
 		if(is_array($results)){
+			// set sum function
+			$this->sum = new Sum();
 			// sort results
 			$i = 0;
 			foreach($results as $owner){
@@ -111,6 +116,7 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 				if(is_array($disease_ids)){
 					$selected = array_unique($disease_ids);
 					sort($selected);
+					$selected = $this->sum->vdm->the($selected);
 					$selected = json_encode($selected);
 					$query = $db->getQuery(true);
 	
@@ -148,9 +154,8 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 			}
 			
 			// do calculation
-			$sum = new Sum();
 			foreach($results as $owner){
-				$sum->save($owner);
+				$this->sum->save($owner);
 			}
 		}
 		

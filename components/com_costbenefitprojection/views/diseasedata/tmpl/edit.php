@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
             <?php echo JHtml::_('sliders.panel', JText::_('COM_COSTBENEFITPROJECTION_FIELDSET_DETAILS'), 'details-panel'); ?>
             <fieldset class="panelform">
                 <ul class="adminformlist">
-                    <?php foreach ($this->form->getFieldset('details') as $field): ?>
+                    <?php foreach ($this->form->getFieldset('params') as $field): ?>
                         <li><?php echo $field->label; ?>
                         <?php echo $field->input; ?></li>
                     <?php endforeach ?>

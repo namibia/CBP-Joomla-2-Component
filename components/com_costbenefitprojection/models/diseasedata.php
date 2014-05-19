@@ -58,51 +58,30 @@ class CostbenefitprojectionModelDiseasedata extends JModelAdmin
 	}
 
 	/**
-	 * Method to get a single record.
+	 * Method to save the form data.
 	 *
-	 * @param   integer  $pk  The id of the primary key.
+	 * @param	array	The form data.
 	 *
-	 * @return  mixed    Object on success, false on failure.
-	 *
-	 * @since   11.1
+	 * @return	boolean	True on success.
+	 * @since	1.6
 	 */
-	/*public function getItem($pk = null)
+	public function save($data)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
-		$table = $this->getTable();
-		$isNew = true;
+		if (isset($data['params']) && is_array($data['params'])) {
+			$params = new JRegistry;
+			$params->loadArray($data['params']);
+			$data['params'] = (string)$params;
 
-		if ($pk > 0)
-		{
-			// Attempt to load the row.
-			$return = $table->load($pk);
-			$isNew = false;
-			// Check for a table object error.
-			if ($return === false && $table->getError())
-			{
-				$this->setError($table->getError());
-				return false;
-			}
 		}
-		// Convert to the JObject before adding other data.
-		$properties = $table->getProperties($pk);
 		
-		if(!$isNew){
-			$item = JArrayHelper::toObject($properties, 'JObject');
-			
-			if (property_exists($item, 'params'))
-			{
-				$registry = new JRegistry;
-				$registry->loadString($item->params);
-				$item->params = $registry->toArray();
-			}
-		} else {
-			$item = NULL;	
+		if (parent::save($data)) {
+
+			return true;
 		}
 
-		return $item;
-	}*/
+
+		return false;
+	}
 	
 	/**
 	 * Get internal user info in relation to this application.

@@ -13,6 +13,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
+require_once JPATH_ADMINISTRATOR.'/components/com_costbenefitprojection/helpers/vdm.php';
 
 /**
 *	Calculation Class
@@ -20,20 +21,25 @@ jimport('joomla.application.component.helper');
 
 class Sum{
 	
-	protected $ages;
-	protected $genders;
-	protected $user;
-	protected $country;
-	protected $totals;
-	protected $items;
-	protected $interventions;
+	protected 	$ages;
+	protected 	$genders;
+	protected 	$user;
+	protected 	$country;
+	protected 	$totals;
+	protected 	$items;
+	protected 	$interventions;
+	public		$vdm;
+	public		$open_vdm;
 		
 	public function __construct()
 	{
 		// set the age groups
 		$this->ages 					= array("15-19","20-24","25-29","30-34","35-39","40-44","45-49","50-54","55-59","60-64");
 		// set the genders
-		$this->genders 					= array("Males","Females");		
+		$this->genders 					= array("Males","Females");	
+		// set the vault
+		$this->vdm						= new Vault();
+		$this->open_vdm					= new Vault(false);
 	}
 	
 	/**
@@ -113,10 +119,11 @@ class Sum{
 					return $a['subtotal_cost_unscaled'] - $b['subtotal_cost_unscaled'];
 				});
 				
-				$results['items'] 						= $this->items;
-				$results['totals'] 						= $this->totals;
-				$results['interventions'] 				= $this->interventions;
-				$params 								= json_encode($results);
+				$results['items'] 			= $this->items;
+				$results['totals'] 			= $this->totals;
+				$results['interventions'] 	= $this->interventions;
+				$params 					= json_encode($results);
+				$params						= $this->vdm->the($params);
 				// get data id
 				$data_id = $this->getDataId();
 				
@@ -176,6 +183,7 @@ class Sum{
 			$results['totals'] 						= 0;
 			$results['interventions'] 				= 0;
 			$params 								= json_encode($results);
+			$params									= $this->vdm->the($params);
 			// get data id
 			$data_id = $this->getDataId();
 			
@@ -255,6 +263,11 @@ class Sum{
 				$gizprofile[$k] = $v[1];
 			}
 		}
+		
+		foreach($gizprofile as $key => $value){
+			$gizprofile[$key] = $this->open_vdm->the($value);
+		}
+		
 		return $gizprofile;
 	}
 	
@@ -520,7 +533,7 @@ class Sum{
 		$db = JFactory::getDbo();
 		$db->setQuery(
 			'SELECT params FROM #__costbenefitprojection_countries' .
-			' WHERE country_id = '.(int)$this->user["profile"]["country"]
+			' WHERE country_id = '.(int)$this->user['profile']["country"]
 		);
 		$totals = json_decode($db->loadResult(), true);
 		
@@ -530,8 +543,8 @@ class Sum{
 			$this->_subject->setError($db->getErrorMsg());
 			return false;
 		}
-		if (isset($totals["totals"][$this->user["profile"]["datayear"]])){
-			return $totals["totals"][$this->user["profile"]["datayear"]];
+		if (isset($totals["totals"][$this->user['profile']["datayear"]])){
+			return $totals["totals"][$this->user['profile']["datayear"]];
 		} 
 		return false;
 	}
@@ -544,30 +557,32 @@ class Sum{
 	 */
 	protected function setCountryUserId()
 	{
-		// Get a db connection.
-		$db = JFactory::getDbo();
+		if ($this->user['profile']["country"]){
+			// Get a db connection.
+			$db = JFactory::getDbo();
+			
+			// get only country
+			$groups = &JComponentHelper::getParams('com_costbenefitprojection')->get('country');
+			
+			$query = $db->getQuery(true);
 		
-		// get only country
-		$groups = &JComponentHelper::getParams('com_costbenefitprojection')->get('country');
-		
-		$query = $db->getQuery(true);
-		
-		if ($this->user["profile"]["country"]){
 			$query
-				->select('a.user_id')
-				->from('#__user_profiles AS a')
-				->where('a.profile_key LIKE \'%gizprofile.country%\'')
-				->where('a.profile_value = \'"'.$this->user["profile"]["country"].'"\'')
-				->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.user_id')
+				->select('map2.user_id')
+				->from('#__user_usergroup_map AS map2')
 				->where('map2.group_id IN ('.implode(',', $groups).')');
+				// echo nl2br(str_replace('#__','giz_',$query)); die; 
+				// Reset the query using our newly populated query object.
+				$db->setQuery($query);
+				
+				$countryIds = $db->loadColumn();
+				foreach($countryIds as $countryId){
+					$country = $this->setProfile($countryId);
+					if ($country["country"] == $this->user['profile']["country"]){
+						return (int)$countryId;
+					}
+				}
 		} 
-		// echo nl2br(str_replace('#__','giz_',$query)); die; 
-		// Reset the query using our newly populated query object.
-		$db->setQuery($query);
-		
-		$userId = $db->loadObject()->user_id;
-		
-		return (int)$userId;
+		return false;
 	}
 	
 	/**
@@ -620,9 +635,9 @@ class Sum{
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(array('params', 'ref_id')));
 		$query->from($db->quoteName('#__costbenefitprojection_defaultdata'));
-		$query->where($db->quoteName('year') . ' LIKE '. (int)$this->user["profile"]["datayear"]);
-		$query->where($db->quoteName('country_id') . ' LIKE '. (int)$this->user["profile"]["country"]);
-		$query->where($db->quoteName('ref_id') . ' IN (' . implode(',', $this->user["profile"]["diseases"]) . ')');  
+		$query->where($db->quoteName('year') . ' LIKE '. (int)$this->user['profile']["datayear"]);
+		$query->where($db->quoteName('country_id') . ' LIKE '. (int)$this->user['profile']["country"]);
+		$query->where($db->quoteName('ref_id') . ' IN (' . implode(',', $this->user['profile']['diseases']) . ')');  
 		
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
@@ -671,7 +686,7 @@ class Sum{
 	 */
 	protected function setDaysLost()
 	{
-		if(is_array($this->user["profile"]["diseases"]) && count($this->user['profile']['diseases']) > 0){
+		if(is_array($this->user['profile']['diseases']) && count($this->user['profile']['diseases']) > 0){
 			// set global totals morbidity
 			$this->totals['total_morbidity_raw'] 					= 0;
 			$this->totals['total_morbidity_interim'] 				= 0;
@@ -731,7 +746,7 @@ class Sum{
 			///////////////////////////////////////////////////////
 		
 			// set morbidity_raw
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				
 				// set caues/risk name and id to array set
 				$this->items[$id]['details'] = $this->getItemDetails($id);
@@ -742,11 +757,12 @@ class Sum{
 					foreach($this->ages as $age){
 						// set each gender and age group
 						// fix missing values
-						if(!isset($this->country["defaults"][$id][$gender]["yld"][$age])){
-							$this->country["defaults"][$id][$gender]["yld"][$age] = 0;
+						if(!isset($this->country['defaults'][$id][$gender]['yld'][$age])){
+							$this->country['defaults'][$id][$gender]['yld'][$age] = 0;
 						}
-						$this->items[$id][$gender][$age]['morbidity_raw'] 	= ( $this->country["defaults"][$id][$gender]["yld"][$age]/100000 ) 
-																			* $this->user["profile"][$gender] * ($this->user['profile']['percent_'.$gender.'_'.$age]/100);
+						$this->items[$id][$gender][$age]['yld']				= $this->country['defaults'][$id][$gender]['yld'][$age];
+						$this->items[$id][$gender][$age]['morbidity_raw'] 	= ( $this->country['defaults'][$id][$gender]['yld'][$age]/100000 ) 
+																			* $this->user['profile'][$gender] * ($this->user['profile']['percent_'.$gender.'_'.$age]/100);
 						// set total for morbidity_raw
 						$this->totals['total_morbidity_raw'] 				= $this->totals['total_morbidity_raw'] + $this->items[$id][$gender][$age]['morbidity_raw'];
 						$this->totals[$gender.'_morbidity_raw'] 			= $this->totals[$gender.'_morbidity_raw'] + $this->items[$id][$gender][$age]['morbidity_raw'];
@@ -754,7 +770,7 @@ class Sum{
 				}
 			}
 			// set morbidity_unscaled & morbidity_interim
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -794,7 +810,7 @@ class Sum{
 				}
 			}
 			// set morbidity_scaled
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -833,18 +849,19 @@ class Sum{
 			///////////////////////////////////////////////////////
 			
 			// set mortality_raw
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
 					foreach($this->ages as $age){
 						// set each gender and age group
 						// fix missing values
-						if(!isset($this->country["defaults"][$id][$gender]["death"][$age])){
-							$this->country["defaults"][$id][$gender]["death"][$age] = 0;
+						if(!isset($this->country['defaults'][$id][$gender]['death'][$age])){
+							$this->country['defaults'][$id][$gender]['death'][$age] = 0;
 						}
-						$this->items[$id][$gender][$age]['mortality_raw'] 	= ( $this->country["defaults"][$id][$gender]["death"][$age]/100000 ) 
-																			* $this->user["profile"][$gender] * ($this->user['profile']['percent_'.$gender.'_'.$age]/100);
+						$this->items[$id][$gender][$age]['death'] 			= $this->country['defaults'][$id][$gender]['death'][$age];
+						$this->items[$id][$gender][$age]['mortality_raw'] 	= ( $this->country['defaults'][$id][$gender]['death'][$age]/100000 ) 
+																			* $this->user['profile'][$gender] * ($this->user['profile']['percent_'.$gender.'_'.$age]/100);
 						// set total for mortality_raw
 						$this->totals['total_mortality_raw'] 				= $this->totals['total_mortality_raw'] + $this->items[$id][$gender][$age]['mortality_raw'];
 						$this->totals[$gender.'_mortality_raw'] 			= $this->totals[$gender.'_mortality_raw'] + $this->items[$id][$gender][$age]['mortality_raw'];
@@ -852,7 +869,7 @@ class Sum{
 				}
 			}
 			// set mortality_unscaled & mortality_interim
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -891,7 +908,7 @@ class Sum{
 				}
 			}
 			// set mortality_scaled
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -965,7 +982,7 @@ class Sum{
 	 */
 	protected function setCost()
 	{
-		if(is_array($this->user["profile"]["diseases"]) && count($this->user['profile']['diseases']) > 0){
+		if(is_array($this->user['profile']['diseases']) && count($this->user['profile']['diseases']) > 0){
 			// the total cost in Money
 			$this->totals['total_costmoney_scaled']					= 0;
 			$this->totals['total_costmoney_unscaled']				= 0;
@@ -1037,7 +1054,7 @@ class Sum{
 			//////////////////////////////////////////////////
 			
 			// set cost_morbidity
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -1078,7 +1095,7 @@ class Sum{
 				}
 			}
 			// set cost_presenteeism
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -1120,7 +1137,7 @@ class Sum{
 				}
 			}
 			// set Cost_mortality
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -1191,7 +1208,7 @@ class Sum{
 				$this->totals['total_cost_scaled']		= $this->totals['total_cost_scaled'] + $this->items[$id]['subtotal_cost_scaled'];
 			}
 			// turn values into money
-			foreach($this->user["profile"]["diseases"] as $id){
+			foreach($this->user['profile']['diseases'] as $id){
 				// work with each gender
 				foreach($this->genders as $gender){
 					// work with each age group
@@ -1284,10 +1301,8 @@ class Sum{
 		} return false;
 	}
 	
-	protected function getCurrency($id)
+	public function getCurrency($id)
 	{
-		$options = array();
-
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 

@@ -310,29 +310,29 @@ class CostbenefitprojectionModelData extends JModelItem
 				foreach ($item['params'] as $key => $p){
 					$paramsName = explode("_", $key);
 					if ($paramsName[0] == 'disease'){
-							$diseasedata = $item['diseasedata'];
-							if(is_array($diseasedata)){
-								$dname = $this->getDiseasenameAlias($paramsName[2]);
-								$found = false;
-								foreach ($diseasedata as $alreadykey => $alreadyData) {
-									if ($alreadyData['name'] == $dname) {
-										$loaction = $alreadykey;
-										$found = true;
-										break;
-									}
+						$diseasedata = $item['diseasedata'];
+						if(is_array($diseasedata)){
+							$dname = $this->getDiseasenameAlias($paramsName[2]);
+							$found = false;
+							foreach ($diseasedata as $alreadykey => $alreadyData) {
+								if ($alreadyData['name'] == $dname) {
+									$loaction = $alreadykey;
+									$found = true;
+									break;
 								}
-								
-								if ($found === false) {
-									$item['diseasedata'][$d] = array('id' => $paramsName[2], 'name' => $this->getDiseasenameAlias($paramsName[2]),$paramsName[1] => $p);
-									$d++;
-								} elseif ($found){
-									$item['diseasedata'][$loaction] = array_merge($item['diseasedata'][$loaction], array($paramsName[1] => $p));
-								}
-								
-							} elseif ($d == 0) {
+							}
+							
+							if ($found === false) {
 								$item['diseasedata'][$d] = array('id' => $paramsName[2], 'name' => $this->getDiseasenameAlias($paramsName[2]),$paramsName[1] => $p);
 								$d++;
+							} elseif ($found){
+								$item['diseasedata'][$loaction] = array_merge($item['diseasedata'][$loaction], array($paramsName[1] => $p));
 							}
+							
+						} elseif ($d == 0) {
+							$item['diseasedata'][$d] = array('id' => $paramsName[2], 'name' => $this->getDiseasenameAlias($paramsName[2]),$paramsName[1] => $p);
+							$d++;
+						}
 					} 
 				}
 				$item['params'] = array( 'nr_diseases' => sizeof($item['diseasedata'] ) );			

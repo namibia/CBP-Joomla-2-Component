@@ -29,8 +29,6 @@ class CostbenefitprojectionTableDiseasedata extends JTable
 		if(!$this->owner){
 			$this->owner = $user->id;
 		}
-		// update the user profile
-		$this->updateSelection();
 		
 		// Include the JLog class.
 		jimport('joomla.log.log');
@@ -71,78 +69,6 @@ class CostbenefitprojectionTableDiseasedata extends JTable
 		
 		// make sure the selection is updated in usere profile
 		
-		return true;
-	}
-	
-	/**
-	 * Change cause/risk selection in profile
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 */
-	protected function updateSelection()
-	{	
-		// set new published items
-		if($this->published == 1) {
-			// setup cause/risk array
-			$selected_causes = JUserHelper::getProfile($this->owner)->gizprofile[diseases];
-			$selected_causes[] = (int)$this->disease_id;
-			$selected_causes = array_unique($selected_causes);
-			sort($selected_causes);
-			$selected_causes = json_encode($selected_causes);
-			// load DB	
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			// Fields to update.
-			$fields = array(
-				$db->quoteName('profile_value') . ' = ' . $db->quote($selected_causes)
-			);
-			 
-			// Conditions for which records should be updated.
-			$conditions = array(
-				$db->quoteName('user_id') . ' = '.$this->owner, 
-				$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
-			);
-			 
-			$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
-			 
-			$db->setQuery($query);
-			 
-			$result = $db->query();
-		}
-		// remove items not published	
-		else {
-			// setup cause/risk array
-			$selected_causes = JUserHelper::getProfile($this->owner)->gizprofile[diseases];
-			
-			if(($key = array_search((int)$this->disease_id, $selected_causes)) !== false) {
-				unset($selected_causes[$key]);
-			}
-			sort($selected_causes);
-			$selected_causes = json_encode($selected_causes);
-			// load DB	
-			$db = JFactory::getDbo();			
-			$query = $db->getQuery(true);
-
-			// Fields to update.
-			$fields = array(
-				$db->quoteName('profile_value') . ' = ' . $db->quote($selected_causes)
-			);
-			 
-			// Conditions for which records should be updated.
-			$conditions = array(
-				$db->quoteName('user_id') . ' = '.$this->owner, 
-				$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
-			);
-			 
-			$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
-			 
-			$db->setQuery($query);
-
-			 
-			$result = $db->query();
-		}	
 		return true;
 	}
 	

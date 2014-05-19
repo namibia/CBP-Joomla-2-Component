@@ -18,16 +18,21 @@ class CostbenefitprojectionControllerDiseasedata extends JControllerForm
 	protected $text_prefix = 'COM_COSTBENEFITPROJECTION_DISEASES';
 	
 	protected $view_list = 'diseasesdata';
+	// the sum funtion
+	protected $sum;
 	
-	public function save($key = null, $urlVar = null)
-	{
-		parent::save($key, $urlVar);
-		
-		$recordId = JRequest::getInt("id");
-		
+	protected function postSaveHook($model, $validData)
+	{	
+		$item 		= $model->getItem();
+		$recordId	= $item->get('id');
+		// set sum function
+		$this->sum = new Sum();
+			
 		if($recordId){
+		
 			// Get a db connection.
 			$db = JFactory::getDbo();
+			
 			// Create a new query object.
 			$query = $db->getQuery(true);
 			
@@ -41,66 +46,69 @@ class CostbenefitprojectionControllerDiseasedata extends JControllerForm
 			$db->setQuery($query);
 			
 			// load the owner id of this record
-			$owner = $db->loadResult();
+			$owner = $db->loadResult();	
+		}
+		
+		if($owner){
+			// Create a new query object.
+			$query = $db->getQuery(true);
 			
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($db->quoteName('disease_id'));
+			$query->from($db->quoteName('#__costbenefitprojection_diseasedata'));
+			$query->where($db->quoteName('published') . ' = 1');
+			$query->where($db->quoteName('owner') . ' = ' . $owner);
+			//echo nl2br(str_replace('#__','giz_',$query)); die;
+			// Reset the query using our newly populated query object.
+			$db->setQuery($query);
 			
-			if($owner){
-				// Create a new query object.
+			// load the disease_ids of this owner
+			$results = $db->loadColumn();
+		
+			// set new selection
+			if(is_array($results)){
+				$selected = array_unique($results);
+				sort($selected);
+				$selected = $this->sum->vdm->the($selected);
+				$selected = json_encode($selected);
+				$query = $db->getQuery(true);
+	
+				// Fields to update.
+				$fields = array(
+					$db->quoteName('profile_value') . ' = ' . $db->quote($selected)
+				);
+				 
+				// Conditions for which records should be updated.
+				$conditions = array(
+					$db->quoteName('user_id') . ' = '.$owner, 
+					$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
+				);
+				 
+				$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
+				 
+				$db->setQuery($query);
+				 
+				$result = $db->query();
+			} else {
 				$query = $db->getQuery(true);
 				
-				// Select all records from the user profile table where key begins with "custom.".
-				// Order it by the ordering field.
-				$query->select($db->quoteName('disease_id'));
-				$query->from($db->quoteName('#__costbenefitprojection_diseasedata'));
-				$query->where($db->quoteName('owner') . ' = ' . $owner);
-				//echo nl2br(str_replace('#__','giz_',$query)); die;
-				// Reset the query using our newly populated query object.
+				$conditions = array(
+					$db->quoteName('user_id') . ' = '.$owner,
+					$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
+				);
+				 
+				$query->delete($db->quoteName('#__user_profiles'));
+				$query->where($conditions);
+				 
 				$db->setQuery($query);
 				
-				// load the disease_ids of this owner
-				$results = $db->loadColumn();
-				
-				if(is_array($results)){
-					$selected = array_unique($results);
-					sort($selected);
-					$selected = json_encode($selected);
-					$query = $db->getQuery(true);
-	
-					// Fields to update.
-					$fields = array(
-						$db->quoteName('profile_value') . ' = ' . $db->quote($selected)
-					);
-					 
-					// Conditions for which records should be updated.
-					$conditions = array(
-						$db->quoteName('user_id') . ' = '.$owner, 
-						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
-					);
-					 
-					$query->update($db->quoteName('#__user_profiles'))->set($fields)->where($conditions);
-					 
-					$db->setQuery($query);
-					 
-					$result = $db->query();
-				} else {
-					$query = $db->getQuery(true);
-					
-					$conditions = array(
-						$db->quoteName('user_id') . ' = '.$owner,
-						$db->quoteName('profile_key') . ' = ' . $db->quote('gizprofile.diseases')
-					);
-					 
-					$query->delete($db->quoteName('#__user_profiles'));
-					$query->where($conditions);
-					 
-					$db->setQuery($query);
-					
-					$result = $db->query();
-				}
-				
-				$sum = new Sum();
-				$sum->save($owner);
+				$result = $db->query();
 			}
+		
+			// do calculations
+			$this->sum->save($owner);
+		
 		}
 	}
 }

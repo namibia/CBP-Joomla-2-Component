@@ -77,7 +77,7 @@ class Vault{
 	
 		$key = substr($this->key1, 0, $ks/2) . substr(strtoupper($this->key2), (round(strlen($this->key2) / 2)), $ks/2);
 	
-		$key = substr($key.$this->key1.$this->key2.strtoupper($key1),0,$ks);
+		$key = substr($key.$this->key1.$this->key2.strtoupper($this->key1),0,$ks);
 	
 		/* Intialize encryption */
 		mcrypt_generic_init($td, $key, $var);

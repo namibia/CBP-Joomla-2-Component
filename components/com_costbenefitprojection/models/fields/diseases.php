@@ -18,30 +18,58 @@ JFormHelper::loadFieldClass('list');
 class JFormFieldDiseases extends JFormFieldList
 {
 	protected $type = 'diseases';
-
+	
 	public function getOptions()
 	{
-		$diseases = $this->getDiseases();
-		
 		$options = array();
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('disease_id AS value, disease_name AS text');
+		$query->select('disease_id AS value, disease_name AS text, ref');
 		$query->from('#__costbenefitprojection_diseases');
-		$query->order('disease_name');
-		$query->where('disease_id IN ('.implode(',', $diseases).')');
+		$query->order('disease_id');
 		$query->where('published = 1');
 
 		$db->setQuery($query);
 
 		$options = $db->loadObjectList();
-
+		
+		foreach($options as $key => $option){
+			$options[$key]->text = $option->ref . ' ' . $option->text;
+			unset($options[$key]->ref);
+		}
+		
 		if ($db->getErrorNum()) {
 			JError::raiseWarning(500, $db->getErrorMsg());
 		}
-
+		// get this cause/risk id
+		$recordId = JRequest::getInt("id");
+		if($recordId){
+			$query = $db->getQuery(true);
+	
+			$query->select('disease_id');
+			$query->from('#__costbenefitprojection_diseasedata');
+			$query->where($db->quoteName('id') . ' = ' . $recordId);
+	
+			$db->setQuery($query);
+			
+			$disease_id = $db->loadResult();
+		}
+		// get the users cause/risk id's
+		$diseases = $this->getDiseases();
+		
+		foreach($options as $key => $values){
+			if($disease_id){
+				if(in_array($values->value,$diseases) && $disease_id != $values->value){
+					unset($options[$key]);
+				}
+			} else {
+				if(in_array($values->value,$diseases)){
+					unset($options[$key]);
+				}
+			}
+		}
 		array_unshift($options, JHtml::_('select.option', '', JText::_('COM_COSTBENEFITPROJECTION_DROP_NO_DISEASE')));
 
 		return $options;
@@ -50,47 +78,25 @@ class JFormFieldDiseases extends JFormFieldList
 	protected function getDiseases()
 	{
 		$id = JFactory::getUser()->id;
-		$diseasesSelected = JUserHelper::getProfile($id)->gizprofile["diseases"];
-		// sort disease selected array
-		if(is_array($diseasesSelected)){
-				sort($diseasesSelected); 
-		}
 		
 		// Get a db connection.
 		$db = JFactory::getDbo();
 				
 		$query = $db->getQuery(true);
 		
-		$diseaseSet = NULL;
-		
-		if (is_array($diseasesSelected)){
+		if ($id){
 			$query
 				->select('a.disease_id')
 				->from('#__costbenefitprojection_diseasedata AS a')
-				->where('a.owner = \''.$id.'\'')
-				->where('a.disease_id IN ('.implode(',', $diseasesSelected).')');
+				->where('a.owner = \''.$id.'\'');
 		 
 			// echo nl2br(str_replace('#__','yvs9m_',$query)); die;
 			// Reset the query using our newly populated query object.
 			$db->setQuery($query);
 			
-			$diseasesSet = $db->loadColumn();
+			$diseases = $db->loadColumn();
 		} else {
-			throw new Exception(JText::_('You have no diseases selected in user profile!'));
-		}
-		
-		// sort disease set array
-		if(is_array($diseasesSet)){
-				sort($diseasesSet);
-				$diseases = array_diff($diseasesSelected, $diseasesSet);
-				
-				// set curreny selected disease back in array
-				if($this->value){
-					array_unshift($diseases,$this->value);
-				}
-				
-		} else {
-			$diseases = $diseasesSelected;
+			throw new Exception(JText::_('Error!'));
 		}
 		
 		return array_unique($diseases);

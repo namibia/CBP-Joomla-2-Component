@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die;
 
 jimport('joomla.application.component.modelitem');
 jimport('joomla.application.component.helper');
+require_once JPATH_ADMINISTRATOR.'/components/com_costbenefitprojection/helpers/vdm.php';
 
 class CostbenefitprojectionModelChart extends JModelItem
 {
@@ -162,7 +163,9 @@ class CostbenefitprojectionModelChart extends JModelItem
 		$db->setQuery($query);
 		$db->execute();
 		if($db->getNumRows()){
-			return json_decode($db->loadResult());
+			$open = new Vault(false);
+			$result = $open->the($db->loadResult());
+			return json_decode($result);
 		} 
 		return false;
 	}
