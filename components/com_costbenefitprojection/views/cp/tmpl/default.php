@@ -28,7 +28,11 @@ defined( '_JEXEC' ) or die;
                     <li class=""><a href=""><i class="uk-icon-check-square-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_RESULTS'); ?></a></li>
                 </ul>
             </li>
+            <?php if($this->not_basic) : ?>
             <li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
+            <?php else: ?>
+           	<li><a data-uk-offcanvas="{target:'#offcanvas-basic'}" href="" ><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
+            <?php endif; ?>
             <li><a data-uk-offcanvas="{target:'#offcanvas-help'}" href="" ><i class="uk-icon-lightbulb-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_HELP'); ?></a></li>
          </ul>
          <ul class="uk-navbar-nav uk-navbar-flip uk-hidden-small" >
@@ -54,7 +58,9 @@ defined( '_JEXEC' ) or die;
                         <li class=""><a href=""><i class="uk-icon-check-square-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_RESULTS'); ?></a></li>
                     </ul>
                 </li>
+                <?php if($this->not_basic) : ?>
                 <li><a href="index.php?option=com_costbenefitprojection&view=data"><i class="uk-icon-cogs"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></a></li>
+                <?php endif; ?>
                 <li><a data-uk-offcanvas="{target:'#offcanvas-help'}" href="" ><i class="uk-icon-lightbulb-o"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_HELP'); ?></a></li>
             </ul>
         </div>
@@ -172,6 +178,15 @@ defined( '_JEXEC' ) or die;
                 <li class="uk-nav-header"><?php echo JText::_('COM_COSTBENEFITPROJECTION_WEBSITE'); ?></li>
                 <li><a href="index.php?option=com_costbenefitprojection&view=help&id=<?php echo $this->Lock->it('client-','Bug'); ?>"><?php echo JText::_('COM_COSTBENEFITPROJECTION_BUG_REPORT'); ?></a></li>
             </ul>
+        </div>
+    </div>
+</div>
+
+<div class="uk-offcanvas" id="offcanvas-basic">
+	<div class="uk-offcanvas-bar">
+        <div class="uk-panel">
+            <h3 class="uk-panel-title">Please Upgrade!</h3>
+            You have a limited account, to get full access please contact your service provider.
         </div>
     </div>
 </div>

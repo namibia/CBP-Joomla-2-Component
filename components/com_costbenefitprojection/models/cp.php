@@ -87,10 +87,27 @@ class CostbenefitprojectionModelCp extends CostbenefitprojectionModelChart
 
 		// set each row
 		$table = explode(" ####BR#### ", $item['csv_text']);
-		foreach ($table as $line){
-			$rows[] = explode(" ##br## ", $line);
+		// fix
+		foreach ($table as $s => &$tab){
+			$tab = trim($tab);
+			$tab = preg_replace( '/\s+/', ' ', $tab );
 		}
-		
+		// set each line
+		$i = 0;
+		foreach ($table as $line){
+			$rows[$i] = explode(" ##br## ", $line);
+			$i++;
+		}
+		// fix
+		foreach ($rows as $k => &$cols){
+			if (count($cols) < 2) {
+				unset($rows[$k]); continue;
+			}
+			foreach( $cols as $a => &$col){
+				$col = trim($col);
+				$col = preg_replace( '/\s+/', ' ', $col );
+			}
+		}
 		// get current user
 		$user = JFactory::getUser();
 		
@@ -133,6 +150,7 @@ class CostbenefitprojectionModelCp extends CostbenefitprojectionModelChart
 		
 	protected function getHash($length)
 	{
+
 		$pool = 'ABCDEFGHIJKLMOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz0123456789';
 		$strlenPool = strlen($pool);
 		$strlenPool--;

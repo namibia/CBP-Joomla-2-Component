@@ -26,6 +26,8 @@ class CostbenefitprojectionViewCp extends JView
 	protected $workers;
 	protected $builder;
 	protected $scale;
+	protected $genders;
+	protected $not_basic;
 
 	public function display($tpl = null)
 	{
@@ -67,6 +69,17 @@ class CostbenefitprojectionViewCp extends JView
 	 */
 	protected function _prepareDocument()
 	{
+		
+		//set Basic members 
+		// get user id
+		$user = JFactory::getUser();
+		// get user group
+		$user_group = JUserHelper::getUserGroups($user->id);
+		// get basic app group
+		$AppGroupsBasic = &JComponentHelper::getParams('com_costbenefitprojection')->get('basic');
+		// check this user
+		$this->not_basic = (count(array_intersect($AppGroupsBasic, $user_group))) ? false : true;
+		
 		$app			= JFactory::getApplication();
 		$this->params	= $app->getParams();
 		$menus			= $app->getMenu();
@@ -85,7 +98,12 @@ class CostbenefitprojectionViewCp extends JView
 		// load chart builder
 		$this->builder 	= new Chartbuilder('BarChart');
 		// set the scaling options
-		$this->scale 	= array('unscaled','scaled');
+		if($this->not_basic){
+			$this->scale 	= array('unscaled','scaled');
+		} else {
+			$this->scale 	= array('unscaled');	
+		}
+		$this->genders 	= array('Males','Females');
 		
 		$this->document->addStyleSheet(JURI::base( true ).'/media/com_costbenefitprojection/css/offline.css');			
 		$this->document->addStyleSheet(JURI::base( true ).'/media/com_costbenefitprojection/css/main.css');
@@ -140,6 +158,6 @@ class CostbenefitprojectionViewCp extends JView
 		$this->document->addScript('http://canvg.googlecode.com/svn/trunk/rgbcolor.js');
 		$this->document->addScript('http://canvg.googlecode.com/svn/trunk/canvg.js');	
 		//JHTML::_('behavior.tooltip');
-		JHTML::_('behavior.modal');  
+		JHTML::_('behavior.modal');
 	}
 }

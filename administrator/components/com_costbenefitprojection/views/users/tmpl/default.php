@@ -24,6 +24,7 @@ $AppGroups['admin'] = JComponentHelper::getParams('com_costbenefitprojection')->
 $AppGroups['country'] = JComponentHelper::getParams('com_costbenefitprojection')->get('country');
 $AppGroups['service'] = JComponentHelper::getParams('com_costbenefitprojection')->get('service');
 $AppGroups['client'] = JComponentHelper::getParams('com_costbenefitprojection')->get('client');
+$AppGroups['basic'] = JComponentHelper::getParams('com_costbenefitprojection')->get('basic');
 
 $admin_user = (count(array_intersect($AppGroups['admin'], $loggedusergroup))) ? true : false;
 $country_user = (count(array_intersect($AppGroups['country'], $loggedusergroup))) ? true : false;
@@ -126,24 +127,37 @@ $service_user = (count(array_intersect($AppGroups['service'], $loggedusergroup))
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
-			$canEdit	= $canDo->get('core.edit');
-			$canChange	= $loggeduser->authorise('core.edit.state',	'com_costbenefitprojection');
-			// If this group is super admin and this user is not super admin, $canEdit is false
-			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
-				$canEdit	= false;
-				$canChange	= false;
-			}
-		?>
+			<?php foreach ($this->items as $i => $item) :
+                $canEdit	= $canDo->get('core.edit');
+                $canChange	= $loggeduser->authorise('core.edit.state',	'com_costbenefitprojection');
+                // If this group is super admin and this user is not super admin, $canEdit is false
+                if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
+                    $canEdit	= false;
+                    $canChange	= false;
+                }
+                if($item->serviceprovider){
+					$usergroup 	= JUserHelper::getUserGroups($item->id);
+					$basicgroup = (count(array_intersect($AppGroups['basic'], $usergroup))) ? true : false;
+					if(!$basicgroup){
+						$per = JUserHelper::getProfile($item->id)->gizprofile["per"];
+						if($per == NULL){
+							$per = 1;
+						}
+					} else {
+						$per = 1;
+					}
+                } else {
+                    $per = 1;
+                }
+            ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
-					<?php if ($canEdit) : ?>
+					<?php if ($canEdit && $per == 1) : ?>
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					<?php endif; ?>
 				</td>
 				<td>
-					
-					<?php if ($canEdit) : ?>
+					<?php if ($canEdit && $per == 1) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_costbenefitprojection&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_COSTBENEFITPROJECTION_EDIT_USER', $this->escape($item->name)); ?>">
 						<?php echo $this->escape($item->name); ?></a> 
 					<?php else : ?>

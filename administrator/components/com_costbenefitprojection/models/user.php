@@ -64,7 +64,11 @@ class CostbenefitprojectionModelUser extends JModelAdmin
 			$country_logedin = JUserHelper::getProfile($id_logedin)->gizprofile[country];
 			// get the group id that loged in user belongs to.
 			$groups_logedin = JUserHelper::getUserGroups($id_logedin);
-			
+			// get the group id that member being edited belongs to.
+			$groups_member = JUserHelper::getUserGroups($result->id);
+
+			// get profile a c c e s s
+			$per = $result->gizprofile["per"];
 			// get the serviceprovider id that user being edited belongs to.
 			$serviceprovider_edit = $result->gizprofile["serviceprovider"];
 			// get the country id that user being edited belongs to.
@@ -72,25 +76,32 @@ class CostbenefitprojectionModelUser extends JModelAdmin
 
 			$AppGroups['country'] = JComponentHelper::getParams('com_costbenefitprojection')->get('country');
 			$AppGroups['service'] = JComponentHelper::getParams('com_costbenefitprojection')->get('service');
+			$AppGroups['basic'] = JComponentHelper::getParams('com_costbenefitprojection')->get('basic');
 			
 			$country_user = (count(array_intersect($AppGroups['country'], $groups_logedin))) ? true : false;
 			$service_user = (count(array_intersect($AppGroups['service'], $groups_logedin))) ? true : false;
-		
-			if ($country_user){
-				if ($country_edit){
-					if ($country_edit != $country_logedin){
-						$this->setError(JText::_('COM_COSTBENEFITPROJECTION_USERS_DOES_NOT_BELONG_TO_YOU'));
-						return false;		
+			// check the user group of the member being edited
+			$basic_member = (count(array_intersect($AppGroups['basic'], $groups_member))) ? true : false;
+			if($per == 2 && !$basic_member){
+				$this->setError(JText::_('COM_COSTBENEFITPROJECTION_USERS_DOES_NOT_BELONG_TO_YOU'));
+				return false;
+			} else {
+				if ($country_user){
+					if ($country_edit){
+						if ($country_edit != $country_logedin){
+							$this->setError(JText::_('COM_COSTBENEFITPROJECTION_USERS_DOES_NOT_BELONG_TO_YOU'));
+							return false;		
+						}
 					}
-				}
-			} elseif ($service_user){
-				if ($country_edit){
-					if (($country_edit != $country_logedin) || ($serviceprovider_edit != $id_logedin)){
-						$this->setError(JText::_('COM_COSTBENEFITPROJECTION_USERS_DOES_NOT_BELONG_TO_YOU'));
-						return false;		
+				} elseif ($service_user){
+					if ($country_edit){
+						if (($country_edit != $country_logedin) || ($serviceprovider_edit != $id_logedin)){
+							$this->setError(JText::_('COM_COSTBENEFITPROJECTION_USERS_DOES_NOT_BELONG_TO_YOU'));
+							return false;		
+						}
 					}
-				}
-			} 
+				} 
+			}
 			
 		}
 		

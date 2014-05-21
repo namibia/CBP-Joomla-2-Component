@@ -15,11 +15,13 @@ defined('_JEXEC') or die;
 /* <div class="uk-text-large"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_INTERVENTION_NET_BENEFIT_TITLE'); ?></div> */
 ?>
 <!-- This is the subnav containing the toggling elements -->
+<?php if($this->not_basic) : ?>
 <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#tableINB'}">
     <li class="uk-active uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT'); ?></a></li>
     <li class="uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></a></li>
 </ul>
 <br/>
+<?php endif; ?>
 
 <!-- This is the container of the content items -->
 <?php if($this->result->interventions): ?>

@@ -70,11 +70,13 @@ if($this->result->interventions){
 /* <h1><?php echo JText::_('COM_COSTBENEFITPROJECTION_CHARTS_INTERVENTION_COST_BENEFIT_TITLE'); ?></h1> */
 ?>
 <!-- This is the subnav containing the toggling elements -->
+<?php if($this->not_basic) : ?>
 <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#chartSAVE'}">
     <li class="uk-active uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT'); ?></a></li>
     <li class="uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></a></li>
 </ul>
 <br/>
+<?php endif; ?>
 <?php if ($this->result->interventions) : ?>
 <?php if(is_array($no_intervention)): ?>
     <div class="uk-alert" data-uk-alert>

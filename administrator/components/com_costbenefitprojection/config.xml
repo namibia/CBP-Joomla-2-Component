@@ -26,6 +26,11 @@
 			description="COM_COSTBENEFITPROJECTION_USER_FIELD_CLIENT_GROUP_DEPARTMENTS_DESC"
 			required="true"
 		/>
+		<field name="basic" type="cgroups"
+			label="COM_COSTBENEFITPROJECTION_USER_FIELD_BASIC_GROUP_DEPARTMENTS_LABEL"
+			description="COM_COSTBENEFITPROJECTION_USER_FIELD_BASIC_GROUP_DEPARTMENTS_DESC"
+			required="true"
+		/>
 	</fieldset>
 	
 	<fieldset

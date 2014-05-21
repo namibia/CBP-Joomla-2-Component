@@ -23,7 +23,11 @@ defined('_JEXEC') or die;
     <div class="uk-width-medium-1-2 uk-animation-slide-right">
         <div class="uk-panel uk-panel-box uk-text-center">
             <h2><i class="uk-icon-gears uk-icon-large"></i> <?php echo JText::_('COM_COSTBENEFITPROJECTION_DATA'); ?></h2>
+            <?php if($this->not_basic) : ?>
            	<a class="uk-button uk-button-primary uk-button-large uk-button-expand" href="index.php?option=com_costbenefitprojection&view=data"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CLICK_HERE'); ?></a>
+            <?php else: ?>
+            <a class="uk-button uk-button-primary uk-button-large uk-button-expand" data-uk-offcanvas="{target:'#offcanvas-basic'}" href="" ><?php echo JText::_('COM_COSTBENEFITPROJECTION_CLICK_HERE'); ?></a>
+            <?php endif; ?>
         </div>
     </div>
     <div class="uk-width-medium-1-1 uk-animation-slide-left">

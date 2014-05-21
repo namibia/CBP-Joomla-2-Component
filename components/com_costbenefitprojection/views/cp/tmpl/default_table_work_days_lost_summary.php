@@ -15,11 +15,13 @@ defined('_JEXEC') or die;
 /* <div class="uk-text-large"><?php echo JText::_('COM_COSTBENEFITPROJECTION_TABLES_WORK_DAYS_LOST_SUMMARY_TITLE'); ?></div> */
 ?>
 <!-- This is the subnav containing the toggling elements -->
+<?php if($this->not_basic) : ?>
 <ul class="uk-subnav uk-subnav-pill" data-uk-switcher="{connect:'#tableWDLS'}">
     <li class="uk-active uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DEFAULT'); ?></a></li>
     <li class="uk-animation-scale-up uk-text-small"><a href=""><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_INCLUDE_SCALING_FACTORS'); ?></a></li>
 </ul>
 <br/>
+<?php endif; ?>
 <!-- This is the container of the content items -->
 <?php if ($this->result->items) : ?>
 <ul id="tableWDLS" class="uk-switcher">
@@ -37,6 +39,7 @@ defined('_JEXEC') or die;
                         <th data-hide="all" width="5%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_DAYS_FEMALE_EMPLOYEES_LABEL'); ?></th>
                         <th data-hide="phone" width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_TOTAL_LOST_DAYS_PER_DR_LABEL'); ?></th>
                         <th data-hide="phone" width="11%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_CT_PERCENT_TOTAL_LOST_DAYS_PER_DR_LABEL'); ?></th>
+                        <th data-hide="all" width="5%"><?php echo JText::_('COM_COSTBENEFITPROJECTION_DETAILS_LABEL'); ?></th>
                     </tr>        
                 </thead>                                    
                 <tbody>
@@ -50,6 +53,26 @@ defined('_JEXEC') or die;
                         <td data-value='<?php echo $item->{'Females_days_lost_'.$scale}; ?>' ><?php echo round($item->{'Females_days_lost_'.$scale},3); ?></td>
                         <td data-value='<?php echo $item->{'subtotal_days_lost_'.$scale}; ?>' ><?php echo round($item->{'subtotal_days_lost_'.$scale},3); ?></td>
                         <td data-value='<?php echo ($item->{'subtotal_days_lost_'.$scale} / $this->result->totals->{'total_days_lost_'.$scale})*100; ?>' ><?php echo round(($item->{'subtotal_days_lost_'.$scale} / $this->result->totals->{'total_days_lost_'.$scale})*100,3).'%'; ?></td>
+                        <td>
+                        <div class="uk-grid">
+                            <?php foreach ($this->genders as $gender): ?>  
+                                    <?php
+                                        $list[$gender] = '<div style="float:left;"><ul class="uk-list uk-list-striped" >';
+                                        foreach ($item->$gender as $a => &$group){
+                                            $list[$gender] .= '<li>'.$gender.' Age Group '. $a . '<br/><small>';
+                                            $list[$gender] .= "&nbsp;&raquo;&nbsp;" . JText::_('YLD') . ": <b>" . $group->yld. "</b><br/>";
+                                            $list[$gender] .= "&nbsp;&raquo;&nbsp;" . JText::_('Death') . ": <b>" . $group->death. "</b><br/>";
+                                            $list[$gender] .= "&nbsp;&raquo;&nbsp;" . JText::_('COM_COSTBENEFITPROJECTION_CT_DAYS_MORBIDITY_LABEL') . ": <b>" . round($group->{'morbidity_'.$scale},4). "</b><br/>";
+                                            $list[$gender] .= "&nbsp;&raquo;&nbsp;" . JText::_('COM_COSTBENEFITPROJECTION_CT_DAYS_PRESENTEEISM_LABEL') . ": <b>" . round($group->{'presenteeism_'.$scale},4). "</b><br/>";
+                                            $list[$gender] .= "&nbsp;&raquo;&nbsp;" . JText::_('COM_COSTBENEFITPROJECTION_CT_DAYS_MORTALITY_LABEL') . ": <b>" . round($group->{'days_lost_mortality_'.$scale},4). "</b></small>";
+                                            $list[$gender] .= '</li>';
+                                        }
+                                        $list[$gender] .= '</ul></div>';
+                                        echo $list[$gender];
+                                    ?>
+                            <?php endforeach; ?>
+                        </div>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

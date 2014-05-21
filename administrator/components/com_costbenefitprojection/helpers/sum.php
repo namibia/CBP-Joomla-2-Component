@@ -88,17 +88,60 @@ class Sum{
 		} else {
 			$this->user['profile'] 		= $userProfile;
 		}
-		// get User Scaling Factors
-		$this->user['scaling'] 			= $this->setUserScalingFactors();
+		// get Country user id
+		$this->country['user_id'] 		= $this->setCountryUserId();
+		$country_gizprofile = JUserHelper::getProfile($this->country['user_id'])->gizprofile;
 		
+		// get country data if basic/public member
+		if(!$this->user['profile']['diseases'] && !$this->user['profile']['percent_Males_15-19']){
+			
+			$this->user['profile']['diseases']	= $country_gizprofile['diseases'];
+			
+			$this->user['profile']['percent_Males_15-19']	= $country_gizprofile['percent_Males_15-19'];
+			$this->user['profile']['percent_Females_15-19']	= $country_gizprofile['percent_Females_15-19'];
+			$this->user['profile']['percent_Males_20-24']	= $country_gizprofile['percent_Males_20-24'];
+			$this->user['profile']['percent_Females_20-24']	= $country_gizprofile['percent_Females_20-24'];
+			$this->user['profile']['percent_Males_25-29']	= $country_gizprofile['percent_Males_25-29'];
+			$this->user['profile']['percent_Females_25-29']	= $country_gizprofile['percent_Females_25-29'];
+			$this->user['profile']['percent_Males_30-34']	= $country_gizprofile['percent_Males_30-34'];
+			$this->user['profile']['percent_Females_30-34']	= $country_gizprofile['percent_Females_30-34'];
+			$this->user['profile']['percent_Males_35-39']	= $country_gizprofile['percent_Males_35-39'];
+			$this->user['profile']['percent_Females_35-39']	= $country_gizprofile['percent_Females_35-39'];
+			$this->user['profile']['percent_Males_40-44']	= $country_gizprofile['percent_Males_40-44'];
+			$this->user['profile']['percent_Females_40-44']	= $country_gizprofile['percent_Females_40-44'];
+			$this->user['profile']['percent_Males_45-49']	= $country_gizprofile['percent_Males_45-49'];
+			$this->user['profile']['percent_Females_45-49']	= $country_gizprofile['percent_Females_45-49'];
+			$this->user['profile']['percent_Males_50-54']	= $country_gizprofile['percent_Males_50-54'];
+			$this->user['profile']['percent_Females_50-54']	= $country_gizprofile['percent_Females_50-54'];
+			$this->user['profile']['percent_Males_55-59']	= $country_gizprofile['percent_Males_55-59'];
+			$this->user['profile']['percent_Females_55-59']	= $country_gizprofile['percent_Females_55-59'];
+			$this->user['profile']['percent_Males_60-6']	= $country_gizprofile['percent_Males_60-64'];
+			$this->user['profile']['percent_Females_60-64']	= $country_gizprofile['percent_Females_60-64'];
+						
+			$this->user['profile']['medical_turnovers_Males'] 	= $this->user['profile']['Males'] * $country_gizprofile['medical_turnovers_country'];
+			$this->user['profile']['medical_turnovers_Females'] = $this->user['profile']['Females'] * $country_gizprofile['medical_turnovers_country'];		
+			$this->user['profile']['sick_leave_Males'] 			= $this->user['profile']['Males'] * $country_gizprofile['sick_leave_country'];
+			$this->user['profile']['sick_leave_Females'] 		= $this->user['profile']['Females'] * $country_gizprofile['sick_leave_country'];
+			$this->user['profile']['currency'] 					= $country_gizprofile['currency'];
+			$this->user['profile']['datayear'] 					= $country_gizprofile['datayear'];
+			$this->user['profile']['total_healthcare'] 			= ($country_gizprofile['healthcare_country']/100) * $this->user['profile']['total_salary'];
+			$this->user['profile']['working_days'] 				= $country_gizprofile['working_days'];
+			$this->user['profile']['productivity_losses'] 		= $country_gizprofile['productivity_losses_country'];
+			
+			$basic_user = true;
+		}
+		if($basic_user){
+			$this->user['scaling']			= false;
+		} else {
+			// get User Scaling Factors
+			$this->user['scaling'] 			= $this->setUserScalingFactors();
+		}
 		// get global country totals
 		$this->country['totals'] 		= $this->setCountryTotals();
 		// get country default data
 		$this->country['defaults'] 		= $this->setCountryDefaults();
-		// get Country user id
-		$this->country['user_id'] 		= $this->setCountryUserId();
 		// get country presenteeism
-		$this->country['presenteeism']	= JUserHelper::getProfile($this->country['user_id'])->gizprofile['presenteeism_country'];
+		$this->country['presenteeism']	= $country_gizprofile['presenteeism_country'];
 		
 		// do the calculation for days lost
 		if($this->setDaysLost()){
@@ -787,16 +830,25 @@ class Sum{
 						$this->totals[$gender.'_morbidity_unscaled'] 			= $this->totals[$gender.'_morbidity_unscaled'] + $this->items[$id][$gender][$age]['morbidity_unscaled'];
 						// set total for morbidity_unscaled
 						$this->totals['total_morbidity_unscaled'] 				= $this->totals['total_morbidity_unscaled'] + $this->items[$id][$gender][$age]['morbidity_unscaled'];
-						
-						// set each gender and age group
-						$this->items[$id][$gender][$age]['morbidity_interim'] 	= $this->items[$id][$gender][$age]['morbidity_unscaled'] * $this->user['scaling'][$id]['yld_scaling_factor_'.$gender];
+						if($this->user['scaling']){
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['morbidity_interim'] 	= $this->items[$id][$gender][$age]['morbidity_unscaled'] * $this->user['scaling'][$id]['yld_scaling_factor_'.$gender];
+						} else {
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['morbidity_interim'] 	= $this->items[$id][$gender][$age]['morbidity_unscaled'] * 1;
+						}
 						// set total for morbidity_interim
 						$this->totals['total_morbidity_interim'] 				= $this->totals['total_morbidity_interim'] + $this->items[$id][$gender][$age]['morbidity_interim'];
 						$this->totals[$gender.'_morbidity_interim'] 			= $this->totals[$gender.'_morbidity_interim'] + $this->items[$id][$gender][$age]['morbidity_interim'];
-						
-						// set each gender and age group
-						$this->items[$id][$gender][$age]['presenteeism_unscaled'] 	= $this->items[$id][$gender][$age]['morbidity_unscaled'] 
-																					* $this->country['presenteeism'] * $this->user['scaling'][$id]['presenteeism_scaling_factor_'.$gender];
+						if($this->user['scaling']){
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['presenteeism_unscaled'] 	= $this->items[$id][$gender][$age]['morbidity_unscaled'] 
+																						* $this->country['presenteeism'] * $this->user['scaling'][$id]['presenteeism_scaling_factor_'.$gender];
+						} else {
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['presenteeism_unscaled'] 	= $this->items[$id][$gender][$age]['morbidity_unscaled'] 
+																						* $this->country['presenteeism'] * 1;
+						}
 						// set total each cause/risk presenteeism_unscaled
 						$this->items[$id]['subtotal_presenteeism_unscaled'] 		+= $this->items[$id][$gender][$age]['presenteeism_unscaled'];
 						// set total each cause/risk per gender morbidity_unscaled
@@ -828,9 +880,15 @@ class Sum{
 						// set total for morbidity_scaled
 						$this->totals['total_morbidity_scaled'] 				= $this->totals['total_morbidity_scaled'] + $this->items[$id][$gender][$age]['morbidity_scaled'];
 						
-						// set each gender and age group
-						$this->items[$id][$gender][$age]['presenteeism_scaled'] 	= $this->items[$id][$gender][$age]['morbidity_scaled'] 
-																					* $this->country['presenteeism'] * $this->user['scaling'][$id]['presenteeism_scaling_factor_'.$gender];
+						if($this->user['scaling']){
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['presenteeism_scaled'] 	= $this->items[$id][$gender][$age]['morbidity_scaled'] 
+																						* $this->country['presenteeism'] * $this->user['scaling'][$id]['presenteeism_scaling_factor_'.$gender];
+						} else {
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['presenteeism_scaled'] 	= $this->items[$id][$gender][$age]['morbidity_scaled'] 
+																						* $this->country['presenteeism'] * 1;
+						}
 						// set total each cause/risk presenteeism_scaled
 						$this->items[$id]['subtotal_presenteeism_scaled'] 			+= $this->items[$id][$gender][$age]['presenteeism_scaled'];
 						// set total each cause/risk per gender morbidity_scaled
@@ -886,8 +944,13 @@ class Sum{
 						// set total for mortality_unscaled
 						$this->totals['total_mortality_unscaled'] 				= $this->totals['total_mortality_unscaled']  + $this->items[$id][$gender][$age]['mortality_unscaled'];
 						
-						// set each gender and age group
-						$this->items[$id][$gender][$age]['mortality_interim'] 	= $this->items[$id][$gender][$age]['mortality_unscaled'] * $this->user['scaling'][$id]['mortality_scaling_factor_'.$gender];
+						if($this->user['scaling']){
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['mortality_interim'] 	= $this->items[$id][$gender][$age]['mortality_unscaled'] * $this->user['scaling'][$id]['mortality_scaling_factor_'.$gender];
+						} else {
+							// set each gender and age group
+							$this->items[$id][$gender][$age]['mortality_interim'] 	= $this->items[$id][$gender][$age]['mortality_unscaled'] * 1;
+						}
 						// set total for mortality_interim
 						$this->totals['total_mortality_interim'] 				= $this->totals['total_mortality_interim'] + $this->items[$id][$gender][$age]['mortality_interim'];
 						$this->totals[$gender.'_mortality_interim'] 			= $this->totals[$gender.'_mortality_interim'] + $this->items[$id][$gender][$age]['mortality_interim'];

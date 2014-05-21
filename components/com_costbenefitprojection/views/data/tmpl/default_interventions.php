@@ -178,25 +178,6 @@ $interventions = $this->item["data"]["interventiondata"];
                             echo '<b>'.$TTtext.'</b><br/>'.$list;
                         ?>
                     <?php endif; ?>
-                    <?php if(is_array($item["riskdata"])):?>  
-                        <?php 
-                            if ($item["params"]["nr_risks"] <= 1) {
-                                $TTtext = JText::_('COM_COSTBENEFITPROJECTION_INTERVENTION_RISK_LIST_LABEL');
-                            } else {
-                                $TTtext = JText::_('COM_COSTBENEFITPROJECTION_INTERVENTION_RISKS_LIST_LABEL');
-                            }
-                            $list = '<ul>';
-                            foreach ($item["riskdata"] as $risk){
-                                $list .= '<li>';
-                                $list .= $risk["name"] . '<br/><small><i>';
-                                $list .= " (" . JText::_('COM_COSTBENEFITPROJECTION_INTERVENTION_COST_PER_EMPLOYEE_LABEL') . ": " . $risk["cpe"]. ")<br/>";
-                                $list .= " (" . JText::_('COM_COSTBENEFITPROJECTION_INTERVENTION_MORB_REDUCTION_LABEL') . ": " . $risk["mbr"]. ")</i></small>";
-                                $list .= '</li>';
-                            }
-                            $list .= '</ul>';
-                            echo '<b>'.$TTtext.'</b><br/>'.$list;
-                        ?>
-                    <?php endif; ?>
                     </td>
                     <?php if ($item["published"] == 1):?>
                     <td class="center"  data-value="1">
