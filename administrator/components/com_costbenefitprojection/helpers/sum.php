@@ -118,8 +118,8 @@ class Sum{
 			$this->user['profile']['percent_Males_60-6']	= $country_gizprofile['percent_Males_60-64'];
 			$this->user['profile']['percent_Females_60-64']	= $country_gizprofile['percent_Females_60-64'];
 						
-			$this->user['profile']['medical_turnovers_Males'] 	= $this->user['profile']['Males'] * $country_gizprofile['medical_turnovers_country'];
-			$this->user['profile']['medical_turnovers_Females'] = $this->user['profile']['Females'] * $country_gizprofile['medical_turnovers_country'];		
+			$this->user['profile']['medical_turnovers_Males'] 	= $this->user['profile']['Males'] * $country_gizprofile['medical_turnovers_country']/100000;
+			$this->user['profile']['medical_turnovers_Females'] = $this->user['profile']['Females'] * $country_gizprofile['medical_turnovers_country']/100000;		
 			$this->user['profile']['sick_leave_Males'] 			= $this->user['profile']['Males'] * $country_gizprofile['sick_leave_country'];
 			$this->user['profile']['sick_leave_Females'] 		= $this->user['profile']['Females'] * $country_gizprofile['sick_leave_country'];
 			$this->user['profile']['currency'] 					= $country_gizprofile['currency'];
